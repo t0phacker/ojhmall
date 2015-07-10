@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="logIn">
+	
+	<select id="findByIdAndPw" parameterType="ojhmall.vo.Customer" resultType="ojhmall.vo.Customer">
+		<![CDATA[
+			SELECT
+				id, userPassword, userType, userName
+			FROM
+			    user
+			WHERE id=#{id} and userPassword=#{userPassword}
+		]]>
+	</select>
+	<select id="getAdminInfo" parameterType="ojhmall.vo.Admin" resultType="ojhmall.vo.Admin">
+		<![CDATA[
+			SELECT
+				u.userNumber, u.id, u.userPassword, u.userName, u.userType, a.adminType, a.accNumber
+			FROM
+			    user u, admin a
+			WHERE u.userNumber=a.user_userNumber and id=#{id} and userPassword=#{userPassword}
+		]]>
+	</select>
+	<select id="getCustomerInfo" parameterType="ojhmall.vo.Customer" resultType="ojhmall.vo.Customer">
+		<![CDATA[
+			SELECT
+				u.userNumber, u.id, u.userPassword, u.userName, u.userType, c.phNumber, c.address, c.zipCode
+			FROM
+			    user u, customer c
+			WHERE u.userNumber=c.user_userNumber and id=#{id} and userPassword=#{userPassword}
+		]]>
+	</select>
+	<select id="getSellerInfo" parameterType="ojhmall.vo.Seller" resultType="ojhmall.vo.Seller">
+		<![CDATA[
+			SELECT
+				u.userNumber, u.id, u.userPassword, u.userName, u.userType, s.phNumber, s.address, s.zipCode, s.accNumber, s.bizNumber
+			FROM
+			    user u, seller s
+			WHERE u.userNumber=s.user_userNumber and id=#{id} and userPassword=#{userPassword}
+		]]>
+	</select>
+</mapper>
+<!-- 
+<select id="findByIdAndPw" parameterType="ojhmall.vo.Customer" resultType="ojhmall.vo.Customer">
+		<![CDATA[
+			SELECT
+				u.id, u.userPassword, u.userName, u.userType, c.phNumber, c.address, c.zipcode
+			FROM
+			    user u, customer c
+			WHERE u.userNumber=c.user_userNumber and id=#{id} and userPassword=#{userPassword}
+		]]>
+	</select>
+ -->
