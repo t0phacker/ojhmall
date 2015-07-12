@@ -35,37 +35,53 @@ public class UserDAO extends AbstractDAO {
 		insert("signUp.insertSeller", seller);
 	}
 	//로그인
-	public User findByIdAndPw(User user) throws Exception {
+	public User getUserBaseInfo(User user) throws Exception {
 		User LogInInfo = (User) selectOne("logIn.findByIdAndPw", user);
 		return LogInInfo;
 	}
 
-	public Admin getAdminInfo(Admin admin) throws Exception {
-		Admin adminInfo = (Admin) selectOne("logIn.getAdminInfo", admin);
+	public Admin getAdminInfo(User user) throws Exception {
+		Admin adminInfo = (Admin) selectOne("logIn.getAdminInfo", user);
 		return adminInfo;
 	}
 
-	public Customer getCustomerInfo(Customer customer) throws Exception {
-		Customer customerInfo = (Customer) selectOne("logIn.getCustomerInfo", customer);
+	public Customer getCustomerInfo(User user) throws Exception {
+		Customer customerInfo = (Customer) selectOne("logIn.getCustomerInfo", user);
 		return customerInfo;
 	}
 
-	public Seller getSellerInfo(Seller seller) throws Exception {
-		Seller sellerInfo = (Seller) selectOne("logIn.getSellerInfo", seller);
+	public Seller getSellerInfo(User user) throws Exception {
+		Seller sellerInfo = (Seller) selectOne("logIn.getSellerInfo", user);
 		return sellerInfo;
 	}
-	//회원 정보 변경
-	public void updateUser(User user) throws Exception {
-		update("signUp.update", user);
+	// 관리자 회원 정보 변경
+	public void updateAdmin(Admin admin) throws Exception {
+		update("signUp.updateAdmin", admin);
 	}
-	
+	// 구매자 회원 정보 변경
 	public void updateCustomer(Customer customer) throws Exception {
 		update("signUp.updateCustomer", customer);
 		update("signUp.updateCustomerMoreInfo", customer);
 	}
-
+	// 판매자 회원 정보 변경
 	public void updateSeller(Seller seller) throws Exception {
 		update("signUp.updateSeller", seller);
 		update("signUp.updateSellerMoreInfo", seller);
+	}
+
+	public void removeUser(User user) {
+		update("signUp.removeUser",user);
+	}
+
+	public void removeAdmin(User user) {
+		update("signUp.removeAdmin",user);
+	}
+
+	public void removeCustomer(User user) {
+		update("signUp.removeCustomer",user);
+	}
+
+	public void removeSeller(User user) {
+		update("signUp.removeSeller",user);
 	}
 }

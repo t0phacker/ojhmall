@@ -12,7 +12,8 @@
 			WHERE id=#{id} and userPassword=#{userPassword}
 		]]>
 	</select>
-	<select id="getAdminInfo" parameterType="ojhmall.vo.Admin" resultType="ojhmall.vo.Admin">
+	<!-- 로그인 시 Admin 회원 정보 추출 -->
+	<select id="getAdminInfo" parameterType="ojhmall.vo.User" resultType="ojhmall.vo.Admin">
 		<![CDATA[
 			SELECT
 				u.userNumber, u.id, u.userPassword, u.userName, u.userType, a.adminType, a.accNumber
@@ -21,7 +22,8 @@
 			WHERE u.userNumber=a.user_userNumber and id=#{id} and userPassword=#{userPassword}
 		]]>
 	</select>
-	<select id="getCustomerInfo" parameterType="ojhmall.vo.Customer" resultType="ojhmall.vo.Customer">
+	<!-- 로그인 시 Customer 회원 정보 추출 -->
+	<select id="getCustomerInfo" parameterType="ojhmall.vo.User" resultType="ojhmall.vo.Customer">
 		<![CDATA[
 			SELECT
 				u.userNumber, u.id, u.userPassword, u.userName, u.userType, c.phNumber, c.address, c.zipCode
@@ -30,7 +32,8 @@
 			WHERE u.userNumber=c.user_userNumber and id=#{id} and userPassword=#{userPassword}
 		]]>
 	</select>
-	<select id="getSellerInfo" parameterType="ojhmall.vo.Seller" resultType="ojhmall.vo.Seller">
+	<!-- 로그인 시 Seller 회원 정보 추출 -->
+	<select id="getSellerInfo" parameterType="ojhmall.vo.User" resultType="ojhmall.vo.Seller">
 		<![CDATA[
 			SELECT
 				u.userNumber, u.id, u.userPassword, u.userName, u.userType, s.phNumber, s.address, s.zipCode, s.accNumber, s.bizNumber

@@ -18,16 +18,12 @@ public interface UserService {
  
 	public User findByIdAndPw(User user) throws Exception;
 	
-	public User updateUser(User user) throws Exception;
-	/*
-	Admin getAdminInfo(Admin adminOn) throws Exception;
-
-	Customer getCustomerInfo(Customer customer) throws Exception;
-
-	Seller getSellerInfo(Seller seller) throws Exception;
-	
-	User getUserInfo(User user) throws Exception;*/
+	public User updateAdmin(Admin admin) throws Exception;
 
 	Customer updateCustomer(Customer customer) throws Exception;
+
+	Seller updatedSeller(Seller seller) throws Exception;
+
+	void removeUser(User user) throws Exception;
 }
 

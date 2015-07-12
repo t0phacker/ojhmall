@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import ojhmall.service.UserService;
+import ojhmall.vo.Admin;
 import ojhmall.vo.Customer;
 import ojhmall.vo.Seller;
 import ojhmall.vo.User;
@@ -18,7 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-@Controller//("/user")
+@Controller
+// ("/user")
 public class UserController {
 	Logger log = Logger.getLogger(this.getClass());
 
@@ -99,7 +101,7 @@ public class UserController {
 			HttpServletRequest request) throws Exception {
 		ModelAndView mv = new ModelAndView(
 				"redirect:http://localhost:8080/ojhmall/");
-		User userLogCheck = userService.findByIdAndPw(user); 
+		User userLogCheck = userService.findByIdAndPw(user);
 
 		if (userLogCheck != null) {
 			session.setAttribute("userLogInInfo", userLogCheck);
@@ -120,46 +122,87 @@ public class UserController {
 
 	}
 
-	// 회원정보 화면 출력
-	@RequestMapping(value = "/user/userInfoForm.do", method = {
+	// 관리자 회원정보 화면 출력
+	@RequestMapping(value = "/user/AdminInfoForm.do", method = {
 			RequestMethod.GET, RequestMethod.POST })
-	public ModelAndView showUserInfoForm(Map<String, Object> commandMap)
+	public ModelAndView showAdminInfoForm(Map<String, Object> commandMap)
 			throws Exception {
-		ModelAndView mv = new ModelAndView("/user/userInfoForm");
-		System.out.println("is it on?");
+		ModelAndView mv = new ModelAndView("/user/AdminInfoForm");
 		return mv;
 	}
 
-	// 회원정보 삭제
-	@RequestMapping(value = "/user/removeUserInfo.do", method = { RequestMethod.GET,
-			RequestMethod.POST })
-	public ModelAndView removeUserInfo(Map<String, Object> commandMap)
+	// 구매자 회원정보 화면 출력
+	@RequestMapping(value = "/user/CustomerInfoForm.do", method = {
+			RequestMethod.GET, RequestMethod.POST })
+	public ModelAndView showCustomerInfoForm(Map<String, Object> commandMap)
 			throws Exception {
-		ModelAndView mv = new ModelAndView(
-				"redirect:http://localhost:8080/ojhmall/");
-		System.out.println("do you want to discard?");
+		ModelAndView mv = new ModelAndView("/user/CustomerInfoForm");
+		return mv;
+	}
+
+	// 판매자 회원정보 화면 출력
+	@RequestMapping(value = "/user/SellerInfoForm.do", method = {
+			RequestMethod.GET, RequestMethod.POST })
+	public ModelAndView showSellerInfoForm(Map<String, Object> commandMap)
+			throws Exception {
+		ModelAndView mv = new ModelAndView("/user/SellerInfoForm");
 		return mv;
 	}
 
 	// 관리자 회원정보 변경
-	  @RequestMapping(value = "/user/changeUserInfo.do", method = RequestMethod.POST)
-	  public ModelAndView changeUser(User user, HttpSession session,
-	  HttpServletRequest request) throws Exception { 
-		  ModelAndView mv = new ModelAndView("redirect:http://localhost:8080/ojhmall");
-	  User updatedUser = userService.updateUser(user);
-	  session.setAttribute("userLogInInfo", updatedUser); 
-	  return mv; 
-	  }
-	  // 구매자 회원정보 변경
-	  @RequestMapping(value = "/user/changeCustomerInfo.do", method = RequestMethod.POST)
-	  public ModelAndView changeCustomer(Customer customer, HttpSession session,
-	  HttpServletRequest request) throws Exception { 
-		  ModelAndView mv = new ModelAndView("redirect:http://localhost:8080/ojhmall");
-	  Customer updatedCustomer = userService.updateCustomer(customer);
-	  session.setAttribute("userLogInInfo", updatedCustomer); 
-	  return mv; 
-	  }
+	@RequestMapping(value = "/user/changeAdminInfo.do", method = RequestMethod.POST)
+	public ModelAndView updateAdmin(Admin admin, HttpSession session,
+			HttpServletRequest request) throws Exception {
+		ModelAndView mv = new ModelAndView(
+				"redirect:http://localhost:8080/ojhmall");
+		Admin updateAdmin = (Admin) userService.updateAdmin(admin);
+		session.setAttribute("userLogInInfo", updateAdmin);
+		return mv;
+	}
 
+	// 구매자 회원정보 변경
+	@RequestMapping(value = "/user/changeCustomerInfo.do", method = RequestMethod.POST)
+	public ModelAndView changeCustomer(Customer customer, HttpSession session,
+			HttpServletRequest request) throws Exception {
+		ModelAndView mv = new ModelAndView(
+				"redirect:http://localhost:8080/ojhmall");
+		Customer updatedCustomer = userService.updateCustomer(customer);
+		session.setAttribute("userLogInInfo", updatedCustomer);
+		return mv;
+	}
+
+	// 판매자 회원정보 변경
+	@RequestMapping(value = "/user/changeSellerInfo.do", method = RequestMethod.POST)
+	public ModelAndView changeSeller(Seller seller, HttpSession session,
+			HttpServletRequest request) throws Exception {
+		ModelAndView mv = new ModelAndView(
+				"redirect:http://localhost:8080/ojhmall");
+		Seller updatedSeller = userService.updatedSeller(seller);
+		session.setAttribute("userLogInInfo", updatedSeller);
+		return mv;
+	}
+
+	@RequestMapping(value = "/user/backToMain.do", method = {
+			RequestMethod.GET, RequestMethod.POST })
+	public ModelAndView backToMain(Map<String, Object> commandMap)
+			throws Exception {
+		ModelAndView mv = new ModelAndView(
+				"redirect:http://localhost:8080/ojhmall");
+		return mv;
+	}
+
+	// 회원정보 삭제
+	@RequestMapping(value = "/user/removeUserInfo.do", method = {
+			RequestMethod.GET, RequestMethod.POST })
+	public ModelAndView removeUserInfo(User user, HttpSession session,
+			HttpServletRequest request) throws Exception {
+		ModelAndView mv = new ModelAndView(
+				"redirect:http://localhost:8080/ojhmall/");
+		userService.removeUser(user);
+		session.setAttribute("userLogInInfo", null);
+		System.out.println("do you want to discard?");
+		return mv;
+	}
 	/*
 	 * @RequestMapping(value="/user/insertBoard.do") public ModelAndView
 	 * setCustomer(Customer customer) throws Exception{ ModelAndView mv = new

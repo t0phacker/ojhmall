@@ -16,11 +16,11 @@
 <title>OJH Mall</title>
 
 <!-- Bootstrap core CSS -->
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" href="css/bootstrap-theme.min.css">
+<link href="css/justified-nav.css" rel="stylesheet">
 <!-- Custom styles for this template -->
-<link href="justified-nav.css" rel="stylesheet">
+<link href="css/theme.css" rel="stylesheet">
 
 </head>
 
@@ -28,9 +28,9 @@
 
 	<div class="container">
 		<div class="masthead">
-			<h3 class="text-muted">Project name</h3>
-			<ul class="nav navbar-nav navbar-right">
+			<a href="#"><img src="image/11st.png"></a>
 
+			<ul class="nav navbar-nav navbar-right">
 				<c:choose>
 					<c:when test="${empty sessionScope.userLogInInfo.userName}">
 						<li><a href="user/LogInForm.do">로그인</a></li>
@@ -43,27 +43,77 @@
 					<c:when test="${empty sessionScope.userLogInInfo.userName}">
 						<li><a href="user/SiginUpForm.do">회원가입</a></li>
 					</c:when>
-					<c:otherwise>
-						<li><a href="user/userInfoForm.do">회원정보</a></li>
-					</c:otherwise>
+
+					<c:when test="${sessionScope.userLogInInfo.userType == 0}">
+						<li><a href="user/AdminInfoForm.do">회원정보</a></li>
+					</c:when>
+					<c:when test="${sessionScope.userLogInInfo.userType == 1}">
+						<li><a href="user/CustomerInfoForm.do">회원정보</a></li>
+					</c:when>
+					<c:when test="${sessionScope.userLogInInfo.userType == 2}">
+						<li><a href="user/SellerInfoForm.do">회원정보</a></li>
+					</c:when>
+
 				</c:choose>
 				<li><a href="#">장바구니</a></li>
+				<li><a href="#">마이페이지</a></li>
 			</ul>
 		</div>
 		<div class="masthead">
 
-			<nav>
+			<nav class="navbar navbar-default">
 				<ul class="nav nav-justified">
-					<li class="active"><a href="user/openSampleBoardList.do">Home</a></li>
-					<li><a href="user/SiginUpForm.do">Sign Up</a></li>
-					<li><a href="user/LogInForm.do">Log In</a></li>
-					<li><a href="#">Downloads</a></li>
-					<li><a href="#">About</a></li>
-					<li><a href="user/openBoardWrite.do">Test</a></li>
+					<li class="dropdown"><a href="#" class="dropdown-toggle"
+						data-toggle="dropdown" role="button" aria-expanded="false">의류
+							<span class="caret"></span>
+					</a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="#">여성 의류</a></li>
+							<li><a href="#">남성 의류</a></li>
+						</ul></li>
+					<li class="dropdown"><a href="#" class="dropdown-toggle"
+						data-toggle="dropdown" role="button" aria-expanded="false">뷰티
+							<span class="caret"></span>
+					</a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="#">스킨 케어</a></li>
+							<li><a href="#">메이크업</a></li>
+						</ul></li>
+					<li class="dropdown"><a href="#" class="dropdown-toggle"
+						data-toggle="dropdown" role="button" aria-expanded="false">식품
+							<span class="caret"></span>
+					</a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="#">일반 식품</a></li>
+							<li><a href="#">건강 식품</a></li>
+						</ul></li>
+					<li class="dropdown"><a href="#" class="dropdown-toggle"
+						data-toggle="dropdown" role="button" aria-expanded="false">디지털
+							<span class="caret"></span>
+					</a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="#">PC</a></li>
+							<li><a href="#">모바일</a></li>
+						</ul></li>
+					<li class="dropdown"><a href="#" class="dropdown-toggle"
+						data-toggle="dropdown" role="button" aria-expanded="false">도서
+							<span class="caret"></span>
+					</a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="#">국내 서적</a></li>
+							<li><a href="#">수입 서적</a></li>
+						</ul></li>
 				</ul>
 			</nav>
 		</div>
-
+		<div class="container">
+		<form class="navbar-form navbar-left" role="search">
+			<div class="form-group">
+				<input type="text" class="form-control" placeholder="Search">
+			</div>
+			<button type="submit" class="btn btn-default">Submit</button>
+		</form>
+		</div>
 		<!-- Jumbotron -->
 		<div class="jumbotron">
 			<h1>Marketing stuff!</h1>
@@ -126,6 +176,9 @@
 
 
 	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
 	<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
 </body>
 </html>
