@@ -124,21 +124,4 @@ public class UserServiceImpl implements UserService {
 				System.out.println("no matching data");
 		}
 	}
-	
-	/*
-	 * @Override public Admin getAdminInfo(Admin admin) throws Exception { Admin
-	 * adminOn = userDAO.getAdminInfo(admin);
-	 * System.out.println("adminservice : " + adminOn.getUserName()); return
-	 * adminOn; }
-	 * 
-	 * @Override public Customer getCustomerInfo(Customer customer) throws
-	 * Exception { Customer customerOn = userDAO.getCustomerInfo(customer);
-	 * return customerOn; }
-	 * 
-	 * @Override public Seller getSellerInfo(Seller seller) throws Exception {
-	 * Seller sellerOn = userDAO.getSellerInfo(seller); return sellerOn; }
-	 * 
-	 * @Override public User getUserInfo(User user) throws Exception { // TODO
-	 * Auto-generated method stub return null; }
-	 */
 }

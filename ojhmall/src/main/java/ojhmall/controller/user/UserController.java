@@ -1,4 +1,4 @@
-package ojhmall.controller;
+package ojhmall.controller.user;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -85,15 +85,6 @@ public class UserController {
 
 		return mv;
 	}
-
-	/*
-	 * @RequestMapping(value = "../", method = RequestMethod.POST) public
-	 * ModelAndView backToLogIn(Map<String, Object> commandMap) throws Exception
-	 * { ModelAndView mv = new ModelAndView(
-	 * "redirect:http://localhost:8080/ojhmall/");
-	 * 
-	 * return mv; }
-	 */
 
 	// 로그인 : 데이터베이스 조회
 	@RequestMapping(value = "/user/insertLogInInfo.do", method = RequestMethod.POST)

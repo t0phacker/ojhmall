@@ -153,6 +153,12 @@
 	<update id="removeSeller" parameterType="ojhmall.vo.User"> 
 		<![CDATA[ UPDATE seller SET phNumber = "discarded", address = "discarded", zipCode = "discarded", bizNumber = "discarded", accNumber = "discarded" WHERE user_userNumber = #{userNumber} ]]>
 	</update>
+	<insert id="saveQuery" parameterType="java.util.Map">
+    <![CDATA[
+        INSERT INTO test
+        values(#{test})
+    ]]>
+	</insert>
 	<!-- #{phNum}, #{address}, #{zipCode} -->
 </mapper>
 

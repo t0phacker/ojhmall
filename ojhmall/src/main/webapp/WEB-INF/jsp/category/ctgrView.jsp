@@ -13,14 +13,14 @@
 <meta name="author" content="">
 <link rel="icon" href="../../favicon.ico">
 
-<title>OJH Mall</title>
+<title>Category</title>
 
 <!-- Bootstrap core CSS -->
-<link rel="stylesheet" href="css/bootstrap.min.css">
-<link rel="stylesheet" href="css/bootstrap-theme.min.css">
-<link href="css/justified-nav.css" rel="stylesheet">
+<link rel="stylesheet" href="../css/bootstrap.min.css">
+<link rel="stylesheet" href="../css/bootstrap-theme.min.css">
+<link href="../css/justified-nav.css" rel="stylesheet">
 <!-- Custom styles for this template -->
-<link href="css/theme.css" rel="stylesheet">
+<link href="../css/theme.css" rel="stylesheet">
 
 </head>
 
@@ -28,30 +28,30 @@
 
 	<div class="container">
 		<div class="masthead">
-			<a href="#"><img src="image/11st.png"></a>
+			<a href="#"><img src="../image/11st.png"></a>
 
 			<ul class="nav navbar-nav navbar-right">
 				<c:choose>
 					<c:when test="${empty sessionScope.userLogInInfo.userName}">
-						<li><a href="user/LogInForm.do">로그인</a></li>
+						<li><a href="../user/LogInForm.do">로그인</a></li>
 					</c:when>
 					<c:otherwise>
-						<li><a href="logOut.do">${sessionScope.userLogInInfo.userName}님</a></li>
+						<li><a href="../logOut.do">${sessionScope.userLogInInfo.userName}님</a></li>
 					</c:otherwise>
 				</c:choose>
 				<c:choose>
 					<c:when test="${empty sessionScope.userLogInInfo.userName}">
-						<li><a href="user/SiginUpForm.do">회원가입</a></li>
+						<li><a href="../user/SiginUpForm.do">회원가입</a></li>
 					</c:when>
 
 					<c:when test="${sessionScope.userLogInInfo.userType == 0}">
-						<li><a href="user/AdminInfoForm.do">회원정보</a></li>
+						<li><a href="../user/AdminInfoForm.do">회원정보</a></li>
 					</c:when>
 					<c:when test="${sessionScope.userLogInInfo.userType == 1}">
-						<li><a href="user/CustomerInfoForm.do">회원정보</a></li>
+						<li><a href="../user/CustomerInfoForm.do">회원정보</a></li>
 					</c:when>
 					<c:when test="${sessionScope.userLogInInfo.userType == 2}">
-						<li><a href="user/SellerInfoForm.do">회원정보</a></li>
+						<li><a href="../user/SellerInfoForm.do">회원정보</a></li>
 					</c:when>
 
 				</c:choose>
@@ -72,8 +72,9 @@
 								</a>
 									<ul class="dropdown-menu" role="menu">
 										<c:forEach items="${lowerCategoryList}" var="col">
-											<c:if test="${col.ctgrNumber > row.ctgrNumber && col.ctgrNumber < (row.ctgrNumber + 100)}">
-												<li><a href="category/ctgrView.do?ctgrVal=${col.ctgrNumber }">${col.ctgrName }</a></li>
+											<c:if
+												test="${col.ctgrNumber > row.ctgrNumber && col.ctgrNumber < (row.ctgrNumber + 100)}">
+												<li><a href="ctgrView.do?ctgrVal=${col.ctgrNumber }">${col.ctgrName }</a></li>
 											</c:if>
 										</c:forEach>
 
@@ -95,60 +96,19 @@
 		</div>
 		<!-- Jumbotron -->
 		<div class="jumbotron">
-			<h1>Marketing stuff!</h1>
-			<p class="lead">
-				<c:choose>
-					<c:when test="${fn:length(categoryList) > 0 }">
-						<c:forEach items="${categoryList}" var="row">
-							<li>${row.ctgrName }</li>
-						</c:forEach>
-					</c:when>
-				</c:choose>
-			</p>
-			<p>
-				<a class="btn btn-lg btn-success" href="#" role="button">Get
-					started today</a>
-			</p>
-		</div>
+			<c:choose>
+				<c:when test="${fn:length(prdList) > 0 }">
+					<c:forEach items="${prdList}" var="row">
+						<div class="col-lg-4">
+							<li><img src="${row.image}" width="240" height="240"></li>
+							<li><h3>"${row.prdName}"</h3></li>
+							<li>"${row.price}원"</li>
+							<li>"${row.text}"</li>
+						</div>
+					</c:forEach>
+				</c:when>
+			</c:choose>
 
-		<!-- Example row of columns -->
-		<div class="row">
-			<div class="col-lg-4">
-				<h2>Safari bug warning!</h2>
-				<p class="text-danger">As of v8.0, Safari exhibits a bug in
-					which resizing your browser horizontally causes rendering errors in
-					the justified nav that are cleared upon refreshing.</p>
-				<p>Donec id elit non mi porta gravida at eget metus. Fusce
-					dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh,
-					ut fermentum massa justo sit amet risus. Etiam porta sem malesuada
-					magna mollis euismod. Donec sed odio dui.</p>
-				<p>
-					<a class="btn btn-primary" href="#" role="button">View details
-						&raquo;</a>
-				</p>
-			</div>
-			<div class="col-lg-4">
-				<h2>Heading</h2>
-				<p>Donec id elit non mi porta gravida at eget metus. Fusce
-					dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh,
-					ut fermentum massa justo sit amet risus. Etiam porta sem malesuada
-					magna mollis euismod. Donec sed odio dui.</p>
-				<p>
-					<a class="btn btn-primary" href="#" role="button">View details
-						&raquo;</a>
-				</p>
-			</div>
-			<div class="col-lg-4">
-				<h2>Heading</h2>
-				<p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in,
-					egestas eget quam. Vestibulum id ligula porta felis euismod semper.
-					Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum
-					nibh, ut fermentum massa.</p>
-				<p>
-					<a class="btn btn-primary" href="#" role="button">View details
-						&raquo;</a>
-				</p>
-			</div>
 		</div>
 
 		<!-- Site footer -->
@@ -163,7 +123,7 @@
 	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-	<script src="js/bootstrap.min.js"></script>
+	<script src="../js/bootstrap.min.js"></script>
 	<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
 </body>
 </html>

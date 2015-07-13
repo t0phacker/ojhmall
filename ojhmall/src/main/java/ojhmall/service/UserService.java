@@ -26,4 +26,3 @@ public interface UserService {
 
 	void removeUser(User user) throws Exception;
 }
-
