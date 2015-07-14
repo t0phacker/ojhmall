@@ -43,14 +43,3 @@
 		]]>
 	</select>
 </mapper>
-<!-- 
-<select id="findByIdAndPw" parameterType="ojhmall.vo.Customer" resultType="ojhmall.vo.Customer">
-		<![CDATA[
-			SELECT
-				u.id, u.userPassword, u.userName, u.userType, c.phNumber, c.address, c.zipcode
-			FROM
-			    user u, customer c
-			WHERE u.userNumber=c.user_userNumber and id=#{id} and userPassword=#{userPassword}
-		]]>
-	</select>
- -->

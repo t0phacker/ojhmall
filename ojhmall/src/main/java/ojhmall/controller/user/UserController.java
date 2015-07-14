@@ -7,7 +7,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import ojhmall.service.UserService;
+import ojhmall.service.user.UserService;
 import ojhmall.vo.Admin;
 import ojhmall.vo.Customer;
 import ojhmall.vo.Seller;

@@ -22,6 +22,10 @@
 <!-- Custom styles for this template -->
 <link href="css/theme.css" rel="stylesheet">
 
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+<!-- 검색 js -->
+<script src="js/ojhfunction.js"></script>
 </head>
 
 <body>
@@ -55,7 +59,7 @@
 					</c:when>
 
 				</c:choose>
-				<li><a href="category/openCtgr.do">장바구니</a></li>
+				<li><a href="cart/cartView.do?userNumber=${sessionScope.userLogInInfo.userNumber}">장바구니</a></li>
 				<li><a href="#">마이페이지</a></li>
 			</ul>
 		</div>
@@ -72,8 +76,10 @@
 								</a>
 									<ul class="dropdown-menu" role="menu">
 										<c:forEach items="${lowerCategoryList}" var="col">
-											<c:if test="${col.ctgrNumber > row.ctgrNumber && col.ctgrNumber < (row.ctgrNumber + 100)}">
-												<li><a href="category/ctgrView.do?ctgrVal=${col.ctgrNumber }">${col.ctgrName }</a></li>
+											<c:if
+												test="${col.ctgrNumber > row.ctgrNumber && col.ctgrNumber < (row.ctgrNumber + 100)}">
+												<li><a
+													href="category/ctgrView.do?ctgrVal=${col.ctgrNumber }">${col.ctgrName }</a></li>
 											</c:if>
 										</c:forEach>
 
@@ -85,12 +91,15 @@
 				</ul>
 			</nav>
 		</div>
+		<!-- 상품 검색 -->
 		<div class="container">
-			<form class="navbar-form navbar-left" role="search">
+			<form class="navbar-form navbar-left" id="form_search" role="search"
+				action="product/prdSearch.do" method="POST">
 				<div class="form-group">
-					<input type="text" class="form-control" placeholder="Search">
+					<input type="text" class="form-control" id="prdName" name="prdName" placeholder="Search"
+						value="${prdName}" />
 				</div>
-				<button type="submit" class="btn btn-default">Submit</button>
+				<button type="submit" class="btn btn-default" onclick="search();">Submit</button>
 			</form>
 		</div>
 		<!-- Jumbotron -->
@@ -161,9 +170,11 @@
 
 
 	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+	
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
+	
 	<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
 </body>
 </html>

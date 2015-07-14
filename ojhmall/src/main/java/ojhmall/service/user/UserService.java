@@ -1,4 +1,4 @@
-package ojhmall.service;
+package ojhmall.service.user;
 
 import java.util.Map;
 

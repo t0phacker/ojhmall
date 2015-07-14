@@ -1,10 +1,9 @@
 package ojhmall.service.category;
 
-import ojhmall.vo.Category;
-import ojhmall.vo.Product;
-
 import java.util.List;
 import java.util.Map;
+
+import ojhmall.vo.Product;
 
 public interface CategoryService {
 

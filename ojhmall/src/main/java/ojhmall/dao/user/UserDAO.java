@@ -1,4 +1,4 @@
-package ojhmall.dao;
+package ojhmall.dao.user;
 
 import java.util.Map;
 

@@ -24,14 +24,16 @@
 				ctgrStatus = 0 AND ctgrUpperNumber IS NOT NULL
 		]]>
 	</select>
+	<!-- 카테고리에 상품 전시 -->
 	<select id="dpPrd" parameterType="ojhmall.vo.Product" resultType="ojhmall.vo.Product">
 		<![CDATA[
 			SELECT
-				prdNumber, prdName, price, image, text, ctgrNumber
+				prdNumber, prdName, price, image, text, ctgrNumber, hitCount
 			FROM
 			    product
 			WHERE
-				ctgrNumber = 101
+				ctgrNumber = #{ctgrNumber}
+			ORDER BY hitCount DESC;
 		]]>
 	</select>
 </mapper>

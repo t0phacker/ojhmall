@@ -1,11 +1,11 @@
-package ojhmall.service;
+package ojhmall.service.user;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Resource;
 
-import ojhmall.dao.UserDAO;
+import ojhmall.dao.user.UserDAO;
 import ojhmall.vo.Admin;
 import ojhmall.vo.Customer;
 import ojhmall.vo.Seller;
@@ -55,28 +55,17 @@ public class UserServiceImpl implements UserService {
 	// 로그인
 	@Override
 	public User findByIdAndPw(User user) throws Exception {
-		// TODO Auto-generated method stub
-		User resultUserLogIn = userDAO.getUserBaseInfo(user); //ID와 Password로 유저 기본 정보 조회, userType 변수 추출
-		User userBaseInfo = new User();
-		userBaseInfo.setId(user.getId());
-		userBaseInfo.setUserNumber(user.getUserNumber());
-		userBaseInfo.setUserPassword(user.getUserPassword());
-		switch (resultUserLogIn.getUserType()) {
+		//ID와 Password로 유저 기본 정보 조회, userType 변수 추출
+		User userBaseInfo = userDAO.getUserBaseInfo(user);
+		switch (userBaseInfo.getUserType()) {
 		case 0://줄이기 유저 객체 상속, 
-			Admin admin = new Admin();
-			adminOn = userDAO.getAdminInfo(userBaseInfo);
-			return adminOn;
+			return userDAO.getAdminInfo(userBaseInfo);
 		case 1:
-			Customer customer = new Customer();
-			customerOn = userDAO.getCustomerInfo(userBaseInfo);
-			return customerOn;
+			return userDAO.getCustomerInfo(userBaseInfo);
 		case 2:
-			Seller seller = new Seller();
-			sellerOn = userDAO.getSellerInfo(userBaseInfo);
-			return sellerOn;
+			return userDAO.getSellerInfo(userBaseInfo);
 		default:
-			System.out
-					.println("There is no user information matched with id and password");
+			System.out.println("There is no user information matched with id and password");
 			return null;
 		}
 		// return resultUserLogIn;

@@ -43,7 +43,8 @@ public class CategoryController {
         List<Map<String,Object>> lowerCtgrList = categoryService.selectLowerCtgrList(commandMap);
         mv.addObject("lowerCategoryList", lowerCtgrList);
         Product prd = new Product();
-        List<Product> prdList = categoryService.dpPrd(prd);
+        prd.setCtgrNumber(ctgrVal); // 카테고리 번호와 일치하는 상품 조회
+        List<Product> prdList = categoryService.dpPrd(prd); // 상품리스트에 상품 추가
         mv.addObject("prdList", prdList);
 		return mv;
 	}

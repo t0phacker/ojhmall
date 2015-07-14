@@ -13,7 +13,7 @@
 <meta name="author" content="">
 <link rel="icon" href="../../favicon.ico">
 
-<title>Category</title>
+<title>Cart</title>
 
 <!-- Bootstrap core CSS -->
 <link rel="stylesheet" href="../css/bootstrap.min.css">
@@ -21,7 +21,8 @@
 <link href="../css/justified-nav.css" rel="stylesheet">
 <!-- Custom styles for this template -->
 <link href="../css/theme.css" rel="stylesheet">
-
+<!-- 검색 js -->
+<script src="../js/ojhfunction.js"></script>
 </head>
 
 <body>
@@ -55,7 +56,8 @@
 					</c:when>
 
 				</c:choose>
-				<li><a href="category/openCtgr.do">장바구니</a></li>
+				<li><a
+					href="../cart/cartView.do?userNumber=${sessionScope.userLogInInfo.userNumber}">장바구니</a></li>
 				<li><a href="#">마이페이지</a></li>
 			</ul>
 		</div>
@@ -74,24 +76,28 @@
 										<c:forEach items="${lowerCategoryList}" var="col">
 											<c:if
 												test="${col.ctgrNumber > row.ctgrNumber && col.ctgrNumber < (row.ctgrNumber + 100)}">
-												<li><a href="ctgrView.do?ctgrVal=${col.ctgrNumber }">${col.ctgrName }</a></li>
+												<li><a
+													href="../category/ctgrView.do?ctgrVal=${col.ctgrNumber }">${col.ctgrName }</a></li>
 											</c:if>
 										</c:forEach>
 
 									</ul></li>
-								</li>
+
 							</c:forEach>
 						</c:when>
 					</c:choose>
 				</ul>
 			</nav>
 		</div>
+		<!-- 상품 검색 -->
 		<div class="container">
-			<form class="navbar-form navbar-left" role="search">
+			<form class="navbar-form navbar-left" id="form_search" role="search"
+				action="../product/prdSearch.do" method="POST">
 				<div class="form-group">
-					<input type="text" class="form-control" placeholder="Search">
+					<input type="text" class="form-control" id="prdName" name="prdName"
+						placeholder="Search" value="${prdName}" />
 				</div>
-				<button type="submit" class="btn btn-default">Submit</button>
+				<button type="submit" class="btn btn-default" onclick="search();">Submit</button>
 			</form>
 		</div>
 		<!-- Jumbotron -->
@@ -100,17 +106,19 @@
 				<c:when test="${fn:length(prdList) > 0 }">
 					<c:forEach items="${prdList}" var="row">
 						<div class="col-lg-4">
-							<li><img src="${row.image}" width="240" height="240"></li>
-							<li><h3>"${row.prdName}"</h3></li>
-							<li>"${row.price}원"</li>
-							<li>"${row.text}"</li>
+							<a href=../product/prdView.do?prdNum=${row.prdNumber}>
+								<li><img src="${row.image}" width="240" height="240"></li>
+								<li><h3>${row.prdName}</h3></li>
+								<li>${row.price}원</li>
+								<li>${row.text}</li>
+							</a>
+								<li>관심지수 : ${row.hitCount}</li>
 						</div>
 					</c:forEach>
 				</c:when>
 			</c:choose>
 
 		</div>
-
 		<!-- Site footer -->
 		<footer class="footer">
 			<p>&copy; Company 2014</p>

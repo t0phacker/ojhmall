@@ -8,9 +8,22 @@ public class Product {
 	private int price; // 가격
 	private int stock; // 재고
 	private int prdStatus; // 상품 상태 0 = 등록 대기, 1 = 판매 중, 2 = 판매 대기, 3 = 품절
-	private String image;
-	private String text;
+	private String image; // 상품 이미지
+	private String text; // 상품 설명
+	private int hitCount; // 조회수
 	
+	public int getUserNumber() {
+		return userNumber;
+	}
+	public void setUserNumber(int userNumber) {
+		this.userNumber = userNumber;
+	}
+	public int getHitCount() {
+		return hitCount;
+	}
+	public void setHitCount(int hitCount) {
+		this.hitCount = hitCount;
+	}
 	public int getPrdNumber() {
 		return prdNumber;
 	}
