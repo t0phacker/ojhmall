@@ -84,7 +84,6 @@
 										</c:forEach>
 
 									</ul></li>
-								</li>
 							</c:forEach>
 						</c:when>
 					</c:choose>
