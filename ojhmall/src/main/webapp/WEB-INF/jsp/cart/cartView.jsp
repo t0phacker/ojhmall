@@ -29,6 +29,8 @@
 	var cartPrice = 0;
 	var checkCount = 0;
 	var rowNumber = 0;
+	
+	// 화면 로딩 후 체크박스 전체 체크
 	window.onload = function() {
 		var cartTable = document.getElementById("cartTable");
 		rowNumber = cartTable.rows.length;
@@ -40,6 +42,7 @@
 			cartPrice += parseInt(document.getElementById(fname).value);
 		}
 	}
+	// 상품 전체 선택
 	function check(count) { 
 		
 		for (var n = 1; n <= count; n++) {
@@ -62,19 +65,7 @@
 			checkCount = 0;
 		}
 	}
-	function selectAllorNot(id) {
-		
-		var selectedTable = document.getElementById("selectedTable");
-		if (document.cartForm.checkAll.checked) {
-			alert("selectAllorNot" + selectedTable.rows[0].cells[1].value);
-			countCheck = rowNumber-1;
-			selectedTable.rows[0].cells[1].innerHTML = "선택상품(" + checkCount + "개)";
-		}
-		else {
-			countCheck = 0;
-			selectedTable.rows[0].cells[1].innerHTML = "선택상품(" + checkCount + "개)";
-		}
-	}
+	// 상품 개별 선택 후 주문 금액 증가 및 감소
 	function sumPrice(id) {
 		if (document.getElementById(id).checked == true) {
 			cartPrice += parseInt(document.getElementById(id).value);
@@ -88,6 +79,7 @@
 			document.cartForm.checkAll.checked = false;
 		}
 	}
+	// 선택 상품 개수 확인
 	function countCheck(id) {
 		var selectedTable = document.getElementById("selectedTable");
 		if (document.getElementById(id).checked == true) {
@@ -97,10 +89,14 @@
 			selectedTable.rows[0].cells[1].innerHTML = "선택상품(" + checkCount + "개)";
 		}
 	}
+	// 총 주문 금액
 	function totalPrice() {
 		var priceTable = document.getElementById("priceTable");
+		var deliveryFee = priceTable.rows[1].cells[1].innerHTML;
 		priceTable.rows[1].cells[0].innerHTML = cartPrice + "원";
+		priceTable.rows[1].cells[2].innerHTML = cartPrice + deliveryFee;
 	}
+	
 </script>
 </head>
 <body>
@@ -135,7 +131,7 @@
 
 				</c:choose>
 				<li><a
-					href="cartView.do?userNumber=${sessionScope.userLogInInfo.userNumber}">장바구니</a></li>
+					href="cartView.do">장바구니</a></li>
 				<li><a href="#">마이페이지</a></li>
 			</ul>
 		</div>
@@ -200,7 +196,7 @@
 						<c:choose>
 							<c:when test="${fn:length(cartList) > 0 }">
 								<c:forEach items="${cartList}" var="row" varStatus="status">
-									<tr>
+									<tr id="cartTR">
 										<td><input type="checkbox" name="c${status.count}"
 											value="${row.cartPrice}" id="c${status.count}"
 											onclick="sumPrice(this.id);totalPrice();countCheck(this.id);"></td>
@@ -218,13 +214,10 @@
 
 										<td>${row.id}</td>
 										<td>
-											<form>
-												<button type="button" class="btn btn-danger"
-													onclick="testFunc();">주문하기</button>
-											</form>
-											<form>
-												<button type="button" class="btn btn-default">삭제하기</button>
-											</form>
+											<button type="submit" class="btn btn-danger"
+												onclick="">주문하기</button> <input type="hidden"
+											id="cartNumber" name="cartNumber" value="${row.cartNumber}">
+											<a class="btn btn-default" href="deleteCart.do?cartNumber=${row.cartNumber}" role="button">삭제하기</a>
 										</td>
 									</tr>
 								</c:forEach>
@@ -234,6 +227,7 @@
 				</table>
 			</form>
 		</div>
+
 		<div class="col-md-3">
 			<table class="table" id="selectedTable">
 				<thead>
@@ -245,6 +239,7 @@
 					</tr>
 				</thead>
 			</table>
+			<a class="btn btn-default" href="/deleteCart.do?cartNumber=${row.cartNumber}" role="button">삭제하기</a>
 		</div>
 
 		<div class="col-md-12">

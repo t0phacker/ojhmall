@@ -14,4 +14,6 @@ public interface CartService {
 
 	int calTotalDeliveryFee(List<Cart> cartList) throws Exception;
 
+	void removeCart(int cartNumber) throws Exception;
+
 }

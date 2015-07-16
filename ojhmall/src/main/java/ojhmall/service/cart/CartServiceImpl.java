@@ -40,7 +40,6 @@ public class CartServiceImpl implements CartService {
 		deliveryBill[0] = 0;
 		int positionCheck = 0;
 		for (int b = 0; b < cartCount; b++) {
-			System.out.println("array position : " + positionCheck);
 			deliveryBill[b] = cartList.get(positionCheck).getCartPrice();
 			for (int c = positionCheck; c < cartList.size()-1; c++) {
 				if (cartList.get(c).getUser_userNumber() == cartList.get(c+1).getUser_userNumber())
@@ -51,7 +50,6 @@ public class CartServiceImpl implements CartService {
 					positionCheck = c+1;
 			}
 		}
-		System.out.println("cartCount = " + cartCount);
 		for (int d = 0; d < cartCount; d++) {
 			if (deliveryBill[d] >= 30000) {
 				for (int e = d; e < cartList.size()-1; e++){
@@ -61,10 +59,6 @@ public class CartServiceImpl implements CartService {
 					}
 				}
 			}
-		}
-		
-		for (int j = 0; j < cartList.size(); j++) {
-			System.out.println("카트 " + j + "번의 배송료 : " + cartList.get(j).getDeliveryFee());
 		}
 		return cartList;
 	}
@@ -81,5 +75,9 @@ public class CartServiceImpl implements CartService {
 		for (int i = 0; i < cartList.size(); i++)
 			totalDeliveryFee += cartList.get(i).getDeliveryFee();
 		return totalDeliveryFee;
+	}
+	@Override
+	public void removeCart(int cartNumber) throws Exception {
+		cartDAO.removeCart(cartNumber);
 	}
 }

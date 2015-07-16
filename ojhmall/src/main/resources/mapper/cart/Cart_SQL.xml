@@ -16,24 +16,21 @@
 		resultType="ojhmall.vo.Cart">
 		<![CDATA[
 			SELECT
-				c.cartNumber, c.prdAmount, c.cartPrice, p.prdName, p.image,
-				c.userNumber, s.user_userNumber, u.id
+				c.cartNumber, c.prdAmount, c.cartPrice, p.prdName, p.image, 
+				c.userNumber, p.userNumber as user_userNumber, u.id
 			FROM
-			    cart c, product p, seller s, user u
-			WHERE c.prdNumber=p.prdNumber and c.userNumber = #{userNumber}
-			 and s.user_userNumber = p.userNumber and u.userNumber = s.user_userNumber
+			    cart c, product p, user u
+			WHERE c.userNumber = #{userNumber}
+            and p.userNumber = u.userNumber 
+            and c.prdNumber = p.prdNumber
 			ORDER BY p.userNumber ASC
 		]]>
 	</select>
-
-	<select id="loadSameSellerCart" parameterType="ojhmall.vo.Cart"
-		resultType="ojhmall.vo.Cart">
+	<delete id="removeCart" parameterType="int">
 		<![CDATA[
-			SELECT
-				c.cartNumber, c.prdAmount, c.cartPrice, p.prdName, p.image, c.userNumber, s.user_userNumber
-			FROM
-			    cart c, product p, seller s
-			WHERE c.prdNumber=p.prdNumber and c.userNumber = #{userNumber} and s.user_userNumber = p.userNumber
+			DELETE FROM cart
+			WHERE cartNumber = #{cartNumber}
 		]]>
-	</select>
+	</delete>
+
 </mapper>

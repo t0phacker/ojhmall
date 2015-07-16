@@ -18,8 +18,7 @@ public class CartDAO extends AbstractDAO {
 	public List<Cart> loadCartList(Cart cart) {
 		return (List<Cart>) selectList("Cart.loadCartList", cart);
 	}
-	public List<Cart> loadSameSellerCart(Cart cart) {
-		return (List<Cart>) selectList("Cart.loadSameSellerCart", cart);
+	public void removeCart(int cartNumber) throws Exception {
+		delete("Cart.removeCart", cartNumber);
 	}
-
 }

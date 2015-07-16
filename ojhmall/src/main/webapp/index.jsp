@@ -59,7 +59,7 @@
 					</c:when>
 
 				</c:choose>
-				<li><a href="cart/cartView.do?userNumber=${sessionScope.userLogInInfo.userNumber}">장바구니</a></li>
+				<li><a href="cart/cartView.do">장바구니</a></li>
 				<li><a href="#">마이페이지</a></li>
 			</ul>
 		</div>
