@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Product">
+<!-- 상품 정보 추출 -->
+	<select id="showPrd" parameterType="ojhmall.vo.Product" resultType="ojhmall.vo.Product">
+		<![CDATA[
+			SELECT
+				prdNumber, prdName, userNumber, price, image, text, ctgrNumber, hitCount
+			FROM
+			    product
+			WHERE
+				prdNumber = #{prdNumber}
+		]]>
+	</select>
+<!-- 상품 검색 리스트 -->
+	<select id="schPrd" parameterType="ojhmall.vo.Product" resultType="ojhmall.vo.Product">
+		    SELECT  prdNumber, prdName, userNumber, price, image, text, ctgrNumber, hitCount FROM product
+		    <where>
+		          AND prdName like CONCAT('%', #{prdName} , '%')
+		    </where>
+		    ORDER BY hitCount DESC
+		</select>
+<!-- 상품 페이지 조회수 증가 -->		
+	<update id="updateHitCount" parameterType="ojhmall.vo.Product"> 
+		<![CDATA[ UPDATE product SET hitCount = ifnull(hitCount, 0) + 1 WHERE prdNumber = #{prdNumber} ]]>
+	</update>
+</mapper>
