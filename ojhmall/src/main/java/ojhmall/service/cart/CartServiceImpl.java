@@ -75,4 +75,11 @@ public class CartServiceImpl implements CartService {
 			totalCartPrice += cartList.get(i).getCartPrice();
 		return totalCartPrice;
 	}
+	@Override
+	public int calTotalDeliveryFee(List<Cart> cartList) throws Exception {
+		int totalDeliveryFee = 0;
+		for (int i = 0; i < cartList.size(); i++)
+			totalDeliveryFee += cartList.get(i).getDeliveryFee();
+		return totalDeliveryFee;
+	}
 }

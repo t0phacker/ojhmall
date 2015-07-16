@@ -14,7 +14,14 @@ public class Cart {
 	private int deliveryFee; // 배송비
 	private String image; // 상품 이미지
 	private int user_userNumber; // 판매자 회원 번호
+	private String id; // 판매자 아이디
 	
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
 	public int getUser_userNumber() {
 		return user_userNumber;
 	}

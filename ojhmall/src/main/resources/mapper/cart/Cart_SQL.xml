@@ -12,18 +12,22 @@
 		]]>
 	</insert>
 	<!-- 장바구니 목록 불러오기 -->
-	<select id="loadCartList" parameterType="ojhmall.vo.Cart" resultType="ojhmall.vo.Cart">
+	<select id="loadCartList" parameterType="ojhmall.vo.Cart"
+		resultType="ojhmall.vo.Cart">
 		<![CDATA[
 			SELECT
-				c.cartNumber, c.prdAmount, c.cartPrice, p.prdName, p.image, c.userNumber, s.user_userNumber
+				c.cartNumber, c.prdAmount, c.cartPrice, p.prdName, p.image,
+				c.userNumber, s.user_userNumber, u.id
 			FROM
-			    cart c, product p, seller s
-			WHERE c.prdNumber=p.prdNumber and c.userNumber = #{userNumber} and s.user_userNumber = p.userNumber
+			    cart c, product p, seller s, user u
+			WHERE c.prdNumber=p.prdNumber and c.userNumber = #{userNumber}
+			 and s.user_userNumber = p.userNumber and u.userNumber = s.user_userNumber
 			ORDER BY p.userNumber ASC
 		]]>
 	</select>
-	
-	<select id="loadSameSellerCart" parameterType="ojhmall.vo.Cart" resultType="ojhmall.vo.Cart">
+
+	<select id="loadSameSellerCart" parameterType="ojhmall.vo.Cart"
+		resultType="ojhmall.vo.Cart">
 		<![CDATA[
 			SELECT
 				c.cartNumber, c.prdAmount, c.cartPrice, p.prdName, p.image, c.userNumber, s.user_userNumber

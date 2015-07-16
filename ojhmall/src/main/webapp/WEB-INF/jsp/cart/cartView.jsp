@@ -25,11 +25,84 @@
 <script src="../js/ojhfunction.js"></script>
 
 <script src="http://code.jquery.com/jquery-1.4.4.min.js"></script>
-<script>
+<script type="text/javascript">
+	var cartPrice = 0;
+	var checkCount = 0;
+	var rowNumber = 0;
+	window.onload = function() {
+		var cartTable = document.getElementById("cartTable");
+		rowNumber = cartTable.rows.length;
+		checkCount = rowNumber-1;
+		document.getElementById("checkAll").checked = true;
+		for (var n = 1; n <= rowNumber-1; n++) {
+			var fname = 'c' + n; 
+			document.getElementById(fname).checked = true;
+			cartPrice += parseInt(document.getElementById(fname).value);
+		}
+	}
+	function check(count) { 
+		
+		for (var n = 1; n <= count; n++) {
+			var fname = 'c' + n; 
 
+			if (document.cartForm.checkAll.checked) {
+				if (document.getElementById(fname).checked == false) {
+					cartPrice += parseInt(document.getElementById(fname).value);
+				}
+				document.getElementById(fname).checked = true;
+			} else {
+				document.getElementById(fname).checked = false;
+				cartPrice = 0;
+			}
+		}
+		if (document.cartForm.checkAll.checked) {
+			checkCount = rowNumber - 1;
+		}
+		else {
+			checkCount = 0;
+		}
+	}
+	function selectAllorNot(id) {
+		
+		var selectedTable = document.getElementById("selectedTable");
+		if (document.cartForm.checkAll.checked) {
+			alert("selectAllorNot" + selectedTable.rows[0].cells[1].value);
+			countCheck = rowNumber-1;
+			selectedTable.rows[0].cells[1].innerHTML = "선택상품(" + checkCount + "개)";
+		}
+		else {
+			countCheck = 0;
+			selectedTable.rows[0].cells[1].innerHTML = "선택상품(" + checkCount + "개)";
+		}
+	}
+	function sumPrice(id) {
+		if (document.getElementById(id).checked == true) {
+			cartPrice += parseInt(document.getElementById(id).value);
+			++checkCount;
+		}
+		else {
+			cartPrice -= parseInt(document.getElementById(id).value);
+			--checkCount;
+		}
+		if (checkCount == 0) {
+			document.cartForm.checkAll.checked = false;
+		}
+	}
+	function countCheck(id) {
+		var selectedTable = document.getElementById("selectedTable");
+		if (document.getElementById(id).checked == true) {
+			selectedTable.rows[0].cells[1].innerHTML = "선택상품(" + checkCount + "개)";
+		}
+		else {
+			selectedTable.rows[0].cells[1].innerHTML = "선택상품(" + checkCount + "개)";
+		}
+	}
+	function totalPrice() {
+		var priceTable = document.getElementById("priceTable");
+		priceTable.rows[1].cells[0].innerHTML = cartPrice + "원";
+	}
 </script>
 </head>
-
 <body>
 
 	<div class="container">
@@ -107,71 +180,92 @@
 		</div>
 		<!-- 장바구니 테이블 -->
 		<div class="col-md-12">
-			<table class="table table-striped">
+			<form name="cartForm">
+				<table class="table table-striped" id="cartTable">
+					<thead>
+						<tr>
+							<th><label for="checkAll"><input type="checkbox"
+									name="checkAll" id="checkAll"
+									onclick="check(${fn:length(cartList)});totalPrice();countCheck(this.id);"
+									title="전체상품선택"></label></th>
+							<th>상품정보</th>
+							<th>수량</th>
+							<th>상품금액</th>
+							<th>배송비</th>
+							<th>판매자</th>
+							<th>주문</th>
+						</tr>
+					</thead>
+					<tbody>
+						<c:choose>
+							<c:when test="${fn:length(cartList) > 0 }">
+								<c:forEach items="${cartList}" var="row" varStatus="status">
+									<tr>
+										<td><input type="checkbox" name="c${status.count}"
+											value="${row.cartPrice}" id="c${status.count}"
+											onclick="sumPrice(this.id);totalPrice();countCheck(this.id);"></td>
+										<td width=40% height="120"><img style="float: left"
+											src="${row.image }" width="120" height="120">
+											<h5>${row.prdName}</h5></td>
+										<td>${row.prdAmount}개</td>
+										<td>${row.cartPrice}원</td>
+										<c:if test="${row.deliveryFee == 0}">
+											<td>무료</td>
+										</c:if>
+										<c:if test="${row.deliveryFee != 0}">
+											<td>${row.deliveryFee}</td>
+										</c:if>
+
+										<td>${row.id}</td>
+										<td>
+											<form>
+												<button type="button" class="btn btn-danger"
+													onclick="testFunc();">주문하기</button>
+											</form>
+											<form>
+												<button type="button" class="btn btn-default">삭제하기</button>
+											</form>
+										</td>
+									</tr>
+								</c:forEach>
+							</c:when>
+						</c:choose>
+					</tbody>
+				</table>
+			</form>
+		</div>
+		<div class="col-md-3">
+			<table class="table" id="selectedTable">
 				<thead>
 					<tr>
-						<th><label for="bcktSeq_All"><input
-								name="bcktSeq_All" type="checkbox" value="" id="bcktSeq_All"
-								onclick="allCheckAction(this);" title="전체상품선택"></label></th>
-						<th>상품정보</th>
-						<th>수량</th>
-						<th>상품금액</th>
-						<th>배송비</th>
-						<th>주문</th>
+						<td><input type="checkbox" name="selectedCheckbox" value=""
+							id="selectedCheckbox" onclick=""></td>
+						<td>선택상품(${fn:length(cartList)}개)</td>
+						<td><button type="button" class="btn btn-default">삭제하기</button></td>
 					</tr>
 				</thead>
-				<tbody>
-					<c:choose>
-						<c:when test="${fn:length(cartList) > 0 }">
-							<c:forEach items="${cartList}" var="row">
-								<tr>
-									<td><input name="bcktSeq_All" type="checkbox" value=""
-										id="bcktSeq_All" onclick="allCheckAction(this);"
-										title="전체상품선택"></td>
-									<td width=40% heigth="120"><img style="float: left"
-										src="${row.image }" width="120" height="120">
-										<h5">${row.prdName}</h5></td>
-									<td>${row.prdAmount}</td>
-									<td>${row.cartPrice}</td>
-									<td>${row.deliveryFee}</td>
-									<td>
-										<form>
-											<button type="button" class="btn btn-danger">주문하기</button>
-										</form>
-										<form>
-											<button type="button" class="btn btn-default">삭제하기</button>
-										</form>
-									</td>
-								</tr>
-							</c:forEach>
-						</c:when>
-					</c:choose>
-				</tbody>
 			</table>
 		</div>
-		<input type="checkbox" name="bcktSeq_All_bottom"
-			id="bcktSeq_All_bottom" onclick="allCheckAction(this);"
-			title="장바구니 전체 상품 선택"> 선택상품 <b id="checkPrdCnt">(1개)</b> <a
-			href="javascript:funcCheckDel();" class="btn btn-default"
-			onclick="doCommonStat('SCSP001');"><span>삭제하기</span></a>
 
 		<div class="col-md-12">
-			<table class="table table-bordered">
-				<thead>
-					<tr>
-						<th>주문금액</th>
-						<th>배송금액</th>
-						<th>총금액</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>${totalCartPrice}원</td>
-						<td>5000원</td>
-						<td>${totalCartPrice}원</td>
-					</tr>
-				</tbody>
-			</table>
+			<form>
+				<table class="table table-bordered" id="priceTable">
+					<thead>
+						<tr>
+							<th>주문금액</th>
+							<th>배송금액</th>
+							<th>총금액</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>${totalCartPrice}원</td>
+							<td>${totalDeliveryFee}원</td>
+							<td>${totalCartPrice}원</td>
+						</tr>
+					</tbody>
+				</table>
+			</form>
 		</div>
 	</div>
 	<!-- Site footer -->

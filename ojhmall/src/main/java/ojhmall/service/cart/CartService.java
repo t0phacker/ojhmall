@@ -12,4 +12,6 @@ public interface CartService {
 	
 	int calTotalCartPrice(List<Cart> cartList) throws Exception;
 
+	int calTotalDeliveryFee(List<Cart> cartList) throws Exception;
+
 }

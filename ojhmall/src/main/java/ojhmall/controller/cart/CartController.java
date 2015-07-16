@@ -39,6 +39,7 @@ public class CartController {
         List<Cart> cartList = cartService.loadCartList(cart);
         mv.addObject("cartList", cartList);
         mv.addObject("totalCartPrice",cartService.calTotalCartPrice(cartList)); // 장바구니 총 금액
+        mv.addObject("totalDeliveryFee",cartService.calTotalDeliveryFee(cartList)); // 배송비 총 금액
         Map<String, Object> commandMap = new HashMap();
         List<Map<String,Object>> upperCtgrList = categoryService.selectUpperCtgrList(commandMap);
         mv.addObject("upperCategoryList", upperCtgrList);
