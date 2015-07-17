@@ -1,8 +1,6 @@
 package ojhmall.controller.product;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -22,7 +20,6 @@ public class ProductController {
 	private ProductService productService;
 	@Resource(name = "categoryService")
 	private CategoryService categoryService;
-	Map<String, Object> commandMap = new HashMap(); // 카테고리 저장
 	// 상품 페이지 출력
 	@RequestMapping(value="/product/prdView.do")
     public ModelAndView showPrd(@RequestParam(value="prdNum") int prdNum) throws Exception{
@@ -31,10 +28,8 @@ public class ProductController {
         prd.setPrdNumber(prdNum);
         prd = productService.showPrd(prd);
         mv.addObject("prdInfo", prd);
-        List<Map<String,Object>> upperCtgrList = categoryService.selectUpperCtgrList(commandMap);
-        mv.addObject("upperCategoryList", upperCtgrList);
-        List<Map<String,Object>> lowerCtgrList = categoryService.selectLowerCtgrList(commandMap);
-        mv.addObject("lowerCategoryList", lowerCtgrList);
+        mv.addObject("upperCategoryList", categoryService.selectUpperCtgrList());
+		mv.addObject("lowerCategoryList", categoryService.selectLowerCtgrList());
         return mv;
     }
 	// 상품 검색
@@ -44,10 +39,8 @@ public class ProductController {
         List<Product> prdSchList = productService.schPrd(prd);
         mv.addObject("prdSchList", prdSchList);
         mv.addObject("prd", prd); // 검색어 결과 페이지에 출력
-        List<Map<String,Object>> upperCtgrList = categoryService.selectUpperCtgrList(commandMap);
-        mv.addObject("upperCategoryList", upperCtgrList);
-        List<Map<String,Object>> lowerCtgrList = categoryService.selectLowerCtgrList(commandMap);
-        mv.addObject("lowerCategoryList", lowerCtgrList);
+        mv.addObject("upperCategoryList", categoryService.selectUpperCtgrList());
+		mv.addObject("lowerCategoryList", categoryService.selectLowerCtgrList());
         return mv;
     }
 }

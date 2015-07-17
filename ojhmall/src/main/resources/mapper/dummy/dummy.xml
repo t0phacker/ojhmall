@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+CREATE TABLE IF NOT EXISTS `sample`.`user` (
+`userNumber` INT(11) NOT NULL AUTO_INCREMENT,
+`userType` INT(11) NOT NULL DEFAULT '1',
+`id` VARCHAR(30) NOT NULL,
+`userPassword` VARCHAR(10) NOT NULL,
+`userName` VARCHAR(20) NOT NULL,
+`newDate` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+`newUser` INT(11) NOT NULL,
+`updateDate` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+`updateUser` INT(11) NOT NULL,
+PRIMARY KEY (`userNumber`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 57
+DEFAULT CHARACTER
+SET = utf8;
+
+
+-- -----------------------------------------------------
+--
+Table `sample`.`admin`
+--
+-----------------------------------------------------
+CREATE TABLE IF NOT
+EXISTS `sample`.`admin` (
+`user_userNumber` INT(11) NOT NULL,
+`adminType` INT(11) NOT NULL,
+`accNumber` VARCHAR(16) NOT NULL,
+PRIMARY KEY (`user_userNumber`),
+INDEX `fk_Admin_user1_idx` (`user_userNumber` ASC),
+CONSTRAINT `fk_Admin_user1`
+FOREIGN KEY (`user_userNumber`)
+REFERENCES `sample`.`user` (`userNumber`)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+--
+-----------------------------------------------------
+-- Table
+`sample`.`category`
+--
+-----------------------------------------------------
+CREATE TABLE IF NOT
+EXISTS `sample`.`category` (
+`ctgrNumber` INT(11) NOT NULL,
+`ctgrName` VARCHAR(20) NOT NULL,
+`ctgrUpperNumber` INT(11) NULL DEFAULT NULL,
+`ctgrStatus` INT(11) NOT NULL,
+`newDate` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+`newUser` INT(11) NOT NULL,
+`updateDate` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+`updateUser` INT(11) NULL DEFAULT NULL,
+PRIMARY KEY (`ctgrNumber`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+--
+-----------------------------------------------------
+-- Table
+`sample`.`customer`
+--
+-----------------------------------------------------
+CREATE TABLE IF NOT
+EXISTS `sample`.`customer` (
+`user_userNumber` INT(11) NOT NULL,
+`phNumber` VARCHAR(13) NOT NULL,
+`address` VARCHAR(50) NOT NULL,
+`zipcode` VARCHAR(7) NOT NULL,
+PRIMARY KEY (`user_userNumber`),
+INDEX `fk_customer_user_idx` (`user_userNumber` ASC),
+CONSTRAINT `fk_customer_user`
+FOREIGN KEY (`user_userNumber`)
+REFERENCES `sample`.`user` (`userNumber`)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+--
+-----------------------------------------------------
+-- Table
+`sample`.`product`
+--
+-----------------------------------------------------
+CREATE TABLE IF NOT
+EXISTS `sample`.`product` (
+`prdNumber` INT(11) NOT NULL AUTO_INCREMENT,
+`prdName` VARCHAR(100) NOT NULL,
+`userNumber` INT(11) NOT NULL,
+`price` INT(11) NOT NULL,
+`stock` INT(11) NOT NULL,
+`prdStatus` INT(11) NOT NULL,
+`image` VARCHAR(200) NOT NULL,
+`text` VARCHAR(200) NOT NULL,
+`hitCount` INT(11) NOT NULL DEFAULT '0',
+`newDate` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+`newUser` INT(11) NOT NULL,
+`updateDate` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
+`updateUser` INT(11) NULL DEFAULT NULL,
+`ctgrNumber` INT(11) NOT NULL,
+PRIMARY KEY (`prdNumber`, `ctgrNumber`),
+INDEX `fk_product_category1_idx` (`ctgrNumber` ASC),
+CONSTRAINT `fk_product_category1`
+FOREIGN KEY (`ctgrNumber`)
+REFERENCES `sample`.`category` (`ctgrNumber`)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION)
+ENGINE = InnoDB
+AUTO_INCREMENT = 7
+DEFAULT CHARACTER SET
+= utf8;
+
+
+-- -----------------------------------------------------
+-- Table
+`sample`.`product_has_user`
+--
+-----------------------------------------------------
+CREATE TABLE IF NOT
+EXISTS `sample`.`product_has_user` (
+`product_prdNumber` INT(11) NOT NULL,
+`user_userNumber` INT(11) NOT NULL,
+PRIMARY KEY (`product_prdNumber`, `user_userNumber`),
+INDEX `fk_product_has_user_user1_idx` (`user_userNumber` ASC),
+INDEX `fk_product_has_user_product1_idx` (`product_prdNumber` ASC),
+CONSTRAINT `fk_product_has_user_product1`
+FOREIGN KEY (`product_prdNumber`)
+REFERENCES `sample`.`product` (`prdNumber`)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION,
+CONSTRAINT `fk_product_has_user_user1`
+FOREIGN KEY (`user_userNumber`)
+REFERENCES `sample`.`user` (`userNumber`)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+--
+-----------------------------------------------------
+-- Table
+`sample`.`seller`
+--
+-----------------------------------------------------
+CREATE TABLE IF NOT
+EXISTS `sample`.`seller` (
+`user_userNumber` INT(11) NOT NULL,
+`phNumber` VARCHAR(13) NOT NULL,
+`address` VARCHAR(50) NOT NULL,
+`zipcode` VARCHAR(7) NOT NULL,
+`bizNumber` VARCHAR(14) NOT NULL,
+`accNumber` VARCHAR(16) NOT NULL,
+PRIMARY KEY (`user_userNumber`),
+INDEX `fk_seller_user1_idx` (`user_userNumber` ASC),
+CONSTRAINT `fk_seller_user1`
+FOREIGN KEY (`user_userNumber`)
+REFERENCES `sample`.`user` (`userNumber`)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+--
+-----------------------------------------------------
+-- Table
+`sample`.`cart`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `sample`.`cart` (
+`cartNumber` INT(11) NOT NULL AUTO_INCREMENT,
+`prdAmount` INT(11) NOT NULL,
+`cartPrice` INT NOT NULL,
+`newDate` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+`newUser` INT(11) NOT NULL,
+`updateDate` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
+`updateUser` INT(11) NULL,
+`prdNumber` INT(11) NOT NULL,
+`userNumber` INT(11) NOT NULL,
+PRIMARY KEY (`cartNumber`),
+INDEX `fk_cart_product1_idx` (`prdNumber` ASC),
+INDEX `fk_cart_user1_idx` (`userNumber` ASC),
+CONSTRAINT `fk_cart_product1`
+FOREIGN KEY (`prdNumber`)
+REFERENCES `sample`.`product` (`prdNumber`)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION,
+CONSTRAINT `fk_cart_user1`
+FOREIGN KEY (`userNumber`)
+REFERENCES `sample`.`user` (`userNumber`)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+SET
+SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+set foreign_key_checks = 1;
+
+<!-- 상품 -->
+insert into product (prdNumber, prdName, userNumber, price, stock, prdStatus, image, text,  newUser, updateUser, ctgrNumber)
+values (1, '[심쿵딜]빅사이즈 냉장고 반팔 티셔츠', 10, 5000, 30, 1, 'http://i.011st.com/ex_t/R/240x240/1/85/1/src/ak/8/1/5/6/6/0/378815660_L300_V20.jpg', '리원패션의 베스트 상품', 45, 45, 101);
+insert into product (prdNumber, prdName, userNumber, price, stock, prdStatus, image, text,  newUser, updateUser, ctgrNumber)
+values (2, '[레츠]슬림핏 페플럼 블라우스.올리브BL 빅사이즈[55~99] bs504/ 레츠', 10, 7900, 30, 1, 'http://i.011st.com/ex_t/R/250x250/1/85/1/src/ak/8/6/4/1/6/2/1275864162_B_V20.jpg', '자체제작으로 만들어진 차별화된 디자인과 최고급원단', 45, 45, 101);
+insert into product (prdNumber, prdName, userNumber, price, stock, prdStatus, image, text,  newUser, updateUser, ctgrNumber)
+values (3, '생지 엔진스타일 스키니진 스키니진 청바지 부츠컷 구제 밴드바지', 11, 14060, 30, 1, 'http://i.011st.com/ex_t/R/250x250/1/85/1/src/y/3/6/5/3/8/9/878365389_L300.jpg', '12시 이전 주문시 당일 배송', 45, 45, 101);
+insert into product (prdNumber, prdName, userNumber, price, stock, prdStatus, image, text,  newUser, updateUser, ctgrNumber)
+values (4, '[T멤버십 최대5천원할인][해냄] 정글만리 1~3권 세트/전자파차단스티커+형광펜 증정', 10, 36450, 30, 1, 'http://i.011st.com/ex_t/R/140x140/1/85/1/src/ak/6/4/6/6/0/0/1113646600_L300_V1.jpg', '거대한 중국 대륙을 종횡무진 가로질러 집필한 조정래 불후의 역작!', 56, 56, 501);
+insert into product (prdNumber, prdName, userNumber, price, stock, prdStatus, image, text,  newUser, updateUser, ctgrNumber)
+values (5, '원피스 ONE PIECE 77', 11, 4500, 30, 1, 'http://i.011st.com/ex_t/R/140x140/1/85/1/src/ak/8/4/9/5/0/8/1262849508_B_V10.jpg', '‘원피스’를 둘러싼 해양 액션 로망!!', 56, 56, 501);
+insert into product (prdNumber, prdName, userNumber, price, stock, prdStatus, image, text,  newUser, updateUser, ctgrNumber)
+values (6, '[시대에듀]TV광고보다 카카오스토리 self 마케팅', 10, 12600, 30, 1, 'http://i.011st.com/ex_t/R/140x140/1/85/1/src/ak/8/6/0/7/5/9/1253860759_L300.jpg', '왜 카카오스토리인가?', 56, 56, 501);
+
+<!-- 카테고리 -->
+insert into category (ctgrNumber, ctgrName, ctgrStatus, newUser)
+values (100, '의류', 0, 1);
+insert into category (ctgrNumber, ctgrName, ctgrStatus, newUser)
+values (200, '뷰티', 0, 1);
+insert into category (ctgrNumber, ctgrName, ctgrStatus, newUser)
+values (300, '식품', 0, 1);
+insert into category (ctgrNumber, ctgrName, ctgrStatus, newUser)
+values (400, '디지털', 0, 1);
+insert into category (ctgrNumber, ctgrName, ctgrStatus, newUser)
+values (500, '도서', 0, 1);
+insert into category (ctgrNumber, ctgrName, ctgrUpperNumber, ctgrStatus, newUser)
+values (101, '여성 의류', 100, 0, 1);
+insert into category (ctgrNumber, ctgrName, ctgrUpperNumber, ctgrStatus, newUser)
+values (102, '남성 의류', 100, 0, 1);
+insert into category (ctgrNumber, ctgrName, ctgrUpperNumber, ctgrStatus, newUser)
+values (201, '스킨 케어', 200, 0, 1);
+insert into category (ctgrNumber, ctgrName, ctgrUpperNumber, ctgrStatus, newUser)
+values (202, '메이크업', 200, 0, 1);
+insert into category (ctgrNumber, ctgrName, ctgrUpperNumber, ctgrStatus, newUser)
+values (301, '일반 식품', 300, 0, 1);
+insert into category (ctgrNumber, ctgrName, ctgrUpperNumber, ctgrStatus, newUser)
+values (302, '건강 식품', 300, 0, 1);
+insert into category (ctgrNumber, ctgrName, ctgrUpperNumber, ctgrStatus, newUser)
+values (401, 'PC', 400, 0, 1);
+insert into category (ctgrNumber, ctgrName, ctgrUpperNumber, ctgrStatus, newUser)
+values (402, '모바일', 400, 0, 1);
+insert into category (ctgrNumber, ctgrName, ctgrUpperNumber, ctgrStatus, newUser)
+values (501, '국내 도서', 500, 0, 1);
+insert into category (ctgrNumber, ctgrName, ctgrUpperNumber, ctgrStatus, newUser)
+values (502, '수입 도서', 500, 0, 1);

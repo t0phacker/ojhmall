@@ -42,7 +42,6 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public Map<String, Object> selectMaxNum(Map<String, Object> map)
 			throws Exception {
-		// TODO Auto-generated method stub
 		return userDAO.selectMaxNum(map);
 	}
 

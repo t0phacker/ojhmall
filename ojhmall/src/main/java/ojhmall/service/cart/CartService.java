@@ -16,4 +16,8 @@ public interface CartService {
 
 	void removeCart(int cartNumber) throws Exception;
 
+	Cart selectCart(int cartNumber) throws Exception;
+
+	void updateCart(Cart cart) throws Exception;
+
 }

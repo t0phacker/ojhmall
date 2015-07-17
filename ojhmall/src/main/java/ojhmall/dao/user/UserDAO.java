@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 public class UserDAO extends AbstractDAO {
 
 	// 마지막 회원번호 추출
+	@SuppressWarnings("unchecked")
 	public Map<String, Object> selectMaxNum(Map<String, Object> map)
 			throws Exception {
 		return (Map<String, Object>) selectOne("signUp.selectMaxNum", map);

@@ -1,9 +1,7 @@
 package ojhmall.service.category;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Comparator;
 
 import javax.annotation.Resource;
 
@@ -22,14 +20,13 @@ public class CategoryServiceImpl implements CategoryService {
 	private CategoryDAO categoryDAO;
 	// 상위 카테고리 불러오기
 	@Override
-	public List<Map<String, Object>> selectUpperCtgrList(Map<String, Object> map) throws Exception {
-		return categoryDAO.selectUpperCtgrList(map);
+	public List<Map<String, Object>> selectUpperCtgrList() throws Exception {
+		return categoryDAO.selectUpperCtgrList();
 	}
 	// 하위 카테고리 불러오기
 	@Override
-	public List<Map<String, Object>> selectLowerCtgrList(
-			Map<String, Object> map) throws Exception {
-		return categoryDAO.selectLowerCtgrList(map);
+	public List<Map<String, Object>> selectLowerCtgrList() throws Exception {
+		return categoryDAO.selectLowerCtgrList();
 	}
 	// 카테고리 상품 진열
 	@Override

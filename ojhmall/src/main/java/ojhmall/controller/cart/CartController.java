@@ -1,8 +1,6 @@
 package ojhmall.controller.cart;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
@@ -11,12 +9,12 @@ import ojhmall.service.cart.CartService;
 import ojhmall.service.category.CategoryService;
 import ojhmall.service.product.ProductService;
 import ojhmall.vo.Cart;
-import ojhmall.vo.Product;
 import ojhmall.vo.User;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -43,13 +41,8 @@ public class CartController {
 		mv.addObject("totalCartPrice", cartService.calTotalCartPrice(cartList)); 
 		mv.addObject("totalDeliveryFee",
 				cartService.calTotalDeliveryFee(cartList)); // 배송비 총 금액
-		Map<String, Object> commandMap = new HashMap();
-		List<Map<String, Object>> upperCtgrList = categoryService
-				.selectUpperCtgrList(commandMap);
-		mv.addObject("upperCategoryList", upperCtgrList);
-		List<Map<String, Object>> lowerCtgrList = categoryService
-				.selectLowerCtgrList(commandMap);
-		mv.addObject("lowerCategoryList", lowerCtgrList);
+		mv.addObject("upperCategoryList", categoryService.selectUpperCtgrList());
+		mv.addObject("lowerCategoryList", categoryService.selectLowerCtgrList());
 		return mv;
 	}
 
@@ -67,13 +60,8 @@ public class CartController {
 			cart.setUserNumber(user.getUserNumber());
 		}
 		cartService.addCart(cart);
-		Map<String, Object> commandMap = new HashMap();
-		List<Map<String, Object>> upperCtgrList = categoryService
-				.selectUpperCtgrList(commandMap);
-		mv.addObject("upperCategoryList", upperCtgrList);
-		List<Map<String, Object>> lowerCtgrList = categoryService
-				.selectLowerCtgrList(commandMap);
-		mv.addObject("lowerCategoryList", lowerCtgrList);
+		mv.addObject("upperCategoryList", categoryService.selectUpperCtgrList());
+		mv.addObject("lowerCategoryList", categoryService.selectLowerCtgrList());
 		return mv;
 	}
 
@@ -92,13 +80,25 @@ public class CartController {
 		mv.addObject("totalCartPrice", cartService.calTotalCartPrice(cartList));
 		mv.addObject("totalDeliveryFee",
 				cartService.calTotalDeliveryFee(cartList)); // 배송비 총 금액
-		Map<String, Object> commandMap = new HashMap();
-		List<Map<String, Object>> upperCtgrList = categoryService
-				.selectUpperCtgrList(commandMap);
-		mv.addObject("upperCategoryList", upperCtgrList);
-		List<Map<String, Object>> lowerCtgrList = categoryService
-				.selectLowerCtgrList(commandMap);
-		mv.addObject("lowerCategoryList", lowerCtgrList);
+		mv.addObject("upperCategoryList", categoryService.selectUpperCtgrList());
+		mv.addObject("lowerCategoryList", categoryService.selectLowerCtgrList());
+		return mv;
+	}
+	// 변경할 장바구니 선택
+	@RequestMapping(value = "/cart/changeCartView.do")
+	public ModelAndView changeCart(
+			@RequestParam(value = "cartNumber") int cartNumber,
+			HttpSession session) throws Exception {
+		ModelAndView mv = new ModelAndView("/cart/changeCartView");
+		Cart cart = cartService.selectCart(cartNumber);
+		mv.addObject("selectedCart", cart);
+		return mv;
+	}
+	// 선택 장바구니 변경
+	@RequestMapping(value = "/cart/updateCart.do", method = RequestMethod.GET)
+	public ModelAndView updateCart(Cart cart, HttpSession session) throws Exception {
+		ModelAndView mv = new ModelAndView("/cart/cartView");
+		cartService.updateCart(cart);
 		return mv;
 	}
 }

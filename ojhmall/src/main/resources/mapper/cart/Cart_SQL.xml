@@ -26,11 +26,33 @@
 			ORDER BY p.userNumber ASC
 		]]>
 	</select>
+	<!-- 장바구니 삭제 -->
 	<delete id="removeCart" parameterType="int">
 		<![CDATA[
 			DELETE FROM cart
 			WHERE cartNumber = #{cartNumber}
 		]]>
 	</delete>
+	<!-- 장바구니 가져오기 -->
+	<select id="selectCart" parameterType="int" resultType="ojhmall.vo.Cart">
+		<![CDATA[
+			SELECT 
+				c.cartNumber, c.prdAmount, c.cartPrice, p.prdName, p.image, p.price
+			FROM
+			    cart c, product p
+			WHERE c.cartNumber = #{cartNumber} and c.prdNumber = p.prdNumber
+		]]>
+	</select>
+	<!-- 장바구니 업데이트 -->
+	<update id="updateCart" parameterType="ojhmall.vo.Cart">
+		<![CDATA[
+			UPDATE 
+				cart
+			SET 
+				prdAmount = #{prdAmount}, cartPrice = #{cartPrice}
+			WHERE
+				cartNumber = #{cartNumber}
+		]]>
+	</update>
 
 </mapper>

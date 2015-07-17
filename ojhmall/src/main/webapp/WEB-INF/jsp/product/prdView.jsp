@@ -42,8 +42,7 @@
 		if (prdAmount > 1) {
 			prdAmount--;
 			document.getElementById(id).value = prdAmount;
-		}
-		else {
+		} else {
 			alert("최소수량은 1 이상입니다.");
 			prdAmount = 1;
 		}
@@ -104,8 +103,7 @@
 					</c:when>
 
 				</c:choose>
-				<li><a
-					href="../cart/cartView.do">장바구니</a></li>
+				<li><a href="../cart/cartView.do">장바구니</a></li>
 				<li><a href="#">마이페이지</a></li>
 			</ul>
 		</div>
@@ -128,9 +126,7 @@
 													href="../category/ctgrView.do?ctgrVal=${col.ctgrNumber }">${col.ctgrName }</a></li>
 											</c:if>
 										</c:forEach>
-
 									</ul></li>
-								</li>
 							</c:forEach>
 						</c:when>
 					</c:choose>
@@ -158,31 +154,38 @@
 				<li><h3>${prdInfo.prdName}</h3></li>
 				<li>가격 : ${prdInfo.price}원</li>
 				<form name="amountForm" method="post">
-					<input type="hidden" id="prdPrice" name="prdPrice" value="${prdInfo.price}">
-					<input type="button" class="btn btn-default" id="minusPrdBtn"
-						name="minusPrdBtn" role="button" value="-"
-						onclick="minusPrdAmount('amount'); calPrdPrice('prdPrice'); printPrice('totalPrdPrice');sendAmount('prdAmount');sendTotalPrice('cartPrice');"> <input type="text"
-						id="amount" name="amount" value="1"> <input type="button"
-						class="btn btn-default" id="plusPrdBtn" name="plusPrdBtn"
-						role="button" value="+" onclick="plusPrdAmount('amount'); calPrdPrice('prdPrice');printPrice('totalPrdPrice');sendAmount('prdAmount');sendTotalPrice('cartPrice');">
-					<br>총 가격 <input type="text" id="totalPrdPrice" name="totalPrdPrice" value="${prdInfo.price}" style="font-size=4; color=#dc143c" disabled>
+					<input type="hidden" id="prdPrice" name="prdPrice"
+						value="${prdInfo.price}"> <input type="button"
+						class="btn btn-default" id="minusPrdBtn" name="minusPrdBtn"
+						role="button" value="-"
+						onclick="minusPrdAmount('amount'); calPrdPrice('prdPrice'); printPrice('totalPrdPrice');sendAmount('prdAmount');sendTotalPrice('cartPrice');">
+					<input type="text" id="amount" name="amount" value="1"> <input
+						type="button" class="btn btn-default" id="plusPrdBtn"
+						name="plusPrdBtn" role="button" value="+"
+						onclick="plusPrdAmount('amount'); calPrdPrice('prdPrice');printPrice('totalPrdPrice');sendAmount('prdAmount');sendTotalPrice('cartPrice');">
+					<br>총 가격 <input type="text" id="totalPrdPrice"
+						name="totalPrdPrice" value="${prdInfo.price}" style="" disabled>
 				</form>
 				<!-- 상품번호 장바구니로 전송 -->
 				<a class="btn btn-lg btn-warning"
 					href="../cart/addPrdToCart.do?prdNum=${prdNumber}" role="button">구매하기</a>
-					<form id="singleCart" name="singleCart" method="post" action="../cart/addPrdToCart.do">
-						<input type="hidden" id="prdNumber" name="prdNumber" value="${prdInfo.prdNumber}">
-						<input type="hidden" id="prdAmount" name="prdAmount" value="1">
-						<input type="hidden" id="cartPrice" name="cartPrice" value="${prdInfo.price}">
-						<input type="submit" class="btn btn-lg btn-info" role="button" value="장바구니" onclick="alertCartMsg();">
-					</form>
+				<form id="singleCart" name="singleCart" method="post"
+					action="../cart/addPrdToCart.do">
+					<input type="hidden" id="prdNumber" name="prdNumber"
+						value="${prdInfo.prdNumber}"> <input type="hidden"
+						id="prdAmount" name="prdAmount" value="1"> <input
+						type="hidden" id="cartPrice" name="cartPrice"
+						value="${prdInfo.price}"> <input type="submit"
+						class="btn btn-lg btn-info" role="button" value="장바구니"
+						onclick="alertCartMsg();">
+				</form>
 				<!-- <a class="btn btn-lg btn-info" href="#" role="button">장바구니</a> -->
 			</div>
 
 		</div>
 		<div class="jumbotron">
 			<h4 style="float: left">${prdInfo.text}</h4>
-			<p class="lead">${prdInfo.hitCount}명의 고객님이 이 상품을 확인하였습니다.</p>
+			<p class="lead">${prdInfo.hitCount}명의고객님이이 상품을 확인하였습니다.</p>
 		</div>
 
 		<!-- Site footer -->

@@ -80,4 +80,12 @@ public class CartServiceImpl implements CartService {
 	public void removeCart(int cartNumber) throws Exception {
 		cartDAO.removeCart(cartNumber);
 	}
+	@Override
+	public Cart selectCart(int cartNumber) throws Exception {
+		return cartDAO.selectCart(cartNumber);
+	}
+	@Override
+	public void updateCart(Cart cart) throws Exception {
+		cartDAO.updateCart(cart);
+	}
 }

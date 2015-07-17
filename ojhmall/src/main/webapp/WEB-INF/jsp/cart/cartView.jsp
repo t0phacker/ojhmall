@@ -97,6 +97,12 @@
 		priceTable.rows[1].cells[2].innerHTML = cartPrice + deliveryFee;
 	}
 	
+	function changeCartWithPopUp(id) {
+		var cartId = document.getElementById(id).id;
+		var popUpAction = "/ojhmall/cart/changeCartView.do?cartNumber="+cartId;
+		var popUpOption = "width=500, height=600";
+		window.open(popUpAction,"",popUpOption);
+	}
 </script>
 </head>
 <body>
@@ -130,8 +136,7 @@
 					</c:when>
 
 				</c:choose>
-				<li><a
-					href="cartView.do">장바구니</a></li>
+				<li><a href="cartView.do">장바구니</a></li>
 				<li><a href="#">마이페이지</a></li>
 			</ul>
 		</div>
@@ -203,7 +208,10 @@
 										<td width=40% height="120"><img style="float: left"
 											src="${row.image }" width="120" height="120">
 											<h5>${row.prdName}</h5></td>
-										<td>${row.prdAmount}개</td>
+										<td>${row.prdAmount}개<br> <a class="btn btn-default"
+											id="${row.cartNumber}" target="Window" role="button"
+											onclick="changeCartWithPopUp(this.id)">변경</a>
+										</td>
 										<td>${row.cartPrice}원</td>
 										<c:if test="${row.deliveryFee == 0}">
 											<td>무료</td>
@@ -214,10 +222,12 @@
 
 										<td>${row.id}</td>
 										<td>
-											<button type="submit" class="btn btn-danger"
-												onclick="">주문하기</button> <input type="hidden"
-											id="cartNumber" name="cartNumber" value="${row.cartNumber}">
-											<a class="btn btn-default" href="deleteCart.do?cartNumber=${row.cartNumber}" role="button">삭제하기</a>
+											<button type="submit" class="btn btn-danger" onclick="">주문하기</button>
+											<br> <input type="hidden" id="cartNumber"
+											name="cartNumber" value="${row.cartNumber}"> <a
+											class="btn btn-default"
+											href="deleteCart.do?cartNumber=${row.cartNumber}"
+											role="button">삭제하기</a>
 										</td>
 									</tr>
 								</c:forEach>
@@ -239,7 +249,8 @@
 					</tr>
 				</thead>
 			</table>
-			<a class="btn btn-default" href="/deleteCart.do?cartNumber=${row.cartNumber}" role="button">삭제하기</a>
+			<a class="btn btn-default"
+				href="/deleteCart.do?cartNumber=${row.cartNumber}" role="button">삭제하기</a>
 		</div>
 
 		<div class="col-md-12">
@@ -265,9 +276,9 @@
 	</div>
 	<!-- Site footer -->
 	<footer class="footer">
+		${test }
 		<p>&copy; Company 2014</p>
 	</footer>
-
 	<!-- /container -->
 
 	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->

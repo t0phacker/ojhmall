@@ -15,7 +15,14 @@ public class Cart {
 	private String image; // 상품 이미지
 	private int user_userNumber; // 판매자 회원 번호
 	private String id; // 판매자 아이디
+	private int price; //상품 가격
 	
+	public int getPrice() {
+		return price;
+	}
+	public void setPrice(int price) {
+		this.price = price;
+	}
 	public String getId() {
 		return id;
 	}

@@ -14,6 +14,7 @@ public class ProductDAO extends AbstractDAO {
 		return (Product) selectOne("Product.showPrd", prd);
 	}
 	// 상품 검색
+	@SuppressWarnings("unchecked")
 	public List<Product> schPrd(Product prd) {
 		return (List<Product>) selectList("Product.schPrd", prd);
 	}
