@@ -20,4 +20,6 @@ public interface CartService {
 
 	void updateCart(Cart cart) throws Exception;
 
+	void removeCartList(String cartNumber) throws Exception;
+
 }

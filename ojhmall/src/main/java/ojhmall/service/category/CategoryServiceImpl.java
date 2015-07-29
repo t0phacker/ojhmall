@@ -28,10 +28,15 @@ public class CategoryServiceImpl implements CategoryService {
 	public List<Map<String, Object>> selectLowerCtgrList() throws Exception {
 		return categoryDAO.selectLowerCtgrList();
 	}
-	// 카테고리 상품 진열
+	// 카테고리 상품 인기순 정렬
 	@Override
 	public List<Product> dpPrd(Product prd) throws Exception {
 		return categoryDAO.dpPrd(prd);
+	}
+	// 카테고리 상품 가격순 정렬
+	@Override
+	public List<Product> dpPrdByPrice(Product prd) throws Exception {
+		return categoryDAO.dpPrdByPrice(prd);
 	}
 	
 }

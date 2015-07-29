@@ -17,7 +17,7 @@
 		<![CDATA[
 			SELECT
 				c.cartNumber, c.prdAmount, c.cartPrice, p.prdName, p.image, 
-				c.userNumber, p.userNumber as user_userNumber, u.id
+				c.userNumber, p.userNumber as user_userNumber, u.id, p.prdNumber, p.stock
 			FROM
 			    cart c, product p, user u
 			WHERE c.userNumber = #{userNumber}
@@ -37,7 +37,8 @@
 	<select id="selectCart" parameterType="int" resultType="ojhmall.vo.Cart">
 		<![CDATA[
 			SELECT 
-				c.cartNumber, c.prdAmount, c.cartPrice, p.prdName, p.image, p.price
+				c.cartNumber, c.prdAmount, c.cartPrice, p.prdName,
+				 p.image, p.price, p.prdNumber, p.stock
 			FROM
 			    cart c, product p
 			WHERE c.cartNumber = #{cartNumber} and c.prdNumber = p.prdNumber

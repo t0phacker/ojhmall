@@ -28,7 +28,7 @@ public class CartController {
 	@Resource(name = "productService")
 	private ProductService productService;
 
-	// 장바구니 정보 출력
+	// 장바구니 정보 출력 불러오는건 겟
 	@RequestMapping(value = "/cart/cartView.do")
 	public ModelAndView showCart(HttpSession session)
 			throws Exception {
@@ -36,23 +36,31 @@ public class CartController {
 		User user = (User) session.getAttribute("userLogInInfo");
 		Cart cart = new Cart();
 		cart.setUserNumber(user.getUserNumber());
-		List<Cart> cartList = cartService.loadCartList(cart);
-		mv.addObject("cartList", cartList);
-		mv.addObject("totalCartPrice", cartService.calTotalCartPrice(cartList)); 
-		mv.addObject("totalDeliveryFee",
-				cartService.calTotalDeliveryFee(cartList)); // 배송비 총 금액
+		try {
+			List<Cart> cartList = cartService.loadCartList(cart);
+			mv.addObject("cartList", cartList);
+			mv.addObject("totalCartPrice", cartService.calTotalCartPrice(cartList)); 
+			mv.addObject("totalDeliveryFee",
+					cartService.calTotalDeliveryFee(cartList)); // 배송비 총 금액
+		} catch(Exception e) {
+			mv.addObject("upperCategoryList", categoryService.selectUpperCtgrList());
+			mv.addObject("lowerCategoryList", categoryService.selectLowerCtgrList());
+			return mv;
+		}
+		
 		mv.addObject("upperCategoryList", categoryService.selectUpperCtgrList());
 		mv.addObject("lowerCategoryList", categoryService.selectLowerCtgrList());
 		return mv;
 	}
 
-	// 장바구니 생성
+	// 장바구니 생성 디비 변경은 포스트
 	@RequestMapping(value = "/cart/addPrdToCart.do")
 	public ModelAndView addCart(HttpSession session, Cart cart)
 			throws Exception {
 		ModelAndView mv = new ModelAndView(
 				"redirect:http://localhost:8080/ojhmall/product/prdView.do?prdNum="
 						+ cart.getPrdNumber());
+		
 		if (session.getAttribute("userLogInInfo") == null)
 			cart.setUserNumber(1);
 		else {
@@ -70,16 +78,24 @@ public class CartController {
 	public ModelAndView deleteCart(
 			@RequestParam(value = "cartNumber") int cartNumber,
 			HttpSession session) throws Exception {
+		
 		ModelAndView mv = new ModelAndView("/cart/cartView");
 		User user = (User) session.getAttribute("userLogInInfo");
 		Cart cart = new Cart();
 		cart.setUserNumber(user.getUserNumber());
 		cartService.removeCart(cartNumber);
-		List<Cart> cartList = cartService.loadCartList(cart);
-		mv.addObject("cartList", cartList);
-		mv.addObject("totalCartPrice", cartService.calTotalCartPrice(cartList));
-		mv.addObject("totalDeliveryFee",
-				cartService.calTotalDeliveryFee(cartList)); // 배송비 총 금액
+		try {
+			List<Cart> cartList = cartService.loadCartList(cart);
+			mv.addObject("cartList", cartList);
+			mv.addObject("totalCartPrice", cartService.calTotalCartPrice(cartList));
+			mv.addObject("totalDeliveryFee",
+					cartService.calTotalDeliveryFee(cartList)); // 배송비 총 금액
+		} catch (Exception e) {
+			mv.addObject("upperCategoryList", categoryService.selectUpperCtgrList());
+			mv.addObject("lowerCategoryList", categoryService.selectLowerCtgrList());
+			return mv;
+		}
+		
 		mv.addObject("upperCategoryList", categoryService.selectUpperCtgrList());
 		mv.addObject("lowerCategoryList", categoryService.selectLowerCtgrList());
 		return mv;

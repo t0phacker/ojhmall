@@ -1,8 +1,11 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page session="false" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ page session="true"%>
 <html>
 <head>
-    <meta charset="utf-8">
+<meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
@@ -35,18 +38,17 @@
 
       <!-- Jumbotron -->
       <div class="jumbotron">
-        <h1>Marketing stuff!</h1>
-        <p class="lead">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet.</p>
-        <p><a class="btn btn-lg btn-success" href="#" role="button">Get started today</a></p>
+        <h1>회원가입</h1>
+        <p class="lead">구매자 회원가입과 판매 사업자 회원가입이 있습니다</p>
       </div>
 
       <!-- Example row of columns -->
       <div class="row">
         <div class="col-lg-4">
-          <a class="btn btn-lg btn-success" href="CustomerSignUpForm.do" role="button">Private Customer</a>
+          <a class="btn btn-lg btn-success" href="CustomerSignUpForm.do" role="button">구매자 회원가입</a>
         </div>
         <div class="col-lg-4">
-          <a class="btn btn-lg btn-success" href="SellerSignUpForm.do" role="button">Business Customer</a>
+          <a class="btn btn-lg btn-success" href="SellerSignUpForm.do" role="button">판매자 회원가입</a>
        </div>
         
       </div>

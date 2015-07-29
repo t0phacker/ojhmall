@@ -11,7 +11,6 @@
 <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 <meta name="description" content="">
 <meta name="author" content="">
-<link rel="icon" href="../../favicon.ico">
 
 <title>OJH Mall</title>
 
@@ -22,8 +21,6 @@
 <!-- Custom styles for this template -->
 <link href="css/theme.css" rel="stylesheet">
 
-<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-<script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
 <!-- 검색 js -->
 <script src="js/ojhfunction.js"></script>
 </head>
@@ -32,7 +29,7 @@
 
 	<div class="container">
 		<div class="masthead">
-			<a href="#"><img src="image/11st.png"></a>
+			<a href="http://localhost:8080/ojhmall"><img src="image/11st.png"></a>
 
 			<ul class="nav navbar-nav navbar-right">
 				<c:choose>
@@ -46,21 +43,27 @@
 				<c:choose>
 					<c:when test="${empty sessionScope.userLogInInfo.userName}">
 						<li><a href="user/SiginUpForm.do">회원가입</a></li>
+						<li><a href="cart/cartView.do">장바구니</a></li>
+						<li><a href="#">마이페이지</a></li>
 					</c:when>
 
 					<c:when test="${sessionScope.userLogInInfo.userType == 0}">
 						<li><a href="user/AdminInfoForm.do">회원정보</a></li>
+						<li><a href="cart/cartView.do">장바구니</a></li>
+						<li><a href="mypage/mypageForAdmin.do">마이페이지</a></li>
 					</c:when>
 					<c:when test="${sessionScope.userLogInInfo.userType == 1}">
 						<li><a href="user/CustomerInfoForm.do">회원정보</a></li>
+						<li><a href="cart/cartView.do">장바구니</a></li>
+						<li><a href="mypage/mypageForCustomer.do">마이페이지</a></li>
 					</c:when>
 					<c:when test="${sessionScope.userLogInInfo.userType == 2}">
 						<li><a href="user/SellerInfoForm.do">회원정보</a></li>
+						<li><a href="cart/cartView.do">장바구니</a></li>
+						<li><a href="mypage/mypageForSeller.do">마이페이지</a></li>
 					</c:when>
 
 				</c:choose>
-				<li><a href="cart/cartView.do">장바구니</a></li>
-				<li><a href="#">마이페이지</a></li>
 			</ul>
 		</div>
 		<div class="masthead">
@@ -92,88 +95,45 @@
 		</div>
 		<!-- 상품 검색 -->
 		<div class="container">
-			<form class="navbar-form navbar-left" id="form_search" role="search"
-				action="product/prdSearch.do" method="POST">
+			<form class="navbar-form navbar-default" id="form_search"
+				role="search" action="product/prdSearch.do" method="POST">
 				<div class="form-group">
-					<input type="text" class="form-control" id="prdName" name="prdName" placeholder="Search"
-						value="${prdName}" />
+					<input type="text" class="form-control" id="prdName" name="prdName"
+						placeholder="검색어를 입력하세요" value="${prdName}" />
 				</div>
-				<button type="submit" class="btn btn-default" onclick="search();">Submit</button>
+				<button type="submit" class="btn btn-default" onclick="search();">검색</button>
 			</form>
 		</div>
-		<!-- Jumbotron -->
-		<div class="jumbotron">
-			<h1>Marketing stuff!</h1>
-			<p class="lead">
-				<c:choose>
-					<c:when test="${fn:length(categoryList) > 0 }">
-						<c:forEach items="${categoryList}" var="row">
-							<li>${row.ctgrName }</li>
-						</c:forEach>
-					</c:when>
-				</c:choose>
-			</p>
-			<p>
-				<a class="btn btn-lg btn-success" href="#" role="button">Get
-					started today</a>
-			</p>
-		</div>
-
-		<!-- Example row of columns -->
-		<div class="row">
-			<div class="col-lg-4">
-				<h2>Safari bug warning!</h2>
-				<p class="text-danger">As of v8.0, Safari exhibits a bug in
-					which resizing your browser horizontally causes rendering errors in
-					the justified nav that are cleared upon refreshing.</p>
-				<p>Donec id elit non mi porta gravida at eget metus. Fusce
-					dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh,
-					ut fermentum massa justo sit amet risus. Etiam porta sem malesuada
-					magna mollis euismod. Donec sed odio dui.</p>
-				<p>
-					<a class="btn btn-primary" href="#" role="button">View details
-						&raquo;</a>
-				</p>
-			</div>
-			<div class="col-lg-4">
-				<h2>Heading</h2>
-				<p>Donec id elit non mi porta gravida at eget metus. Fusce
-					dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh,
-					ut fermentum massa justo sit amet risus. Etiam porta sem malesuada
-					magna mollis euismod. Donec sed odio dui.</p>
-				<p>
-					<a class="btn btn-primary" href="#" role="button">View details
-						&raquo;</a>
-				</p>
-			</div>
-			<div class="col-lg-4">
-				<h2>Heading</h2>
-				<p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in,
-					egestas eget quam. Vestibulum id ligula porta felis euismod semper.
-					Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum
-					nibh, ut fermentum massa.</p>
-				<p>
-					<a class="btn btn-primary" href="#" role="button">View details
-						&raquo;</a>
-				</p>
-			</div>
+		<!-- 상품 진열 관심지수순 -->
+		<div class="container">
+			<h1><span class="label label-danger">베스트 상품</span></h1>
+			<c:choose>
+				<c:when test="${fn:length(prdList) > 0 }">
+					<c:forEach items="${prdList}" var="row">
+						<div class="col-lg-4">
+							<a href=product/prdView.do?prdNum=${row.prdNumber}> <img
+								src="${row.image}" width="240" height="240">
+								<h4>${row.prdName}</h4> 
+								<font color="orange" size="4">${row.price}원</font> 
+							</a> 관심지수 : ${row.hitCount}
+						</div>
+					</c:forEach>
+				</c:when>
+			</c:choose>
 		</div>
 
 		<!-- Site footer -->
 		<footer class="footer">
 			<p>&copy; Company 2014</p>
 		</footer>
-
 	</div>
 	<!-- /container -->
 
 
 	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-	
+
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
-	
-	<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
 </body>
 </html>

@@ -25,4 +25,6 @@ public interface UserService {
 	Seller updatedSeller(Seller seller) throws Exception;
 
 	void removeUser(User user) throws Exception;
+
+	User getAdminAcc(User admin) throws Exception;
 }

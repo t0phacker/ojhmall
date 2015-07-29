@@ -92,11 +92,16 @@ public class UserController {
 			HttpServletRequest request) throws Exception {
 		ModelAndView mv = new ModelAndView(
 				"redirect:http://localhost:8080/ojhmall/");
-		User userLogCheck = userService.findByIdAndPw(user);
-
-		if (userLogCheck != null) {
-			session.setAttribute("userLogInInfo", userLogCheck);
+		try {
+			User userLogCheck = userService.findByIdAndPw(user);
+			
+			if (userLogCheck != null) {
+				session.setAttribute("userLogInInfo", userLogCheck);
+			}
+		} catch (Exception e) {
+			return mv;
 		}
+		
 
 		return mv;
 	}

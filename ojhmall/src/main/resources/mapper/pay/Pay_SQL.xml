@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Pay">
+	<!-- 결제정보 저장 -->
+	<insert id="insertPay" parameterType="ojhmall.vo.Payment">
+		<![CDATA[
+			INSERT INTO payment
+				(userNumber, money, accNum, order_orderNumber)
+			VALUES
+			    (#{userNumber}, #{money}, #{accNum}, #{orderNumber})
+		]]>
+	</insert>
+	
+	<select id="getPayList" resultType="ojhmall.vo.Payment">
+		<![CDATA[
+			SELECT
+				p.payNumber, p.order_orderNumber as orderNumber, p.userNumber, p.money, p.accNum, p.newDate, p.payStatus
+			FROM
+			    payment p
+			WHERE
+				p.payStatus = 1
+		]]>
+	</select>
+	<update id="updatePayStatus" parameterType="ojhmall.vo.Payment">
+		<![CDATA[
+			UPDATE
+				payment
+			SET
+			    payStatus = 2
+			WHERE
+				payNumber = #{payNumber}
+		]]>
+	</update>
+	
+	<select id="getPaidList" resultType="ojhmall.vo.Payment">
+		<![CDATA[
+			SELECT
+				p.payNumber, p.order_orderNumber as orderNumber, p.userNumber, p.money, p.accNum, p.newDate, p.payStatus
+			FROM
+			    payment p
+			WHERE
+				p.payStatus = 2
+		]]>
+	</select>
+	
+	<select id="getOrderFromPay" parameterType="ojhmall.vo.Payment" resultType="ojhmall.vo.Order">
+		<![CDATA[
+			SELECT
+				po.price, po.deliveryFee, po.order_orderNumber as orderNumber, 
+                u.userNumber as user_userNumber, u.id,
+                o.userNumber
+			FROM
+			    product_has_order po, product p, user u, sample.order o
+			WHERE
+				po.order_orderNumber = #{orderNumber} and p.prdNumber = po.product_prdNumber
+                and p.userNumber = u.userNumber and o.orderNumber = po.order_orderNumber;
+		]]>
+	</select>
+	
+	<update id="updatePay" parameterType="ojhmall.vo.Payment">
+		<![CDATA[
+			UPDATE
+				payment
+			SET
+			    payStatus = 3
+			WHERE
+				payNumber = #{payNumber}
+		]]>
+	</update>
+</mapper>

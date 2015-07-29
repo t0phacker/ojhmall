@@ -1,5 +1,8 @@
 package ojhmall.vo;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class Product {
 	private int prdNumber; // 상품 번호
 	private String prdName; // 상품 이름
@@ -11,7 +14,29 @@ public class Product {
 	private String image; // 상품 이미지
 	private String text; // 상품 설명
 	private int hitCount; // 조회수
+	private String ctgrName; // 카테고리 이름
+	private Date newDate; // 상품 등록일
+	private String id; // 판매자 id
 	
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	public String getNewDate() {
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		return format.format(newDate);
+	}
+	public void setNewDate(Date newDate) {
+		this.newDate = newDate;
+	}
+	public String getCtgrName() {
+		return ctgrName;
+	}
+	public void setCtgrName(String ctgrName) {
+		this.ctgrName = ctgrName;
+	}
 	public int getUserNumber() {
 		return userNumber;
 	}

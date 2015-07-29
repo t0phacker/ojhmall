@@ -43,4 +43,15 @@ public class ProductController {
 		mv.addObject("lowerCategoryList", categoryService.selectLowerCtgrList());
         return mv;
     }
+	// 메인페이지에 전시할 상품리스트 불러오기(관심지수순)
+	@RequestMapping(value="/index.do")
+	public ModelAndView initIndex() throws Exception {
+		ModelAndView mv = new ModelAndView("../../index");
+		int initPrdCount = 6;
+		List<Product> prdList = productService.initPrd(initPrdCount);
+		mv.addObject("prdList", prdList);
+		mv.addObject("upperCategoryList", categoryService.selectUpperCtgrList());
+		mv.addObject("lowerCategoryList", categoryService.selectLowerCtgrList());
+		return mv;
+	}
 }

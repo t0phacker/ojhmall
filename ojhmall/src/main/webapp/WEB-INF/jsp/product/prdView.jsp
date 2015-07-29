@@ -14,7 +14,6 @@
 <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 <meta name="description" content="">
 <meta name="author" content="">
-<link rel="icon" href="../../favicon.ico">
 
 <title>Product</title>
 
@@ -27,14 +26,30 @@
 <!-- 검색 js -->
 <script src="../js/ojhfunction.js"></script>
 
-<script languege="javascript">
-	var prdAmount = 1;
+<script type="text/javascript">
+	
 	var totalPrice = 1;
+	var prdAmount = 1;
+	window.onload = function() {
+		if (document.getElementById('stock').value == 0) {
+			document.getElementById('soldOut').style.display = "block";
+			document.getElementById('orderDirect').disabled = true;
+			document.getElementById('toCart').disabled = true;
+		}
+	}
 	// 상품 수량 증가
 	function plusPrdAmount(id) {
-		prdAmount = document.getElementById(id).value;
-		prdAmount++;
-		document.getElementById(id).value = prdAmount;
+		prdAmount = parseInt(document.getElementById(id).value);
+		var prdStock = parseInt(document.getElementById('stock').value);
+		if (prdAmount >= prdStock) {
+			alert("재고수량이 " + prdStock + "개 입니다. 더 이상 선택하실 수 없습니다.");
+			prdAmount = 1;
+			document.getElementById(id).value = prdAmount;
+		}
+		else {
+			prdAmount++;
+			document.getElementById(id).value = prdAmount;
+		}
 	}
 	// 상품 수량 감소
 	function minusPrdAmount(id) {
@@ -56,18 +71,32 @@
 	// 상품 가격 출력
 	function printPrice(id) {
 		document.getElementById(id).value = totalPrice;
+		document.getElementById("price").value = totalPrice;
 	}
 	// 상품 수량을 form에 전송
 	function sendAmount(id) {
 		document.getElementById(id).value = prdAmount;
+		document.getElementById("count").value = prdAmount;
 	}
 	// 상품 가격을 form에 전송
 	function sendTotalPrice(id) {
 		document.getElementById(id).value = totalPrice;
 	}
-	// 장바구니 추가시 확인 메세지
+	
 	function alertCartMsg() {
 		alert(prdAmount + "개의 상품이 장바구니에 담겼습니다");
+	}
+	// 장바구니 추가시 확인 메세지
+	function checkStock() {
+		
+		//var prdAmount = document.getElementById('amount').value;
+		if (prdAmout > prdStock) {
+			alert("죄송합니다. 재고량보다 많습니다.(재고 : " + prdAmoount + ")");
+			location.reload(true);
+		}
+		else {
+			alert(prdAmount + "개의 상품이 장바구니에 담겼습니다");
+		}
 	}
 </script>
 </head>
@@ -76,7 +105,7 @@
 
 	<div class="container">
 		<div class="masthead">
-			<a href="#"><img src="../image/11st.png"></a>
+			<a href="http://localhost:8080/ojhmall"><img src="../image/11st.png"></a>
 
 			<ul class="nav navbar-nav navbar-right">
 				<c:choose>
@@ -90,21 +119,26 @@
 				<c:choose>
 					<c:when test="${empty sessionScope.userLogInInfo.userName}">
 						<li><a href="../user/SiginUpForm.do">회원가입</a></li>
+						<li><a href="../cart/cartView.do">장바구니</a></li>
+						<li><a href="../mypage/mypageForCustomer.do">마이페이지</a></li>
 					</c:when>
 
 					<c:when test="${sessionScope.userLogInInfo.userType == 0}">
 						<li><a href="../user/AdminInfoForm.do">회원정보</a></li>
+						<li><a href="../cart/cartView.do">장바구니</a></li>
+						<li><a href="../mypage/mypageForAdmin.do">마이페이지</a></li>
 					</c:when>
 					<c:when test="${sessionScope.userLogInInfo.userType == 1}">
 						<li><a href="../user/CustomerInfoForm.do">회원정보</a></li>
+						<li><a href="../cart/cartView.do">장바구니</a></li>
+						<li><a href="../mypage/mypageForCustomer.do">마이페이지</a></li>
 					</c:when>
 					<c:when test="${sessionScope.userLogInInfo.userType == 2}">
 						<li><a href="../user/SellerInfoForm.do">회원정보</a></li>
+						<li><a href="../cart/cartView.do">장바구니</a></li>
+						<li><a href="../mypage/mypageForSeller.do">마이페이지</a></li>
 					</c:when>
-
 				</c:choose>
-				<li><a href="../cart/cartView.do">장바구니</a></li>
-				<li><a href="#">마이페이지</a></li>
 			</ul>
 		</div>
 		<div class="masthead">
@@ -139,20 +173,19 @@
 				action="prdSearch.do" method="POST">
 				<div class="form-group">
 					<input type="text" class="form-control" id="prdName" name="prdName"
-						placeholder="Search" value="${prdName}" />
+						placeholder="검색어를 입력하세요" value="${prdName}" />
 				</div>
-				<button type="submit" class="btn btn-default" onclick="search();">Submit</button>
+				<button type="submit" class="btn btn-default" onclick="search();">검색</button>
 			</form>
 		</div>
 		<!-- Jumbotron -->
 		<div class="row">
 			<div class="col-lg-4">
-				<li><img src="${prdInfo.image}" width="240" height="240"></li>
-
+				<img src="${prdInfo.image}" width="240" height="240">
 			</div>
 			<div class="col-lg-7">
-				<li><h3>${prdInfo.prdName}</h3></li>
-				<li>가격 : ${prdInfo.price}원</li>
+				<h3>${prdInfo.prdName}</h3>
+				가격 : ${prdInfo.price}원
 				<form name="amountForm" method="post">
 					<input type="hidden" id="prdPrice" name="prdPrice"
 						value="${prdInfo.price}"> <input type="button"
@@ -166,26 +199,35 @@
 					<br>총 가격 <input type="text" id="totalPrdPrice"
 						name="totalPrdPrice" value="${prdInfo.price}" style="" disabled>
 				</form>
+				<!-- 상품에서 직접 주문 -->
+				<form action="../order/orderByPrd.do" method="post">
+					<input type="hidden" id="prdNumber" name="prdNumber"
+						value="${prdInfo.prdNumber}"> <input type="hidden"
+						id="count" name="count" value="1"> <input type="hidden"
+						id="price" name="price" value="${prdInfo.price}"> <input
+						type="submit" id="orderDirect" class="btn btn-lg btn-warning" role="button"
+						value="구매하기" onclick="checkStock();">
+				</form>
 				<!-- 상품번호 장바구니로 전송 -->
-				<a class="btn btn-lg btn-warning"
-					href="../cart/addPrdToCart.do?prdNum=${prdNumber}" role="button">구매하기</a>
 				<form id="singleCart" name="singleCart" method="post"
 					action="../cart/addPrdToCart.do">
 					<input type="hidden" id="prdNumber" name="prdNumber"
 						value="${prdInfo.prdNumber}"> <input type="hidden"
 						id="prdAmount" name="prdAmount" value="1"> <input
 						type="hidden" id="cartPrice" name="cartPrice"
-						value="${prdInfo.price}"> <input type="submit"
+						value="${prdInfo.price}"> <input type="submit" id="toCart"
 						class="btn btn-lg btn-info" role="button" value="장바구니"
 						onclick="alertCartMsg();">
 				</form>
+				<h3 id="soldOut" style="display: none">품절된 상품입니다.</h3>
+				<input type="hidden" id="stock" value="${prdInfo.stock}">
 				<!-- <a class="btn btn-lg btn-info" href="#" role="button">장바구니</a> -->
 			</div>
 
 		</div>
 		<div class="jumbotron">
 			<h4 style="float: left">${prdInfo.text}</h4>
-			<p class="lead">${prdInfo.hitCount}명의고객님이이 상품을 확인하였습니다.</p>
+			<p class="lead">${prdInfo.hitCount}명의고객님이 이상품을 확인하였습니다.</p>
 		</div>
 
 		<!-- Site footer -->

@@ -32,8 +32,19 @@
 			FROM
 			    product
 			WHERE
+				ctgrNumber = #{ctgrNumber} and prdStatus = 2
+			ORDER BY hitCount DESC
+		]]>
+	</select>
+	<select id="dpPrdByPrice" parameterType="ojhmall.vo.Product" resultType="ojhmall.vo.Product">
+		<![CDATA[
+			SELECT
+				prdNumber, prdName, price, image, text, ctgrNumber, hitCount
+			FROM
+			    product
+			WHERE
 				ctgrNumber = #{ctgrNumber}
-			ORDER BY hitCount DESC;
+			ORDER BY price DESC;
 		]]>
 	</select>
 </mapper>

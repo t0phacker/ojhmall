@@ -64,10 +64,8 @@ public class UserServiceImpl implements UserService {
 		case 2:
 			return userDAO.getSellerInfo(userBaseInfo);
 		default:
-			System.out.println("There is no user information matched with id and password");
 			return null;
 		}
-		// return resultUserLogIn;
 	}
 	//관리자 회원정보 변경
 	@Override
@@ -111,5 +109,10 @@ public class UserServiceImpl implements UserService {
 			default:
 				System.out.println("no matching data");
 		}
+	}
+
+	@Override
+	public User getAdminAcc(User admin) throws Exception {
+		return userDAO.getAdminAcc(admin);
 	}
 }

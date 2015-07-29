@@ -69,6 +69,7 @@ public class CartServiceImpl implements CartService {
 			totalCartPrice += cartList.get(i).getCartPrice();
 		return totalCartPrice;
 	}
+	// 장바구니 총 배송비
 	@Override
 	public int calTotalDeliveryFee(List<Cart> cartList) throws Exception {
 		int totalDeliveryFee = 0;
@@ -76,16 +77,28 @@ public class CartServiceImpl implements CartService {
 			totalDeliveryFee += cartList.get(i).getDeliveryFee();
 		return totalDeliveryFee;
 	}
+	// 장바구니 삭제
 	@Override
 	public void removeCart(int cartNumber) throws Exception {
 		cartDAO.removeCart(cartNumber);
 	}
+	// 장바구니 선택
 	@Override
 	public Cart selectCart(int cartNumber) throws Exception {
 		return cartDAO.selectCart(cartNumber);
 	}
+	// 장바구니 업데이트
 	@Override
 	public void updateCart(Cart cart) throws Exception {
 		cartDAO.updateCart(cart);
+	}
+	// 전체주문시 장바구니 전체 삭제
+	@Override
+	public void removeCartList(String cartNumber) throws Exception {
+		// TODO Auto-generated method stub
+		String[] trimmedCartNumber = cartNumber.split("@");
+		for (int i = 0; i < trimmedCartNumber.length; i++) {
+			cartDAO.removeCart(Integer.parseInt(trimmedCartNumber[i]));
+		}
 	}
 }

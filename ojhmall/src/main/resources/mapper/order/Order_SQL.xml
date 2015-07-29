@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Order">
+	<!-- 주문서 생성 -->
+	<insert id="insertOrder" parameterType="ojhmall.vo.Order">
+		<![CDATA[
+			INSERT INTO sample.order
+				(userNumber, orderStatus, orderNewUser)
+			VALUES
+			    (#{userNumber}, #{orderStatus}, #{userNumber})
+		]]>
+	</insert>
+	<!-- 주문서 번호 가져오기 -->
+	<select id="exportOrderNumber" parameterType="ojhmall.vo.Order"
+		resultType="ojhmall.vo.Order">
+		<![CDATA[
+			SELECT 
+				MAX(orderNumber) as orderNumber
+			FROM 
+				sample.order
+			WHERE
+				userNumber = #{userNumber}
+		]]>
+	</select>
+	<insert id="insertOrderInfo" parameterType="ojhmall.vo.Order">
+		<![CDATA[
+			INSERT INTO product_has_order
+				(product_prdNumber, order_orderNumber, count, price, stock)
+			VALUES
+			    (#{prdNumber}, #{orderNumber}, #{count}, #{price}, #{stock})
+		]]>
+	</insert>
+	<!-- 주문상품 정보 확인 -->
+	<select id="getPrdInfo" parameterType="ojhmall.vo.Order"
+		resultType="ojhmall.vo.Order">
+		<![CDATA[
+			SELECT 
+				p.stock, p.price, p.image, p.prdName, u.id, p.prdNumber, u.userNumber as user_userNumber
+			FROM 
+				product p, user u
+			WHERE
+				p.prdNumber = #{prdNumber} and p.userNumber = u.userNumber
+		]]>
+	</select>
+	<!-- 추가 주문 정보 등록 -->
+	<insert id="setItemsIntoOrder" parameterType="ojhmall.vo.Order">
+		<![CDATA[
+			INSERT INTO product_has_order
+				(product_prdNumber, order_orderNumber, count, price, stock)
+			VALUES
+			    (#{prdNumber}, #{orderNumber}, #{count}, #{price}, #{stock})
+		]]>
+	</insert>
+	<select id="getOrderList" parameterType="ojhmall.vo.Order"
+		resultType="ojhmall.vo.Order">
+		<![CDATA[
+			SELECT 
+				o.count, o.price, p.image, p.prdName, u.id, p.prdNumber,
+				 u.userNumber as user_userNumber, o.order_orderNumber as orderNumber
+			FROM 
+				product p, user u, product_has_order o
+			WHERE
+				p.prdNumber = o.product_prdNumber and p.userNumber = u.userNumber and o.order_orderNumber = #{orderNumber}
+		]]>
+	</select>
+	<update id="updateOrderStatus" parameterType="ojhmall.vo.Order">
+		<![CDATA[
+			UPDATE
+				sample.order
+			SET
+				orderStatus = 2
+			WHERE
+				orderNumber = #{orderNumber}
+		]]>
+	</update>
+	<!-- 회원번호로 상품정보 불러오기 -->
+	<select id="getOrderByUser" parameterType="ojhmall.vo.User"
+		resultType="ojhmall.vo.Order">
+		<![CDATA[
+			SELECT
+				o.orderNumber, o.orderStatus, o.orderNewDate, o.userNumber, o.totalDelivery, 
+ 				pho.product_prdNumber as prdNumber, pho.count, pho.stock, pho.price, pho.deliveryFee,
+ 				p.userNumber as seller, p.prdName, p.image, p.stock, u.id
+			FROM 
+				sample.order o, product_has_order pho, product p, user u
+			WHERE o.orderStatus >= 2 and o.userNumber = #{userNumber}
+			and pho.order_orderNumber = o.orderNumber 
+			and p.prdNumber = pho.product_prdNumber and p.userNumber = u.userNumber;
+		]]>
+	</select>
+	<!-- 마이페이지에서 주문서 삭제 -->
+	<delete id="deleteOrder" parameterType="ojhmall.vo.Order">
+		<![CDATA[
+			DELETE
+			FROM product_has_order
+			WHERE product_prdNumber = #{prdNumber} and order_orderNumber = #{orderNumber}
+		]]>
+	</delete>
+	<!-- 배송비 업데이트 -->
+	<update id="updateDelAndPrc" parameterType="ojhmall.vo.Order">
+		<![CDATA[
+			UPDATE
+				sample.order
+			SET
+				totalDelivery = #{totalDelivery}, totalPrice = #{totalPrice}
+			WHERE
+				orderNumber = #{orderNumber}
+		]]>
+	</update>
+	<!-- 개별 주문번호 & 상품번호 결합 테이블 배송비 업데이트 -->
+	<update id="updateEachOrder" parameterType="ojhmall.vo.Order">
+		<![CDATA[
+			UPDATE
+				product_has_order
+			SET
+				deliveryFee = #{deliveryFee}
+			WHERE
+				order_orderNumber = #{orderNumber} and product_prdNumber = #{prdNumber}
+		]]>
+	</update>
+	<!-- 주문서 가격정보 불러오기 -->
+	<select id="getOrderPrice" parameterType="int" resultType="ojhmall.vo.Order">
+		<![CDATA[
+			SELECT 
+				o.totalPrice, o.totalDelivery, o.orderNumber
+			FROM 
+				sample.order o
+			WHERE
+				o.orderNumber = #{orderNumber}
+		]]>
+	</select>
+	<!-- 주문서 상태 3(결제확인)으로 변경 -->
+	<update id="updateOrderByPay" parameterType="ojhmall.vo.Order">
+		<![CDATA[
+			UPDATE
+				sample.order
+			SET
+				orderStatus = 3
+			WHERE
+				orderNumber = #{orderNumber}
+		]]>
+	</update>
+
+	<select id="getOrderForSeller" parameterType="ojhmall.vo.User"
+		resultType="ojhmall.vo.Order">
+		<![CDATA[
+			SELECT
+				o.orderNumber, o.orderStatus, o.userNumber,  
+ 				pho.product_prdNumber as prdNumber, pho.price, pho.deliveryFee,
+ 				p.userNumber as user_userNumber, p.prdName, p.image, p.stock, u.id,
+                pa.newDate as orderNewDate, s.accNumber
+			FROM 
+				sample.order o, product_has_order pho, product p, 
+                user u, payment pa, seller s
+			WHERE o.orderStatus >= 3 and p.userNumber = #{userNumber}
+				and pho.order_orderNumber = o.orderNumber 
+				and p.prdNumber = pho.product_prdNumber and o.userNumber = u.userNumber
+            	and pa.order_orderNumber = pho.order_orderNumber and pa.payStatus = 2
+            	and s.user_userNumber = p.userNumber                
+		]]>
+	</select>
+	
+	<update id="updateOrdered" parameterType="ojhmall.vo.Order">
+		<![CDATA[
+			UPDATE
+				sample.order
+			SET
+				orderStatus = #{orderStatus}
+			WHERE
+				orderNumber = #{orderNumber}
+		]]>
+	</update>
+</mapper>

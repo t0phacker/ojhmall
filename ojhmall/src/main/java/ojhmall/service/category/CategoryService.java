@@ -13,4 +13,6 @@ public interface CategoryService {
 
 	List<Product> dpPrd(Product prd) throws Exception;
 
+	List<Product> dpPrdByPrice(Product prd) throws Exception;
+
 }

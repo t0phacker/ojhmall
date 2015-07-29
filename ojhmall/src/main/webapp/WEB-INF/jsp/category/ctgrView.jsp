@@ -11,7 +11,6 @@
 <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 <meta name="description" content="">
 <meta name="author" content="">
-<link rel="icon" href="../../favicon.ico">
 
 <title>Cart</title>
 
@@ -29,7 +28,8 @@
 
 	<div class="container">
 		<div class="masthead">
-			<a href="#"><img src="../image/11st.png"></a>
+			<a href="http://localhost:8080/ojhmall"><img
+				src="../image/11st.png"></a>
 
 			<ul class="nav navbar-nav navbar-right">
 				<c:choose>
@@ -43,22 +43,27 @@
 				<c:choose>
 					<c:when test="${empty sessionScope.userLogInInfo.userName}">
 						<li><a href="../user/SiginUpForm.do">회원가입</a></li>
+						<li><a href="../cart/cartView.do">장바구니</a></li>
+						<li><a href="../mypage/mypageForCustomer.do">마이페이지</a></li>
 					</c:when>
 
 					<c:when test="${sessionScope.userLogInInfo.userType == 0}">
 						<li><a href="../user/AdminInfoForm.do">회원정보</a></li>
+						<li><a href="../cart/cartView.do">장바구니</a></li>
+						<li><a href="../mypage/mypageForAdmin.do">마이페이지</a></li>
 					</c:when>
 					<c:when test="${sessionScope.userLogInInfo.userType == 1}">
 						<li><a href="../user/CustomerInfoForm.do">회원정보</a></li>
+						<li><a href="../cart/cartView.do">장바구니</a></li>
+						<li><a href="../mypage/mypageForCustomer.do">마이페이지</a></li>
 					</c:when>
 					<c:when test="${sessionScope.userLogInInfo.userType == 2}">
 						<li><a href="../user/SellerInfoForm.do">회원정보</a></li>
+						<li><a href="../cart/cartView.do">장바구니</a></li>
+						<li><a href="../mypage/mypageForSeller.do">마이페이지</a></li>
 					</c:when>
 
 				</c:choose>
-				<li><a
-					href="../cart/cartView.do?userNumber=${sessionScope.userLogInInfo.userNumber}">장바구니</a></li>
-				<li><a href="#">마이페이지</a></li>
 			</ul>
 		</div>
 		<div class="masthead">
@@ -95,24 +100,34 @@
 				action="../product/prdSearch.do" method="POST">
 				<div class="form-group">
 					<input type="text" class="form-control" id="prdName" name="prdName"
-						placeholder="Search" value="${prdName}" />
+						placeholder="검색어를 입력하세요" value="${prdName}" />
 				</div>
-				<button type="submit" class="btn btn-default" onclick="search();">Submit</button>
+				<button type="submit" class="btn btn-default" onclick="search();">검색</button>
 			</form>
+			<ul class="nav navbar-nav navbar-right">
+				<li><h3>
+						<a href="ctgrView.do?ctgrVal=${ctgrNumber}"> <span class="label label-danger"
+							style="margin-right: 10px;">인기순</span>
+						</a>
+					</h3></li>
+				<li><h3>
+						<a href="ctgrViewByPrice.do?ctgrVal=${ctgrNumber}"> <span
+							class="label label-primary" style="margin-right: 30px;">가격순</span>
+						</a>
+					</h3></li>
+			</ul>
 		</div>
 		<!-- Jumbotron -->
-		<div class="jumbotron">
+		<div class="container">
+
 			<c:choose>
 				<c:when test="${fn:length(prdList) > 0 }">
 					<c:forEach items="${prdList}" var="row">
 						<div class="col-lg-4">
-							<a href=../product/prdView.do?prdNum=${row.prdNumber}>
-								<li><img src="${row.image}" width="240" height="240"></li>
-								<li><h3>${row.prdName}</h3></li>
-								<li>${row.price}원</li>
-								<li>${row.text}</li>
-							</a>
-								<li>관심지수 : ${row.hitCount}</li>
+							<a href=../product/prdView.do?prdNum=${row.prdNumber}> <img
+								src="${row.image}" width="240" height="240">
+								<h3>${row.prdName}</h3> <font color="orange">${row.price}원</font>
+							</a> 관심지수 : ${row.hitCount}
 						</div>
 					</c:forEach>
 				</c:when>

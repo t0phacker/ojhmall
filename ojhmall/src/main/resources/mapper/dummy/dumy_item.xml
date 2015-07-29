@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+insert into product (prdNumber, prdName, userNumber, price, stock, prdStatus, image, text,  newUser, updateUser, ctgrNumber)
+values (1, '[심쿵딜]빅사이즈 냉장고 반팔 티셔츠', 10, 5000, 30, 1, 'http://i.011st.com/ex_t/R/240x240/1/85/1/src/ak/8/1/5/6/6/0/378815660_L300_V20.jpg', '리원패션의 베스트 상품', 45, 45, 101);
+insert into product (prdNumber, prdName, userNumber, price, stock, prdStatus, image, text,  newUser, updateUser, ctgrNumber)
+values (2, '[레츠]슬림핏 페플럼 블라우스.올리브BL 빅사이즈[55~99] bs504/ 레츠', 10, 7900, 30, 1, 'http://i.011st.com/ex_t/R/250x250/1/85/1/src/ak/8/6/4/1/6/2/1275864162_B_V20.jpg', '자체제작으로 만들어진 차별화된 디자인과 최고급원단', 45, 45, 101);
+insert into product (prdNumber, prdName, userNumber, price, stock, prdStatus, image, text,  newUser, updateUser, ctgrNumber)
+values (3, '생지 엔진스타일 스키니진 스키니진 청바지 부츠컷 구제 밴드바지', 11, 14060, 30, 1, 'http://i.011st.com/ex_t/R/250x250/1/85/1/src/y/3/6/5/3/8/9/878365389_L300.jpg', '12시 이전 주문시 당일 배송', 45, 45, 101);
+insert into product (prdNumber, prdName, userNumber, price, stock, prdStatus, image, text,  newUser, updateUser, ctgrNumber)
+values (4, '[T멤버십 최대5천원할인][해냄] 정글만리 1~3권 세트/전자파차단스티커+형광펜 증정', 10, 36450, 30, 1, 'http://i.011st.com/ex_t/R/140x140/1/85/1/src/ak/6/4/6/6/0/0/1113646600_L300_V1.jpg', '거대한 중국 대륙을 종횡무진 가로질러 집필한 조정래 불후의 역작!', 56, 56, 501);
+insert into product (prdNumber, prdName, userNumber, price, stock, prdStatus, image, text,  newUser, updateUser, ctgrNumber)
+values (5, '원피스 ONE PIECE 77', 11, 4500, 30, 1, 'http://i.011st.com/ex_t/R/140x140/1/85/1/src/ak/8/4/9/5/0/8/1262849508_B_V10.jpg', '‘원피스’를 둘러싼 해양 액션 로망!!', 56, 56, 501);
+insert into product (prdNumber, prdName, userNumber, price, stock, prdStatus, image, text,  newUser, updateUser, ctgrNumber)
+values (6, '[시대에듀]TV광고보다 카카오스토리 self 마케팅', 10, 12600, 30, 1, 'http://i.011st.com/ex_t/R/140x140/1/85/1/src/ak/8/6/0/7/5/9/1253860759_L300.jpg', '왜 카카오스토리인가?', 56, 56, 501);
+insert into product (prdNumber, prdName, userNumber, price, stock, prdStatus, image, text,  newUser, updateUser, ctgrNumber)
+values (7, '(11번가단독/퍼프2ea추가증정)킬커버 파운웨어 쿠션 여름한정 기획세트', 14, 32000, 30, 1, 'http://i.011st.com/t/300_0/ak/0/9/7/5/0/0/1190097500_B_V9.jpg', '킬커버 쿠션 여름 기획세트 본품+리필(리퀴드 20g)+픽스미스트', 14, 14, 201);
+insert into product (prdNumber, prdName, userNumber, price, stock, prdStatus, image, text,  newUser, updateUser, ctgrNumber)
+values (8, '싸이닉 [기간한정특가! 4500원] 데일리퍼펙트썬크림SPF+ PA+++/6종 택 1/썬크림/썬젤/스킨/로션', 14, 4500, 0, 1, 'http://i.011st.com/t/300_0/ak/9/5/1/6/4/5/1279951645_B_V55.jpg', '바캉스 준비 필수! 싸이닉 퍼펙트 데일리 썬크림', 14, 14, 201);
+insert into product (prdNumber, prdName, userNumber, price, stock, prdStatus, image, text,  newUser, updateUser, ctgrNumber)
+values (9, '싸이닉 [1+1]산뜻한 남성용 썬 젤SPF50+/PA+++/백탁NO 강력한 남성 전용 썬크림', 14, 12900, 30, 1, 'http://i.011st.com/t/300_0/ak/8/2/4/3/7/3/1262824373_B_V2.jpg', '백탁, 번들거림, 끈적임 NO 산뜻한 남성용 썬젤', 14, 14, 201);
+insert into product (prdNumber, prdName, userNumber, price, stock, prdStatus, image, text,  newUser, updateUser, ctgrNumber)
+values (10, '[MD추천][완벽한 피지조절/모공커버]_[보송/산뜻/들뜸X]_이글립스 오일 컷 팩트_파우더/썬/파운데이션', 14, 32000, 30, 1, 'http://i.011st.com/t/300_0/ak/2/8/8/7/2/6/64288726_B_V54.gif', '초미립 파우더가 울퉁불퉁한 모공, 요철, 잔주름까지 가려주어 자꾸 만지고 싶은 매끄러운 피부 결로 표현', 14, 14, 201);
+insert into product (prdNumber, prdName, userNumber, price, stock, prdStatus, image, text,  newUser, updateUser, ctgrNumber)
+values (11, '메이블린 뉴욕 메이크업 모음전/메가아이 마스카라/매그넘 마스카라/사은품증정', 14, 4800, 1, 1, 'http://i.011st.com/t/300_0/aj/0/9/1/3/9/0/1185091390_B_V5.jpg', '오마이갓! 담을수록 늘어나는 혜택!', 14, 14, 201);
+
+
+insert into category (ctgrNumber, ctgrName, ctgrStatus, newUser)
+values (100, '의류', 0, 1);
+insert into category (ctgrNumber, ctgrName, ctgrStatus, newUser)
+values (200, '뷰티', 0, 1);
+insert into category (ctgrNumber, ctgrName, ctgrStatus, newUser)
+values (300, '식품', 0, 1);
+insert into category (ctgrNumber, ctgrName, ctgrStatus, newUser)
+values (400, '디지털', 0, 1);
+insert into category (ctgrNumber, ctgrName, ctgrStatus, newUser)
+values (500, '도서', 0, 1);
+insert into category (ctgrNumber, ctgrName, ctgrUpperNumber, ctgrStatus, newUser)
+values (101, '여성 의류', 100, 0, 1);
+insert into category (ctgrNumber, ctgrName, ctgrUpperNumber, ctgrStatus, newUser)
+values (102, '남성 의류', 100, 0, 1);
+insert into category (ctgrNumber, ctgrName, ctgrUpperNumber, ctgrStatus, newUser)
+values (201, '스킨 케어', 200, 0, 1);
+insert into category (ctgrNumber, ctgrName, ctgrUpperNumber, ctgrStatus, newUser)
+values (202, '메이크업', 200, 0, 1);
+insert into category (ctgrNumber, ctgrName, ctgrUpperNumber, ctgrStatus, newUser)
+values (301, '일반 식품', 300, 0, 1);
+insert into category (ctgrNumber, ctgrName, ctgrUpperNumber, ctgrStatus, newUser)
+values (302, '건강 식품', 300, 0, 1);
+insert into category (ctgrNumber, ctgrName, ctgrUpperNumber, ctgrStatus, newUser)
+values (401, 'PC', 400, 0, 1);
+insert into category (ctgrNumber, ctgrName, ctgrUpperNumber, ctgrStatus, newUser)
+values (402, '모바일', 400, 0, 1);
+insert into category (ctgrNumber, ctgrName, ctgrUpperNumber, ctgrStatus, newUser)
+values (501, '국내 도서', 500, 0, 1);
+insert into category (ctgrNumber, ctgrName, ctgrUpperNumber, ctgrStatus, newUser)
+values (502, '수입 도서', 500, 0, 1);
+
+이름 : [단독특가][남도별미]여수 간장돌게장 2.5kg(10~12마리)/40년전통/간장게장/양념게장/여수직배송!!
+이미지 : http://i.011st.com/t/300_0/ad/3/0/2/5/3/6/1067302536_B.jpg
+가격 : 23900
+수량 : 100
+설명 : 신선한 돌게만을 선별하여 40년 전통적인 방식을 그대로 고수하여 짜지도, 싱겁지도 않은 깔끔하면서도 감칠맛 나는 것이 저희 돌게장의 특징입니다.
+ -->

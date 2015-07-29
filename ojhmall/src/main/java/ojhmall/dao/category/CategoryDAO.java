@@ -29,4 +29,8 @@ public class CategoryDAO extends AbstractDAO {
 		return (List<Product>) selectList("Category.dpPrd", prd);
 	}
 
+	public List<Product> dpPrdByPrice(Product prd) {
+		return (List<Product>) selectList("Category.dpPrdByPrice", prd);
+	}
+
 }

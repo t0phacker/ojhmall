@@ -85,4 +85,8 @@ public class UserDAO extends AbstractDAO {
 	public void removeSeller(User user) {
 		update("signUp.removeSeller",user);
 	}
+
+	public Admin getAdminAcc(User admin) {
+		return (Admin) selectOne("logIn.getAdminAcc", admin);
+	}
 }

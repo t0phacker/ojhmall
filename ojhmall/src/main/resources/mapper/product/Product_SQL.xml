@@ -2,27 +2,100 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="Product">
-<!-- 상품 정보 추출 -->
-	<select id="showPrd" parameterType="ojhmall.vo.Product" resultType="ojhmall.vo.Product">
+	<!-- 상품 정보 추출 -->
+	<select id="showPrd" parameterType="ojhmall.vo.Product"
+		resultType="ojhmall.vo.Product">
 		<![CDATA[
 			SELECT
-				prdNumber, prdName, userNumber, price, image, text, ctgrNumber, hitCount
+				prdNumber, prdName, userNumber, price, image, text, ctgrNumber, hitCount, stock
 			FROM
 			    product
 			WHERE
 				prdNumber = #{prdNumber}
 		]]>
 	</select>
-<!-- 상품 검색 리스트 -->
-	<select id="schPrd" parameterType="ojhmall.vo.Product" resultType="ojhmall.vo.Product">
-		    SELECT  prdNumber, prdName, userNumber, price, image, text, ctgrNumber, hitCount FROM product
-		    <where>
-		          AND prdName like CONCAT('%', #{prdName} , '%')
-		    </where>
-		    ORDER BY hitCount DESC
-		</select>
-<!-- 상품 페이지 조회수 증가 -->		
+	<!-- 상품 검색 리스트 -->
+	<select id="schPrd" parameterType="ojhmall.vo.Product"
+		resultType="ojhmall.vo.Product">
+		SELECT prdNumber, prdName, userNumber, price, image, text, ctgrNumber,
+		hitCount FROM product
+		<where>
+			AND prdName like CONCAT('%', #{prdName} , '%')
+		</where>
+		ORDER BY hitCount DESC
+	</select>
+	<!-- 상품 페이지 조회수 증가 -->
 	<update id="updateHitCount" parameterType="ojhmall.vo.Product"> 
 		<![CDATA[ UPDATE product SET hitCount = ifnull(hitCount, 0) + 1 WHERE prdNumber = #{prdNumber} ]]>
+	</update>
+	<!-- 메인페이지 상품 불러오기, 조회수순으로 6개 -->
+	<select id="initPrd" parameterType="int" resultType="ojhmall.vo.Product">
+		SELECT
+		prdNumber, prdName, userNumber, price, image, text, ctgrNumber,
+		hitCount
+		FROM
+		product
+		ORDER BY hitCount DESC LIMIT #{initPrdCount}
+	</select>
+	<!-- 판매자가 등록한 상품 불러오기 -->
+	<select id="loadSellerPrd" parameterType="ojhmall.vo.User"
+		resultType="ojhmall.vo.Product">
+		SELECT p.prdNumber, p.prdName, p.userNumber, p.price, p.prdStatus,
+		p.stock, p.image, p.text, p.hitCount, p.newDate, c.ctgrName
+		FROM
+		product p, category c
+		WHERE
+		p.userNumber = #{userNumber} and
+		c.ctgrNumber = p.ctgrNumber
+	</select>
+	<!-- 상품등록 -->
+	<insert id="addPrd" parameterType="ojhmall.vo.Product">
+		INSERT INTO
+		product
+		(prdName, userNumber, price, stock, image, text, newUser, updateUser,
+		prdStatus, ctgrNumber)
+		VALUES
+		(#{prdName}, #{userNumber}, #{price},
+		#{stock},
+		#{image}, #{text}, #{userNumber}, #{userNumber}, 1, #{ctgrNumber})
+	</insert>
+	<!-- 상품 변경을 위한 상품 정보 불러오기 -->
+	<select id="getPrdInfo" parameterType="ojhmall.vo.Product"
+		resultType="ojhmall.vo.Product">
+		SELECT
+		*
+		FROM
+		product
+		WHERE
+		prdNumber = #{prdNumber}
+	</select>
+	<!-- 상품정보 변경 -->
+	<update id="updatePrdInfo" parameterType="ojhmall.vo.Product">
+		UPDATE
+		product
+		SET
+		prdName=#{prdName}, image=#{image}, price=#{price}, stock=#{stock}, text=#{text}
+		WHERE
+		prdNumber=#{prdNumber}
+	</update>
+	<!-- 관리자 상품 확인 -->
+	<select id="getPrdList" parameterType="int" resultType="ojhmall.vo.Product">
+		select
+		p.prdNumber, p.prdName, p.userNumber, p.ctgrNumber, p.price,
+		p.stock, p.prdStatus, p.image, p.text, p.hitCount, p.newDate,
+		u.id
+		from
+		product p, user u
+		where
+		p.userNumber = u.userNumber and prdStatus = #{prdStatus};
+	</select>
+
+	<update id="updatePrdStatus" parameterType="ojhmall.vo.Product">
+		UPDATE
+		product
+		SET
+		prdStatus = #{prdStatus}
+		WHERE
+		prdNumber=#{prdNumber}
 	</update>
 </mapper>

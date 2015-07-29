@@ -29,7 +29,7 @@
 
 	<div class="container">
 		<div class="masthead">
-			<a href="#"><img src="../image/11st.png"></a>
+			<a href="http://localhost:8080/ojhmall"><img src="../image/11st.png"></a>
 
 			<ul class="nav navbar-nav navbar-right">
 				<c:choose>
@@ -43,21 +43,27 @@
 				<c:choose>
 					<c:when test="${empty sessionScope.userLogInInfo.userName}">
 						<li><a href="../user/SiginUpForm.do">회원가입</a></li>
+						<li><a href="../cart/cartView.do">장바구니</a></li>
+						<li><a href="../mypage/mypageForCustomer.do">마이페이지</a></li>
 					</c:when>
 
 					<c:when test="${sessionScope.userLogInInfo.userType == 0}">
 						<li><a href="../user/AdminInfoForm.do">회원정보</a></li>
+						<li><a href="../cart/cartView.do">장바구니</a></li>
+						<li><a href="../mypage/mypageForAdmin.do">마이페이지</a></li>
 					</c:when>
 					<c:when test="${sessionScope.userLogInInfo.userType == 1}">
 						<li><a href="../user/CustomerInfoForm.do">회원정보</a></li>
+						<li><a href="../cart/cartView.do">장바구니</a></li>
+						<li><a href="../mypage/mypageForCustomer.do">마이페이지</a></li>
 					</c:when>
 					<c:when test="${sessionScope.userLogInInfo.userType == 2}">
 						<li><a href="../user/SellerInfoForm.do">회원정보</a></li>
+						<li><a href="../cart/cartView.do">장바구니</a></li>
+						<li><a href="../mypage/mypageForSeller.do">마이페이지</a></li>
 					</c:when>
 
 				</c:choose>
-				<li><a href="../cart/cartView.do?userNumber">장바구니</a></li>
-				<li><a href="#">마이페이지</a></li>
 			</ul>
 		</div>
 		<div class="masthead">
@@ -93,10 +99,10 @@
 			<form class="navbar-form navbar-left" id="form_search" role="search"
 				action="prdSearch.do" method="POST">
 				<div class="form-group">
-					<input type="text" class="form-control" id="prdName" name="prdName" placeholder="Search"
+					<input type="text" class="form-control" id="prdName" name="prdName" placeholder="검색어를 입력하세요"
 						value="${prdName}" />
 				</div>
-				<button type="submit" class="btn btn-default" onclick="search();">Submit</button>
+				<button type="submit" class="btn btn-default" onclick="search();">검색</button>
 			</form>
 		</div>
 		<!-- Jumbotron -->
@@ -112,10 +118,10 @@
 						</div>
 						<div class="col-lg-7">
 							<a href=../product/prdView.do?prdNum=${row.prdNumber}>
-								<li><h4>${row.prdName}</h4></li>
-								<li>${row.price}원</li>
-								<li>${row.text}</li>
-								<li>관심지수 : ${row.hitCount}</li>
+								<h4>${row.prdName}</h4>
+								<font color="orange">${row.price}원</font>
+								${row.text}
+								관심지수 : ${row.hitCount}
 							</a>
 						</div>
 					</c:forEach>

@@ -90,18 +90,115 @@
 		}
 	}
 	// 총 주문 금액
-	function totalPrice() {
+	function totalPrice(count) {
 		var priceTable = document.getElementById("priceTable");
-		var deliveryFee = priceTable.rows[1].cells[1].innerHTML;
+		var deliveryFee = 0;
+		
+		for (var g = 1; g <= count; g++) {
+			if (document.getElementById('c'+g).checked == true) {
+				var tempSeller = document.getElementById('seller'+g).value;
+				deliveryFee += parseInt(document.getElementById('delivery'+g).value);
+				for (var h = 1; h <= count; h++) {
+					if (tempSeller == document.getElementById('seller'+h).value
+							&& document.getElementById('c'+h).checked == true) {
+						deliveryFee += 0;
+					}
+					else if (document.getElementById('c'+h).checked == true){
+						deliveryFee += parseInt(document.getElementById('delivery'+h).value);
+					}
+				}
+				break;
+			}
+		}
 		priceTable.rows[1].cells[0].innerHTML = cartPrice + "원";
-		priceTable.rows[1].cells[2].innerHTML = cartPrice + deliveryFee;
+		priceTable.rows[1].cells[1].innerHTML = deliveryFee + "원";
+		priceTable.rows[1].cells[2].innerHTML = cartPrice + deliveryFee + "원";
+		document.getElementById('deliveryTotal').value = deliveryFee;
 	}
-	
+	// 장바구니 변경 창 출력
 	function changeCartWithPopUp(id) {
 		var cartId = document.getElementById(id).id;
 		var popUpAction = "/ojhmall/cart/changeCartView.do?cartNumber="+cartId;
 		var popUpOption = "width=500, height=600";
 		window.open(popUpAction,"",popUpOption);
+	}
+	// 체크박스 체크하여 주문정보 전달
+	function selectedCheck(count) {
+		var totalPrdNumber = "init";
+		var totalPrdAmount = "";
+		var totalCartPrice = "";
+		var totalCartNumber = "";
+		for (var t = 1; t <= count; t++) {
+			var tOrder = 'c' + t;
+			var getPNumber = 'prdN' + t;
+			var getPAmount = 'prdA' + t;
+			var getCartP = 'cartP' + t;
+			var getCNumber = 'cartN' + t;
+			
+			if (document.getElementById(tOrder).checked == true) {
+				if (totalPrdNumber == "init") {
+					totalPrdNumber = "";
+				}
+				else {
+					totalPrdNumber += "@";
+					totalPrdAmount += "@";
+					totalCartPrice += "@";
+					totalCartNumber += "@";
+				}
+				totalPrdNumber += document.getElementById(getPNumber).value;
+				totalPrdAmount += document.getElementById(getPAmount).value;
+				totalCartPrice += document.getElementById(getCartP).value;
+				totalCartNumber += document.getElementById(getCNumber).value;
+			}
+			document.getElementById("prdNumberTotal").value = totalPrdNumber;
+			document.getElementById("prdAmountTotal").value = totalPrdAmount;
+			document.getElementById("cartPriceTotal").value = totalCartPrice;
+			document.getElementById("cartNumberTotal").value = totalCartNumber;
+		}
+	}
+	// 배송비 체크
+	function calDelivery(count) {
+		var tempPrice = 0;
+		var cartCount = 0;
+		var cartTable = document.getElementById("cartTable");
+		for (var c = 1; c <= count; c++) {
+			tempPrice = 0;
+			var cOrder = 'c' + c;
+			var sellerNumber = 'seller' + c;
+			var cPrice = 'cartP' + c;
+			cartCount++;
+			if (document.getElementById(cOrder).checked == true) {
+				
+				var tempUserNumber = document.getElementById(sellerNumber).value;
+				tempPrice += parseInt(document.getElementById(cPrice).value);
+				
+				for (var d = 1; d <= count; d++) {
+					var dOrder = 'c' + d;
+					var sellerTemp = 'seller' + d;
+					if (document.getElementById(dOrder).checked == true
+							&& tempUserNumber == document.getElementById(sellerTemp).value
+							&& cartCount != d) {
+						tempPrice += parseInt(document.getElementById('cartP'+d).value);
+					}
+				}
+				if (tempPrice > 30000) {
+					for (var e = 1; e <= count; e++) {
+						if (document.getElementById('seller'+e).value == tempUserNumber) {
+							document.getElementById('delivery'+e).value = 0;
+							cartTable.rows[e].cells[4].innerHTML = "무료";
+						}
+					}
+				}
+				else {
+					for (var f = 1; f <= count; f++) {
+						if (document.getElementById('seller'+f).value == tempUserNumber) {
+							document.getElementById('delivery'+f).value = 3000;
+							cartTable.rows[f].cells[4].innerHTML = "3000원";
+						}
+					}
+				}
+			}
+		}
 	}
 </script>
 </head>
@@ -109,7 +206,7 @@
 
 	<div class="container">
 		<div class="masthead">
-			<a href="#"><img src="../image/11st.png"></a>
+			<a href="http://localhost:8080/ojhmall"><img src="../image/11st.png"></a>
 
 			<ul class="nav navbar-nav navbar-right">
 				<c:choose>
@@ -123,21 +220,27 @@
 				<c:choose>
 					<c:when test="${empty sessionScope.userLogInInfo.userName}">
 						<li><a href="../user/SiginUpForm.do">회원가입</a></li>
+						<li><a href="cartView.do">장바구니</a></li>
+						<li><a href="../mypage/mypageForCustomer.do">마이페이지</a></li>
 					</c:when>
 
 					<c:when test="${sessionScope.userLogInInfo.userType == 0}">
 						<li><a href="../user/AdminInfoForm.do">회원정보</a></li>
+						<li><a href="cartView.do">장바구니</a></li>
+						<li><a href="../mypage/mypageForAdmin.do">마이페이지</a></li>
 					</c:when>
 					<c:when test="${sessionScope.userLogInInfo.userType == 1}">
 						<li><a href="../user/CustomerInfoForm.do">회원정보</a></li>
+						<li><a href="cartView.do">장바구니</a></li>
+						<li><a href="../mypage/mypageForCustomer.do">마이페이지</a></li>
 					</c:when>
 					<c:when test="${sessionScope.userLogInInfo.userType == 2}">
 						<li><a href="../user/SellerInfoForm.do">회원정보</a></li>
+						<li><a href="cartView.do">장바구니</a></li>
+						<li><a href="../mypage/mypageForSeller.do">마이페이지</a></li>
 					</c:when>
 
 				</c:choose>
-				<li><a href="cartView.do">장바구니</a></li>
-				<li><a href="#">마이페이지</a></li>
 			</ul>
 		</div>
 		<div class="masthead">
@@ -159,9 +262,7 @@
 													href="../category/ctgrView.do?ctgrVal=${col.ctgrNumber }">${col.ctgrName }</a></li>
 											</c:if>
 										</c:forEach>
-
 									</ul></li>
-
 							</c:forEach>
 						</c:when>
 					</c:choose>
@@ -174,9 +275,9 @@
 				action="../product/prdSearch.do" method="POST">
 				<div class="form-group">
 					<input type="text" class="form-control" id="prdName" name="prdName"
-						placeholder="Search" value="${prdName}" />
+						placeholder="검색어를 입력하세요" value="${prdName}" />
 				</div>
-				<button type="submit" class="btn btn-default" onclick="search();">Submit</button>
+				<button type="submit" class="btn btn-default" onclick="search();">검색</button>
 			</form>
 		</div>
 		<!-- 장바구니 테이블 -->
@@ -187,7 +288,7 @@
 						<tr>
 							<th><label for="checkAll"><input type="checkbox"
 									name="checkAll" id="checkAll"
-									onclick="check(${fn:length(cartList)});totalPrice();countCheck(this.id);"
+									onclick="check(${fn:length(cartList)});totalPrice(${fn:length(cartList)});countCheck(this.id);"
 									title="전체상품선택"></label></th>
 							<th>상품정보</th>
 							<th>수량</th>
@@ -204,31 +305,40 @@
 									<tr id="cartTR">
 										<td><input type="checkbox" name="c${status.count}"
 											value="${row.cartPrice}" id="c${status.count}"
-											onclick="sumPrice(this.id);totalPrice();countCheck(this.id);"></td>
+											onclick="sumPrice(this.id);calDelivery(${fn:length(cartList)});totalPrice(${fn:length(cartList)});countCheck(this.id);"></td>
 										<td width=40% height="120"><img style="float: left"
 											src="${row.image }" width="120" height="120">
 											<h5>${row.prdName}</h5></td>
 										<td>${row.prdAmount}개<br> <a class="btn btn-default"
 											id="${row.cartNumber}" target="Window" role="button"
-											onclick="changeCartWithPopUp(this.id)">변경</a>
+											onclick="changeCartWithPopUp(this.id)">변경</a> <input
+											type="hidden" id="prdA${status.count}"
+											value="${row.prdAmount}"> <input type="hidden"
+											id="prdN${status.count}" value="${row.prdNumber}"> <input
+											type="hidden" id="cartN${status.count}"
+											value="${row.cartNumber}">
 										</td>
-										<td>${row.cartPrice}원</td>
+										<td>${row.cartPrice}원<input type="hidden"
+											id="cartP${status.count}" value="${row.cartPrice}">
+										</td>
 										<c:if test="${row.deliveryFee == 0}">
 											<td>무료</td>
 										</c:if>
 										<c:if test="${row.deliveryFee != 0}">
-											<td>${row.deliveryFee}</td>
+											<td>${row.deliveryFee}원</td>
 										</c:if>
-
-										<td>${row.id}</td>
-										<td>
-											<button type="submit" class="btn btn-danger" onclick="">주문하기</button>
+										<td>${row.id}<input type="hidden"
+											id="delivery${status.count }" value="${row.deliveryFee }">
+											<input type="hidden" id="seller${status.count}"
+											value="${row.user_userNumber}">
+										</td>
+										<td><a class="btn btn-danger"
+											href="../order/orderOneFromCart.do?cartNumber=${row.cartNumber}">주문하기</a>
 											<br> <input type="hidden" id="cartNumber"
 											name="cartNumber" value="${row.cartNumber}"> <a
 											class="btn btn-default"
 											href="deleteCart.do?cartNumber=${row.cartNumber}"
-											role="button">삭제하기</a>
-										</td>
+											role="button">삭제하기</a></td>
 									</tr>
 								</c:forEach>
 							</c:when>
@@ -249,10 +359,8 @@
 					</tr>
 				</thead>
 			</table>
-			<a class="btn btn-default"
-				href="/deleteCart.do?cartNumber=${row.cartNumber}" role="button">삭제하기</a>
 		</div>
-
+		<!-- 가격 정보 -->
 		<div class="col-md-12">
 			<form>
 				<table class="table table-bordered" id="priceTable">
@@ -271,6 +379,27 @@
 						</tr>
 					</tbody>
 				</table>
+			</form>
+		</div>
+		<div class="col-md-12" style="text-align: right">
+			<form id="selectedOrder" action="../order/orderFromCartSelected.do"
+				method="post">
+				<input type="hidden" id="prdNumberTotal" name="prdNumberTotal"
+					value=""> <input type="hidden" id="prdAmountTotal"
+					name="prdAmountTotal" value=""> <input type="hidden"
+					id="cartPriceTotal" name="cartPriceTotal" value=""> <input
+					type="hidden" id="cartNumberTotal" name="cartNumberTotal" value="">
+				<input type="hidden" id="deliveryTotal" name="deliveryTotal"
+					value="${totalDeliveryFee}">
+				<button type="submit" class="btn btn-danger"
+					onclick="selectedCheck(${fn:length(cartList)})">선택상품주문</button>
+
+			</form>
+			<form id="totalOrder" action="../order/orderFromCartTotal.do"
+				method="post">
+				<input type="hidden" id="deliveryTotal" name="deliveryTotal"
+					value="${totalDeliveryFee}"> <input type="submit"
+					class="btn btn-success" value="전체상품주문" role="button">
 			</form>
 		</div>
 	</div>

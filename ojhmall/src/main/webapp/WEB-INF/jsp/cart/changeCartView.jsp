@@ -18,37 +18,109 @@
 <!-- Bootstrap core CSS -->
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-<link rel="stylesheet"
-	href=".https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/jumbotron-narrow.css">
-<link href="css/justified-nav.css" rel="stylesheet">
-<!-- Custom styles for this template -->
-<link href="css/theme.css" rel="stylesheet">
 
 <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
-<!-- 검색 js -->
-<script src="js/ojhfunction.js"></script>
 <script type="text/javascript">
-	var prdAmount = 1;
-	var totalPrice = 1;
-	// 상품 수량 증가
-	function plusPrdAmount(id) {
-		prdAmount = document.getElementById(id).value;
+function plusPrdAmount(id) {
+	prdAmount = parseInt(document.getElementById(id).value);
+	if (parseInt(prdAmount) < parseInt(prdStock)) {
 		prdAmount++;
 		document.getElementById(id).value = prdAmount;
 	}
-	// 상품 수량 감소
-	function minusPrdAmount(id) {
-		prdAmount = document.getElementById(id).value;
-		if (prdAmount > 1) {
-			prdAmount--;
-			document.getElementById(id).value = prdAmount;
-		} else {
-			alert("최소수량은 1 이상입니다.");
-			prdAmount = 1;
-		}
-
+	else {
+		alert("재고수량이 " + prdStock + "개 입니다. 더 이상 선택하실 수 없습니다.");
+		prdAmount = 1;
+		document.getElementById(id).value = prdAmount;
+		
 	}
+}
+// 상품 수량 감소
+function minusPrdAmount(id) {
+	prdAmount = document.getElementById(id).value;
+	if (prdAmount > 1) {
+		prdAmount--;
+		document.getElementById(id).value = prdAmount;
+	} else {
+		alert("최소수량은 1 이상입니다.");
+		prdAmount = 1;
+	}
+}
+</script>
+
+</head>
+
+<body>
+
+	<div class="container">
+		<div class="col-md-12">
+			<form name="cartForm">
+				<table class="table table-striped" id="cartTable">
+					<thead>
+						<tr>
+							<th>상품정보</th>
+							<th>상품금액</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td width=75% height="120"><img style="float: left"
+								src="${selectedCart.image }" width="120" height="120">
+								<h5>${selectedCart.prdName}</h5></td>
+							<td>${selectedCart.price}원</td>
+						</tr>
+						<tr>
+							<td>수량</td>
+							<td>총합계금액</td>
+						</tr>
+						<tr>
+							<td><input type="hidden" id="prdPrice" name="prdPrice"
+								value="${selectedCart.price}"> <input type="button"
+								class="btn btn-xs btn-default" id="minusPrdBtn"
+								name="minusPrdBtn" role="button" value="-"
+								onclick="minusPrdAmount('amount'); calPrdPrice('prdPrice'); printPrice('cartTable');sendInfo();">
+								<input type="text" id="amount" name="amount"
+								value="${selectedCart.prdAmount}"
+								style="width: 60px; height: 30px;"> <input type="button"
+								class="btn btn-xs btn-default" id="plusPrdBtn" name="plusPrdBtn"
+								role="button" value="+"
+								onclick="plusPrdAmount('amount'); calPrdPrice('prdPrice');printPrice('cartTable');sendInfo();">
+								
+							</td>
+							<td>${selectedCart.cartPrice}원</td>
+						</tr>
+					</tbody>
+				</table>
+			</form>
+			<input type="hidden" id="stock" value="${selectedCart.stock }">
+			<form method="GET" action="updateCart.do">
+				<div style="text-align: center">
+					<input type="hidden" id="prdAmount" name="prdAmount"
+						value="${selectedCart.prdAmount}"> <input type="hidden"
+						id="cartNumber" name="cartNumber"
+						value="${selectedCart.cartNumber}"> <input type="hidden"
+						id="cartPrice" name="cartPrice" value="${selectedCart.cartPrice}">
+					<input type="submit" class="btn btn-danger" value="변경하기"
+						onclick="sendForm()"> <a class="btn btn-default"
+						onclick="window.close()">닫기</a>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	<script src="../../../js/bootstrap.min.js"></script>
+
+	<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+	
+	<script type="text/javascript">
+	var totalPrice = 1;
+	var prdAmount = 1;
+	var prdStock = parseInt(document.getElementById('stock').value);
+
+	// 상품 수량 증가
+	
 	// 상품 가격 계산
 	function calPrdPrice(id) {
 		var prdPrice = document.getElementById(id).value;
@@ -88,71 +160,5 @@
 		}
 	}
 </script>
-</head>
-
-<body>
-
-	<div class="container">
-		<div class="col-md-12">
-			<form name="cartForm">
-				<table class="table table-striped" id="cartTable">
-					<thead>
-						<tr>
-							<th>상품정보</th>
-							<th>상품금액</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td width=75% height="120"><img style="float: left"
-								src="${selectedCart.image }" width="120" height="120">
-								<h5>${selectedCart.prdName}</h5></td>
-							<td>${selectedCart.price}원</td>
-						</tr>
-						<tr>
-							<td>수량</td>
-							<td>총합계금액</td>
-						</tr>
-						<tr>
-							<td><input type="hidden" id="prdPrice" name="prdPrice"
-								value="${selectedCart.price}"> <input type="button"
-								class="btn btn-xs btn-default" id="minusPrdBtn"
-								name="minusPrdBtn" role="button" value="-"
-								onclick="minusPrdAmount('amount'); calPrdPrice('prdPrice'); printPrice('cartTable');sendInfo();">
-								<input type="text" id="amount" name="amount"
-								value="${selectedCart.prdAmount}"
-								style="width: 60px; height: 30px;"> <input type="button"
-								class="btn btn-xs btn-default" id="plusPrdBtn" name="plusPrdBtn"
-								role="button" value="+"
-								onclick="plusPrdAmount('amount'); calPrdPrice('prdPrice');printPrice('cartTable');sendInfo();">
-							</td>
-							<td>${selectedCart.cartPrice}원</td>
-						</tr>
-					</tbody>
-				</table>
-			</form>
-			<form method="GET" action="updateCart.do">
-				<div style="text-align: center">
-					<input type="text" id="prdAmount" name="prdAmount"
-						value="${selectedCart.prdAmount}"> 
-						<input type="text"
-						id="cartNumber" name="cartNumber"
-						value="${selectedCart.cartNumber}"> 
-						<input type="text"
-						id="cartPrice" name="cartPrice" value="${selectedCart.cartPrice}">
-					<input type="submit" class="btn btn-danger" value="변경하기"
-						onclick="sendForm()"> 
-						<a class="btn btn-default"
-						onclick="window.close()">닫기</a>
-				</div>
-			</form>
-		</div>
-	</div>
-
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-	<script src="js/bootstrap.min.js"></script>
-
-	<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
 </body>
 </html>
