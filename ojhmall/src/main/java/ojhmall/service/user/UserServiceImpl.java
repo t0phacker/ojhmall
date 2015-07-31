@@ -51,13 +51,14 @@ public class UserServiceImpl implements UserService {
 		//ID와 Password로 유저 기본 정보 조회, userType 변수 추출
 		User userBaseInfo = userDAO.getUserBaseInfo(user);
 		userBaseInfo.setUserType();
-		
+		System.out.println(userBaseInfo.getUserTypeNum());
 		switch (userBaseInfo.getUserType()) {
 		case ADMIN://줄이기 유저 객체 상속, 
 			userBaseInfo = userDAO.getAdminInfo(userBaseInfo);
 			break;
 		case CUSTOMER:
 			userBaseInfo = userDAO.getCustomerInfo(userBaseInfo);
+			System.out.println(userBaseInfo.getUserTypeNum());
 			break;
 		case SELLER:
 			userBaseInfo = userDAO.getSellerInfo(userBaseInfo);

@@ -51,17 +51,17 @@
 						<li><a href="mypageForCustomer.do">마이페이지</a></li>
 					</c:when>
 
-					<c:when test="${sessionScope.userLogInInfo.userType == 0}">
+					<c:when test="${sessionScope.userLogInInfo.userType == 'ADMIN'}">
 						<li><a href="../user/AdminInfoForm.do">회원정보</a></li>
 						<li><a href="../cart/cartView.do">장바구니</a></li>
 						<li><a href="mypageForAdmin.do">마이페이지</a></li>
 					</c:when>
-					<c:when test="${sessionScope.userLogInInfo.userType == 1}">
+					<c:when test="${sessionScope.userLogInInfo.userType == 'CUSTOMER'}">
 						<li><a href="../user/CustomerInfoForm.do">회원정보</a></li>
 						<li><a href="../cart/cartView.do">장바구니</a></li>
 						<li><a href="mypageForCustomer.do">마이페이지</a></li>
 					</c:when>
-					<c:when test="${sessionScope.userLogInInfo.userType == 2}">
+					<c:when test="${sessionScope.userLogInInfo.userType == 'SELLER'}">
 						<li><a href="../user/SellerInfoForm.do">회원정보</a></li>
 						<li><a href="../cart/cartView.do">장바구니</a></li>
 						<li><a href="mypageForSeller.do">마이페이지</a></li>

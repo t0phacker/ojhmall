@@ -16,7 +16,7 @@
 	<select id="getAdminInfo" parameterType="ojhmall.vo.User" resultType="ojhmall.vo.Admin">
 		<![CDATA[
 			SELECT
-				u.userNumber, u.id, u.userPassword, u.userName, u.userType as userTypeNumber, a.adminType, a.accNumber
+				u.userNumber, u.id, u.userPassword, u.userName, u.userType as userTypeNum, a.adminType, a.accNumber
 			FROM
 			    user u, admin a
 			WHERE u.userNumber=a.user_userNumber and id=#{id} and userPassword=#{userPassword}
@@ -26,7 +26,7 @@
 	<select id="getCustomerInfo" parameterType="ojhmall.vo.User" resultType="ojhmall.vo.Customer">
 		<![CDATA[
 			SELECT
-				u.userNumber, u.id, u.userPassword, u.userName, u.userType as userTypeNumber, c.phNumber, c.address, c.zipCode
+				u.userNumber, u.id, u.userPassword, u.userName, u.userType as userTypeNum, c.phNumber, c.address, c.zipCode
 			FROM
 			    user u, customer c
 			WHERE u.userNumber=c.user_userNumber and id=#{id} and userPassword=#{userPassword}
@@ -36,7 +36,7 @@
 	<select id="getSellerInfo" parameterType="ojhmall.vo.User" resultType="ojhmall.vo.Seller">
 		<![CDATA[
 			SELECT
-				u.userNumber, u.id, u.userPassword, u.userName, u.userType as userTypeNumber, s.phNumber, s.address, s.zipCode, s.accNumber, s.bizNumber
+				u.userNumber, u.id, u.userPassword, u.userName, u.userType as userTypeNum, s.phNumber, s.address, s.zipCode, s.accNumber, s.bizNumber
 			FROM
 			    user u, seller s
 			WHERE u.userNumber=s.user_userNumber and id=#{id} and userPassword=#{userPassword}
