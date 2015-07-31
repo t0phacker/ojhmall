@@ -6,14 +6,7 @@ public class Seller extends User {
 	private String zipCode; //우편번호
 	private String bizNumber; //사업자번호
 	private String accNumber; //계좌번호
-	private int userType; //회원구분
 	
-	public int getUserType() {
-		return userType;
-	}
-	public void setUserType(int userType) {
-		this.userType = userType;
-	}
 	public String getPhNumber() {
 		return phNumber;
 	}

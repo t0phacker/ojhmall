@@ -1,7 +1,5 @@
 package ojhmall.service.user;
 
-import java.util.Map;
-
 import ojhmall.vo.Admin;
 import ojhmall.vo.Customer;
 import ojhmall.vo.Seller;
@@ -12,7 +10,6 @@ public interface UserService {
     //
 	void setCustomer(Customer customer) throws Exception;
 	
-	Map<String, Object> selectMaxNum(Map<String, Object> map) throws Exception;
 	//
 	void setSeller(Seller seller) throws Exception;
  

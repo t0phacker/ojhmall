@@ -1,6 +1,5 @@
 package ojhmall.controller.user;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -29,7 +28,7 @@ public class UserController {
 
 	// 회원 가입 선택 화면
 	@RequestMapping(value = "/user/SiginUpForm.do")
-	public ModelAndView openSignInForm(Map<String, Object> commandMap)
+	public ModelAndView openSignInForm()
 			throws Exception {
 		ModelAndView mv = new ModelAndView("/user/SignUpForm");
 
@@ -38,7 +37,7 @@ public class UserController {
 
 	// 구매자 회원가입 화면으로 이동
 	@RequestMapping(value = "/user/CustomerSignUpForm.do")
-	public ModelAndView goCustomerSign(Map<String, Object> commandMap)
+	public ModelAndView goCustomerSign()
 			throws Exception {
 		ModelAndView mv = new ModelAndView("/user/CustomerSignUpForm");
 
@@ -47,7 +46,7 @@ public class UserController {
 
 	// 판매자 회원가입 화면으로 이동
 	@RequestMapping(value = "/user/SellerSignUpForm.do")
-	public ModelAndView goSellerSign(Map<String, Object> commandMap)
+	public ModelAndView goSellerSign()
 			throws Exception {
 		ModelAndView mv = new ModelAndView("/user/SellerSignUpForm");
 
@@ -69,10 +68,6 @@ public class UserController {
 	public ModelAndView setSeller(Seller seller) throws Exception {
 		ModelAndView mv = new ModelAndView(
 				"redirect:http://localhost:8080/ojhmall/");
-		Map<String, Object> map = new HashMap<String, Object>();
-		map = userService.selectMaxNum(map);
-
-		seller.setUserNumber((Integer) map.get("UserNumber") + 1);
 		userService.setSeller(seller);
 
 		return mv;
@@ -92,13 +87,14 @@ public class UserController {
 			HttpServletRequest request) throws Exception {
 		ModelAndView mv = new ModelAndView(
 				"redirect:http://localhost:8080/ojhmall/");
+		
 		try {
 			User userLogCheck = userService.findByIdAndPw(user);
-			
 			if (userLogCheck != null) {
 				session.setAttribute("userLogInInfo", userLogCheck);
 			}
 		} catch (Exception e) {
+			System.out.println("Exception?");
 			return mv;
 		}
 		

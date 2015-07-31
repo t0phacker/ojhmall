@@ -52,12 +52,12 @@ public class PayController {
 		orderList = orderService.calTotalDel(orderList); // 상품별 배송비 계산
 		int totalPrice = orderService.calTotalPrice(orderList);
 		cartService.removeCartList(cartNumber); // 주문된 카트리스트 삭제
-		User admin = new User();
-		admin.setUserType(0);
-		admin = userService.getAdminAcc(admin); // 관리자 정보 조회하여 입금 계좌번호 출력
+		//User admin = new User();
+		//admin.setUserType(0);
+		//admin = userService.getAdminAcc(admin); // 관리자 정보 조회하여 입금 계좌번호 출력
 		orderService.updateDelAndPrc(orderList); // 주문 묶음 및 개별 주문 배송비 책정
 		
-		mv.addObject("adminInfo", admin);
+		//mv.addObject("adminInfo", admin);
 		mv.addObject("totalPrice", totalPrice);
 		mv.addObject("userInfo", user);
 		mv.addObject("orderList", orderList);
@@ -78,14 +78,14 @@ public class PayController {
 		orderList = orderService.calTotalDel(orderList); // 상품별 배송비 계산
 		int totalPrice = orderService.calTotalPrice(orderList);
 		
-		User admin = new User();
-		admin.setUserType(0);
-		admin = userService.getAdminAcc(admin); // 관리자 정보 조회하여 입금 계좌번호 출력
+		//User admin = new User();
+		//admin.setUserType(0);
+		//admin = userService.getAdminAcc(admin); // 관리자 정보 조회하여 입금 계좌번호 출력
 		
 		cartService.removeCart(cartNumber); // 주문된 장바구니 삭제
 		orderService.updateDelAndPrc(orderList);
 		
-		mv.addObject("adminInfo", admin);
+		//mv.addObject("adminInfo", admin);
 		mv.addObject("totalPrice", totalPrice);
 		mv.addObject("userInfo", user);
 		mv.addObject("orderList", orderList);
@@ -107,12 +107,12 @@ public class PayController {
 		int totalPrice = orderService.calTotalPrice(orderList);
 		
 		
-		User admin = new User();
-		admin.setUserType(0);
-		admin = userService.getAdminAcc(admin); // 관리자 정보 조회하여 입금 계좌번호 출력
+		//User admin = new User();
+		//admin.setUserType(0);
+		//admin = userService.getAdminAcc(admin); // 관리자 정보 조회하여 입금 계좌번호 출력
 		orderService.updateDelAndPrc(orderList);
 		
-		mv.addObject("adminInfo", admin);
+		//mv.addObject("adminInfo", admin);
 		mv.addObject("totalPrice", totalPrice);
 		mv.addObject("userInfo", user);
 		mv.addObject("orderList", orderList);
@@ -126,13 +126,13 @@ public class PayController {
     		HttpSession session) throws Exception{
         ModelAndView mv = new ModelAndView("/pay/payByBank");
         
-        User admin = new User();
-		admin.setUserType(0);
-		admin = userService.getAdminAcc(admin); // 관리자 정보 조회하여 입금 계좌번호 출력
+       // User admin = new User();
+		//admin.setUserType(0);
+		//admin = userService.getAdminAcc(admin); // 관리자 정보 조회하여 입금 계좌번호 출력
 		Order order = orderService.getOrderPrice(orderNumber); // 주문 가격정보 불러오기
 		User user = (User) session.getAttribute("userLogInInfo");
 		mv.addObject("orderInfo", order);
-		mv.addObject("adminInfo", admin);
+		//mv.addObject("adminInfo", admin);
 		mv.addObject("userInfo", user);
         return mv;
 	}

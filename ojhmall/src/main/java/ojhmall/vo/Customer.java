@@ -4,14 +4,6 @@ public class Customer extends User {
 	private String phNumber; //전화번호
 	private String address; //주소
 	private String zipCode; //우편번호
-	private int userType; //회원구분
-	
-	public int getUserType() {
-		return userType;
-	}
-	public void setUserType(int userType) {
-		this.userType = userType;
-	}
 	
 	public String getPhNumber() {
 		return phNumber;

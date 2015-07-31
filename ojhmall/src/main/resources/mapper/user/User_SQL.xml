@@ -5,7 +5,8 @@
 	<select id="selectMaxNum" parameterType="hashmap" resultType="hashmap"> 
 		<![CDATA[ SELECT MAX(UserNumber) AS UserNumber FROM user ]]>
 	</select>
-	<insert id="insertUser" parameterType="ojhmall.vo.Customer">
+	<!-- 회원정보 입력 -->
+	<insert id="insertUser" parameterType="ojhmall.vo.User" >
     <![CDATA[
         INSERT INTO user
         (
@@ -20,7 +21,7 @@
         )
         VALUES
         (
-            1, 
+            #{userType}, 
             #{id},
             #{userPassword},
             #{userName},
@@ -31,9 +32,24 @@
         )
     ]]>
 	</insert>
-
-	<update id="updateUser" parameterType="ojhmall.vo.Customer"> 
-		<![CDATA[ UPDATE user SET newUSER = #{userNumber} WHERE userNumber = #{userNumber} ]]>
+	
+	<select id ="selectUserNum" parameterType="ojhmall.vo.User" resultType="int">
+		SELECT 
+			userNumber
+		FROM
+			user
+		WHERE
+			id = #{id} and userPassword = #{userPassword}
+	</select>
+	<update id="updateUser" parameterType="ojhmall.vo.User"> 
+		<![CDATA[ 
+			UPDATE
+		 		user 
+		 	SET 
+		 		newUSER = #{userNumber}, updateUser = #{userNumber}
+		 	WHERE 
+		 		userNumber = #{userNumber} 
+		 ]]>
 	</update>
 
 	<insert id="insertCustomer" parameterType="ojhmall.vo.Customer">

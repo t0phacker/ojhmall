@@ -2,11 +2,41 @@ package ojhmall.vo;
 
 public class User {
 	String inputEmail;
-	private int userType; // 회원구분
+	private UserType userType; // 회원구분
 	private int userNumber; // 회원번호
 	private String id; // 아이디(email)
 	private String userPassword; // 비밀번호
 	private String userName; // 이름
+	private int userTypeNum;
+
+	public int getUserTypeNum() {
+		return userTypeNum;
+	}
+
+	public void setUserTypeNum(int userTypeNum) {
+		this.userTypeNum = userTypeNum;
+	}
+
+	public UserType getUserType() {
+		return userType;
+	}
+
+	public void setUserType() {
+		switch (userTypeNum) {
+		case 0:
+			this.userType = UserType.ADMIN;
+			break;
+		case 1:
+			this.userType = UserType.CUSTOMER;
+			break;
+		case 2:
+			this.userType = UserType.SELLER;
+			break;
+		default:
+			this.userType = UserType.ADMIN;
+			break;
+		}
+	}
 
 	public int getUserNumber() {
 		return userNumber;
@@ -38,14 +68,6 @@ public class User {
 
 	public void setUserName(String userName) {
 		this.userName = userName;
-	}
-
-	public int getUserType() {
-		return userType;
-	}
-
-	public void setUserType(int userType) {
-		this.userType = userType;
 	}
 
 	public String getInputEmail() {

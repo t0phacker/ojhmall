@@ -36,6 +36,7 @@
 		<form id="frm" class="form-signin" method="post"
 			action="insertSeller.do">
 			<h2 class="form-signin-heading">Please sign up</h2>
+			<input	type="hidden" id="userType" name="userType" value="2">
 			<h4>ID</h4>
 			<input type="email" id="id" name="id" class="form-control"
 				placeholder="Email address" required autofocus>
