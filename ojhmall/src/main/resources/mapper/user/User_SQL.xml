@@ -2,9 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="signUp">
-	<select id="selectMaxNum" parameterType="hashmap" resultType="hashmap"> 
-		<![CDATA[ SELECT MAX(UserNumber) AS UserNumber FROM user ]]>
-	</select>
 	<!-- 회원정보 입력 -->
 	<insert id="insertUser" parameterType="ojhmall.vo.User" >
     <![CDATA[
@@ -21,7 +18,7 @@
         )
         VALUES
         (
-            #{userType}, 
+            #{userTypeNum}, 
             #{id},
             #{userPassword},
             #{userName},
@@ -175,6 +172,5 @@
         values(#{test})
     ]]>
 	</insert>
-	<!-- #{phNum}, #{address}, #{zipCode} -->
 </mapper>
 

@@ -7,15 +7,14 @@ import ojhmall.vo.User;
 
 import org.springframework.stereotype.Service;
 
-@Service("userInfoService")
+@Service("adminUserInfoService")
 public class AdminInfoServiceImpl implements UserInfoService {
 	
 	@Resource(name = "userDAO")
 	UserDAO userDAO;
 
 	@Override
-	public User getUserWholeInfo(User user) throws Exception {
-		System.out.println("admin");
+	public User getUserAllInfo(User user) throws Exception {
 		return userDAO.getAdminInfo(user);
 	}
 }

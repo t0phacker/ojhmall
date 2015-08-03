@@ -62,7 +62,6 @@ public class UserController {
 
 		return mv;
 	}
-
 	// 판매자 회원가입
 	@RequestMapping(value = "/user/insertSeller.do", method = RequestMethod.POST)
 	public ModelAndView setSeller(Seller seller) throws Exception {
@@ -72,7 +71,7 @@ public class UserController {
 
 		return mv;
 	}
-
+	// 로그인 화면 출력
 	@RequestMapping(value = "user/LogInForm.do")
 	public ModelAndView showLogIn(Map<String, Object> commandMap)
 			throws Exception {
@@ -94,10 +93,8 @@ public class UserController {
 				session.setAttribute("userLogInInfo", userLogCheck);
 			}
 		} catch (Exception e) {
-			System.out.println("Exception?");
 			return mv;
 		}
-		
 
 		return mv;
 	}
@@ -106,7 +103,7 @@ public class UserController {
 	@RequestMapping(value = "logOut.do", method = RequestMethod.GET)
 	// {RequestMethod.GET, RequestMethod.POST})
 	public ModelAndView LogOut(Customer customer, HttpSession session,
-			HttpServletRequest request) throws Exception {
+			HttpServletRequest request){
 		session.setAttribute("userLogInInfo", null);
 		ModelAndView mv = new ModelAndView(
 				"redirect:http://localhost:8080/ojhmall/");
@@ -117,8 +114,7 @@ public class UserController {
 	// 관리자 회원정보 화면 출력
 	@RequestMapping(value = "/user/AdminInfoForm.do", method = {
 			RequestMethod.GET, RequestMethod.POST })
-	public ModelAndView showAdminInfoForm(Map<String, Object> commandMap)
-			throws Exception {
+	public ModelAndView showAdminInfoForm(){
 		ModelAndView mv = new ModelAndView("/user/AdminInfoForm");
 		return mv;
 	}
@@ -126,8 +122,7 @@ public class UserController {
 	// 구매자 회원정보 화면 출력
 	@RequestMapping(value = "/user/CustomerInfoForm.do", method = {
 			RequestMethod.GET, RequestMethod.POST })
-	public ModelAndView showCustomerInfoForm(Map<String, Object> commandMap)
-			throws Exception {
+	public ModelAndView showCustomerInfoForm(){
 		ModelAndView mv = new ModelAndView("/user/CustomerInfoForm");
 		return mv;
 	}
@@ -135,8 +130,7 @@ public class UserController {
 	// 판매자 회원정보 화면 출력
 	@RequestMapping(value = "/user/SellerInfoForm.do", method = {
 			RequestMethod.GET, RequestMethod.POST })
-	public ModelAndView showSellerInfoForm(Map<String, Object> commandMap)
-			throws Exception {
+	public ModelAndView showSellerInfoForm(){
 		ModelAndView mv = new ModelAndView("/user/SellerInfoForm");
 		return mv;
 	}
@@ -195,49 +189,4 @@ public class UserController {
 		System.out.println("do you want to discard?");
 		return mv;
 	}
-	/*
-	 * @RequestMapping(value="/user/insertBoard.do") public ModelAndView
-	 * setCustomer(Customer customer) throws Exception{ ModelAndView mv = new
-	 * ModelAndView("redirect:/user/openBoardList.do");
-	 * 
-	 * userService.setCustomer(customer);
-	 * 
-	 * return mv; }
-	 */
-
-	/*
-	 * @RequestMapping(value="/user/insertBoard.do", method =
-	 * RequestMethod.POST) public ModelAndView insertBoard(HttpServletRequest
-	 * request) throws Exception{ ModelAndView mv = new
-	 * ModelAndView("redirect:/user/openBoardList.do");
-	 * //System.out.println(commandMap);
-	 * //userService.insertBoard(commandMap.getMap());
-	 * //System.out.println(commandMap.getMap());
-	 * 
-	 * String id = request.getParameter("inputEmail");
-	 * 
-	 * Customer customer = new Customer(); customer.setId(id);
-	 * 
-	 * CommandMap map = new CommandMap(); //map.put(key, value);
-	 * 
-	 * System.out.println(customer.getId()); return mv; }
-	 */
-
-	/*
-	 * switch (userLogCheck.getUserType()) { case 0: Admin admin = new Admin();
-	 * admin.setId(user.getId()); admin.setUserPassword(user.getUserPassword());
-	 * Admin adminOn = userService.getAdminInfo(admin);
-	 * session.setAttribute("userLogInInfo", adminOn);
-	 * System.out.println("final : " + adminOn); case 1: Customer customer = new
-	 * Customer(); customer.setId(user.getId());
-	 * customer.setUserPassword(user.getUserPassword()); Customer customerOn =
-	 * userService.getCustomerInfo(customer);
-	 * session.setAttribute("userLogInInfo", customerOn);
-	 * System.out.println(customerOn); break; case 2: Seller seller = new
-	 * Seller(); seller.setId(user.getId());
-	 * seller.setUserPassword(user.getUserPassword()); Seller sellerOn =
-	 * userService.getSellerInfo(seller); session.setAttribute("userLogInInfo",
-	 * sellerOn); System.out.println(sellerOn); default: System.out.println(
-	 * "There is no user information matched with id and password"); }
-	 */
 }

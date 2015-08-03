@@ -6,11 +6,9 @@ import ojhmall.vo.Seller;
 import ojhmall.vo.User;
 
 public interface UserService {
-
-    //
+	
 	void setCustomer(Customer customer) throws Exception;
 	
-	//
 	void setSeller(Seller seller) throws Exception;
  
 	public User findByIdAndPw(User user) throws Exception;
@@ -24,4 +22,5 @@ public interface UserService {
 	void removeUser(User user) throws Exception;
 
 	User getAdminAcc(User admin) throws Exception;
+
 }

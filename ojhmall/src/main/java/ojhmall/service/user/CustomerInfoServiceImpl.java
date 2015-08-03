@@ -11,9 +11,10 @@ import ojhmall.vo.User;
 public class CustomerInfoServiceImpl implements UserInfoService {
 	@Resource(name = "userDAO")
 	UserDAO userDAO;
+
 	@Override
-	public User getUserWholeInfo(User user) {
-		return null;
+	public User getUserAllInfo(User user) throws Exception {
+		return userDAO.getCustomerInfo(user);
 	}
 
 }

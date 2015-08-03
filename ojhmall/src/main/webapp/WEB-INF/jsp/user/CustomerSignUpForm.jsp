@@ -33,20 +33,21 @@
 <body>
 	<div class="container">
 
-		<form id="frm" class="form-signin" method="post" action="insertCustomer.do">
+		<form id="frm" class="form-signin" method="post"
+			action="insertCustomer.do">
 			<h2 class="form-signin-heading">Please sign up</h2>
-			<input	type="hidden" id="userType" name="userType" value="1">
+			<input type="hidden" id="userTypeNum" name="userTypeNum" value="1">
 			<h4>ID</h4>
-			 <input	type="email" id="id" name="id" class="form-control"
+			<input type="email" id="id" name="id" class="form-control"
 				placeholder="Email address" required autofocus>
 			<h4>Password</h4>
 			<label for="inputPassword" class="sr-only">Password</label> <input
-				type="password" id="userPassword" name="userPassword" class="form-control"
-				placeholder="Password" required>
+				type="password" id="userPassword" name="userPassword"
+				class="form-control" placeholder="Password" required>
 			<h4>Name</h4>
 			<label for="inputName" class="sr-only">Name</label> <input
-				type="text" id="userName" name="userName" class="form-control" placeholder="Name"
-				required autofocus>
+				type="text" id="userName" name="userName" class="form-control"
+				placeholder="Name" required autofocus>
 			<h4>Phone Number</h4>
 			<label for="inputPhoneNumber" class="sr-only">Phone Number</label> <input
 				type="text" id="phNumber" name="phNumber" class="form-control"
@@ -58,8 +59,9 @@
 			<h4>ZipCode</h4>
 			<label for="inputZipCode" class="sr-only">Zip Code</label> <input
 				type="text" id="zipCode" name="zipCode" class="form-control"
-				placeholder="Zip Code" required>
-			<input class="btn btn-lg btn-primary btn-block" id="write"	type="submit" value="Sgin up" />
+				placeholder="Zip Code" required> <input
+				class="btn btn-lg btn-primary btn-block" id="write" type="submit"
+				value="Sgin up" />
 		</form>
 
 	</div>

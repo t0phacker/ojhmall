@@ -13,9 +13,8 @@ public class SellerInfoServiceImpl implements UserInfoService {
 	@Resource(name = "userDAO")
 	UserDAO userDAO;
 	@Override
-	public User getUserWholeInfo(User user) {
-		// TODO Auto-generated method stub
-		return null;
+	public User getUserAllInfo(User user) throws Exception {
+		return userDAO.getSellerInfo(user);
 	}
 
 }

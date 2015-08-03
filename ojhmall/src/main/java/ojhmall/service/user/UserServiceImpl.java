@@ -17,8 +17,6 @@ public class UserServiceImpl implements UserService {
 
 	@Resource(name = "userDAO")
 	private UserDAO userDAO;
-	//@Resource(name = "userInfoService")
-	//private UserInfoService userInfoService;
 	
 	User userOn = new User(); // 유저 공통 클래스 변수
 	Admin adminOn = new Admin(); // 관리자 클래스 변수
@@ -28,19 +26,16 @@ public class UserServiceImpl implements UserService {
 	// 구매자 회원가입
 	@Override
 	public void setCustomer(Customer customer) throws Exception {
-		userDAO.insertUser(customer); // user 테이블에 회원 기본정보 삽입
-		int userNumber = userDAO.selectUserNum(customer); // user 테이블에서 회원번호 추출
-		customer.setUserNumber(userNumber); 
+		userDAO.insertUser(customer); // user 테이블에 회원 기본정보 삽입 
+		customer.setUserNumber(userDAO.selectUserNum(customer)); // user 테이블에서 회원번호 추출
 		userDAO.setCustomer(customer); // user 테이블에 회원번호로 생성자, 수정자 정보 입력
-
 	}
 
 	// 판매자 회원가입
 	@Override
 	public void setSeller(Seller seller) throws Exception {
 		userDAO.insertUser(seller); // user 테이블에 회원 기본정보 삽입
-		int userNumber = userDAO.selectUserNum(seller); // user 테이블에서 회원번호 추출
-		seller.setUserNumber(userNumber); 
+		seller.setUserNumber(userDAO.selectUserNum(seller)); // user 테이블에서 회원번호 추출
 		userDAO.setSeller(seller);
 	}
 	// 로그인
@@ -51,24 +46,9 @@ public class UserServiceImpl implements UserService {
 		//ID와 Password로 유저 기본 정보 조회, userType 변수 추출
 		User userBaseInfo = userDAO.getUserBaseInfo(user);
 		userBaseInfo.setUserType();
-		System.out.println(userBaseInfo.getUserTypeNum());
-		switch (userBaseInfo.getUserType()) {
-		case ADMIN://줄이기 유저 객체 상속, 
-			userBaseInfo = userDAO.getAdminInfo(userBaseInfo);
-			break;
-		case CUSTOMER:
-			userBaseInfo = userDAO.getCustomerInfo(userBaseInfo);
-			System.out.println(userBaseInfo.getUserTypeNum());
-			break;
-		case SELLER:
-			userBaseInfo = userDAO.getSellerInfo(userBaseInfo);
-			break;
-		default:
-			break;
-		}
-		userBaseInfo.setUserType();
-		System.out.println(userBaseInfo.getUserTypeNum());
-		return userBaseInfo;
+		
+		UserInfoService userInfoService = UserInfoServiceFactory.getUserInfoService(userBaseInfo);
+		return userInfoService.getUserAllInfo(userBaseInfo);
 	}
 	//관리자 회원정보 변경
 	@Override

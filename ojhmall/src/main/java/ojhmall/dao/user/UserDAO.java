@@ -1,9 +1,6 @@
 package ojhmall.dao.user;
 
-import java.util.Map;
-
 import ojhmall.common.dao.AbstractDAO;
-import ojhmall.controller.user.UserController;
 import ojhmall.vo.Admin;
 import ojhmall.vo.Customer;
 import ojhmall.vo.Seller;
@@ -13,13 +10,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository("userDAO")
 public class UserDAO extends AbstractDAO {
-
-	// 마지막 회원번호 추출
-	@SuppressWarnings("unchecked")
-	public Map<String, Object> selectMaxNum(Map<String, Object> map)
-			throws Exception {
-		return (Map<String, Object>) selectOne("signUp.selectMaxNum", map);
-	}
 
 	// 유저 기본정보 삽입
 	public void insertUser(User user) {
@@ -45,7 +35,6 @@ public class UserDAO extends AbstractDAO {
 
 	// 로그인
 	public User getUserBaseInfo(User user)  {
-		//System.out.println("getUserBaseInfoDAO");
 		return (User) selectOne("logIn.findByIdAndPw", user);
 	}
 
@@ -100,6 +89,10 @@ public class UserDAO extends AbstractDAO {
 
 	public Admin getAdminAcc(User admin) {
 		return (Admin) selectOne("logIn.getAdminAcc", admin);
+	}
+
+	public String checkId(String id) {
+		return (String) selectOne("signUp.checkId", id);
 	}
 
 }
