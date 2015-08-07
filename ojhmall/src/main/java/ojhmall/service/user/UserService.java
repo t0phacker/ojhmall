@@ -7,20 +7,20 @@ import ojhmall.vo.User;
 
 public interface UserService {
 	
-	void setCustomer(Customer customer) throws Exception;
+	void insertCustomerInfo(Customer customer);
 	
-	void setSeller(Seller seller) throws Exception;
+	void insertSellerInfo(Seller seller);
  
-	public User findByIdAndPw(User user) throws Exception;
+	public User checkIdAndPw(User user) throws Exception;
 	
-	public User updateAdmin(Admin admin) throws Exception;
+	public User updateAdminInfo(Admin admin);
 
-	Customer updateCustomer(Customer customer) throws Exception;
+	public Customer updateCustomerInfo(Customer customer);
 
-	Seller updatedSeller(Seller seller) throws Exception;
+	public Seller updatedSellerInfo(Seller seller);
 
-	void removeUser(User user) throws Exception;
+	void deleteUserInfo(User user);
 
-	User getAdminAcc(User admin) throws Exception;
+	User getAdminAccNum(User admin) throws Exception;
 
 }

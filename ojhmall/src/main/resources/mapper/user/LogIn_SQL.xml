@@ -3,7 +3,7 @@
 
 <mapper namespace="logIn">
 	
-	<select id="findByIdAndPw" parameterType="ojhmall.vo.User" resultType="ojhmall.vo.User">
+	<select id="getUserBaseInfo" parameterType="ojhmall.vo.User" resultType="ojhmall.vo.User">
 		<![CDATA[
 			SELECT
 				id, userPassword, userName, userType as userTypeNum
@@ -43,7 +43,7 @@
 		]]>
 	</select>
 	
-	<select id="getAdminAcc" parameterType="ojhmall.vo.User" resultType="ojhmall.vo.Admin">
+	<select id="getAdminAccNum" parameterType="ojhmall.vo.User" resultType="ojhmall.vo.Admin">
 		<![CDATA[
 			SELECT
 				u.userNumber, u.id, u.userPassword, u.userName, u.userType, a.adminType, a.accNumber as accNum

@@ -1,35 +1,43 @@
 package ojhmall.service.user;
 
-import javax.annotation.Resource;
-
 import ojhmall.vo.User;
 import ojhmall.vo.UserType;
 
-import org.springframework.stereotype.Service;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
-@Service
+@Component("userInfoServiceFactory")
 public class UserInfoServiceFactory {
+	Logger log = Logger.getLogger(this.getClass());
 
-	@Resource(name = "adminInfoService")
-	private static UserInfoService adminInfoService;
+	@Autowired
+	@Qualifier("customerInfoService")
+	private UserInfoService adminInfoService;
 
-	@Resource(name = "customerInfoService")
-	private static UserInfoService cusUserInfoService;
+	@Autowired
+	@Qualifier("customerInfoService")
+	private UserInfoService customerInfoService;
 
-	@Resource(name = "sellerInfoService")
-	private static UserInfoService sellerInfoService;
+	@Autowired
+	@Qualifier("sellerInfoService")
+	private UserInfoService sellerInfoService;
 
-	public static UserInfoService getUserInfoService(User user) {
+	public UserInfoService getUserInfoService(User user) throws Exception {
+		
 		UserType userType = user.getUserType();
-
 		if (UserType.ADMIN == userType) {
+			log.debug("admin enter");
 			return adminInfoService;
 		}
 
 		if (UserType.SELLER == userType) {
+			log.debug("seller enter");
 			return sellerInfoService;
 		}
 
-		return cusUserInfoService;
+		log.debug("customer enter");
+		return customerInfoService;
 	}
 }

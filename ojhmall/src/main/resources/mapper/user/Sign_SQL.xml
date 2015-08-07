@@ -3,7 +3,7 @@
 
 <mapper namespace="signUp">
 	<!-- 회원정보 입력 -->
-	<insert id="insertUser" parameterType="ojhmall.vo.User" >
+	<insert id="insertUserInfo" parameterType="ojhmall.vo.User" >
     <![CDATA[
         INSERT INTO user
         (
@@ -30,7 +30,7 @@
     ]]>
 	</insert>
 	
-	<select id ="selectUserNum" parameterType="ojhmall.vo.User" resultType="int">
+	<select id ="getUserNum" parameterType="ojhmall.vo.User" resultType="int">
 		SELECT 
 			userNumber
 		FROM
@@ -38,7 +38,7 @@
 		WHERE
 			id = #{id} and userPassword = #{userPassword}
 	</select>
-	<update id="updateUser" parameterType="ojhmall.vo.User"> 
+	<update id="updateUserInfo" parameterType="ojhmall.vo.User"> 
 		<![CDATA[ 
 			UPDATE
 		 		user 
@@ -49,7 +49,7 @@
 		 ]]>
 	</update>
 
-	<insert id="insertCustomer" parameterType="ojhmall.vo.Customer">
+	<insert id="insertCustomerInfo" parameterType="ojhmall.vo.Customer">
     <![CDATA[
         INSERT INTO customer
         (
@@ -68,38 +68,7 @@
     ]]>
 	</insert>
 
-	<insert id="insertUser2" parameterType="ojhmall.vo.Seller">
-    <![CDATA[
-        INSERT INTO user
-        (
-            userType,
-            id, 
-            userPassword, 
-            userName, 
-            newDate, 
-            newUser, 
-            updateDate,
-            updateUser
-        )
-        VALUES
-        (
-            2, 
-            #{id},
-            #{userPassword},
-            #{userName},
-            default,
-            1, 
-            default, 
-            1
-        )
-    ]]>
-	</insert>
-
-	<select id="updateUser2" parameterType="ojhmall.vo.Seller"> 
-		<![CDATA[ UPDATE user SET newUSER = #{userNumber} WHERE userNumber = #{userNumber} ]]>
-	</select>
-
-	<insert id="insertSeller" parameterType="ojhmall.vo.Seller">
+	<insert id="insertSellerInfo" parameterType="ojhmall.vo.Seller">
     <![CDATA[
         INSERT INTO seller
         (
@@ -122,55 +91,38 @@
     ]]>
 	</insert>
 	<!-- 관리자 회원 정보 업데이트 -->
-	<update id="updateAdmin" parameterType="ojhmall.vo.Admin"> 
+	<update id="updateAdminInfo" parameterType="ojhmall.vo.Admin"> 
 		<![CDATA[ UPDATE user SET userName = #{userName}, userPassword = #{userPassword} WHERE userNumber = #{userNumber} ]]>
 	</update>
 	<!-- 구매자 회원 기본 정보 업데이트 -->
-	<update id="updateCustomer" parameterType="ojhmall.vo.Customer"> 
+	<update id="updateCustomerInfo" parameterType="ojhmall.vo.Customer"> 
 		<![CDATA[ UPDATE user SET userName = #{userName}, userPassword = #{userPassword} WHERE userNumber = #{userNumber} ]]>
 	</update>
 	<!-- 구매자 회원 부가 정보 업데이트 -->
-	<update id="updateCustomerMoreInfo" parameterType="ojhmall.vo.Customer"> 
+	<update id="updateCustomerExtraInfo" parameterType="ojhmall.vo.Customer"> 
 		<![CDATA[ UPDATE customer SET phNumber = #{phNumber}, address = #{address}, zipCode = #{zipCode} WHERE user_userNumber = #{userNumber} ]]>
 	</update>
 	<!-- 판매자 회원 기본 정보 업데이트 -->
-	<update id="updateSeller" parameterType="ojhmall.vo.Seller"> 
+	<update id="updateSellerInfo" parameterType="ojhmall.vo.Seller"> 
 		<![CDATA[ UPDATE user SET userName = #{userName}, userPassword = #{userPassword} WHERE userNumber = #{userNumber} ]]>
 	</update>
 	<!-- 판매자 회원 부가 정보 업데이트 -->
-	<update id="updateSellerMoreInfo" parameterType="ojhmall.vo.Seller"> 
+	<update id="updateSellerExtraInfo" parameterType="ojhmall.vo.Seller"> 
 		<![CDATA[ UPDATE seller SET phNumber = #{phNumber}, address = #{address}, zipCode = #{zipCode}, bizNumber = #{bizNumber}, accNumber = #{accNumber} WHERE user_userNumber = #{userNumber} ]]>
 	</update>
-
-	<select id="signUp.updatingUser" parameterType="ojhmall.vo.User"
-		resultType="ojhmall.vo.User">
-		<![CDATA[
-			SELECT
-				userNumber, id, userPassword, userName, userType
-			FROM
-			    user u
-			WHERE u.userNumber=#{userNumber}
-		]]>
-	</select>
 	
 	<!-- 회원정보 삭제 -->
-	<update id="removeUser" parameterType="ojhmall.vo.User"> 
+	<update id="deleteUserInfo" parameterType="ojhmall.vo.User"> 
 		<![CDATA[ UPDATE user SET id = #{id}, userPassword = "discarded", userName = "discarded", userType = 4 WHERE userNumber = #{userNumber} ]]>
 	</update>
-	<update id="removeAdmin" parameterType="ojhmall.vo.User"> 
+	<update id="deleteAdminInfo" parameterType="ojhmall.vo.User"> 
 		<![CDATA[ UPDATE admin SET adminType = 0, accNumber = "discarded" WHERE user_userNumber = #{userNumber} ]]>
 	</update>
-	<update id="removeCustomer" parameterType="ojhmall.vo.User"> 
+	<update id="deleteCustomerInfo" parameterType="ojhmall.vo.User"> 
 		<![CDATA[ UPDATE customer SET phNumber = "discarded", address = "discarded", zipCode = "discarded" WHERE user_userNumber = #{userNumber} ]]>
 	</update>
-	<update id="removeSeller" parameterType="ojhmall.vo.User"> 
+	<update id="deleteSellerInfo" parameterType="ojhmall.vo.User"> 
 		<![CDATA[ UPDATE seller SET phNumber = "discarded", address = "discarded", zipCode = "discarded", bizNumber = "discarded", accNumber = "discarded" WHERE user_userNumber = #{userNumber} ]]>
 	</update>
-	<insert id="saveQuery" parameterType="java.util.Map">
-    <![CDATA[
-        INSERT INTO test
-        values(#{test})
-    ]]>
-	</insert>
 </mapper>
 

@@ -18,10 +18,6 @@ public class User {
 	}
 
 	public UserType getUserType() {
-		return userType;
-	}
-
-	public void setUserType() {
 		switch (userTypeNum) {
 		case 0:
 			this.userType = UserType.ADMIN;
@@ -33,9 +29,10 @@ public class User {
 			this.userType = UserType.SELLER;
 			break;
 		default:
-			this.userType = UserType.ADMIN;
+			this.userType = UserType.ADMIN; // 에러나 널
 			break;
 		}
+		return this.userType;
 	}
 
 	public int getUserNumber() {

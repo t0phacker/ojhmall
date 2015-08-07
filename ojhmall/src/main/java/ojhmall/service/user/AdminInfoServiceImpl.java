@@ -7,7 +7,7 @@ import ojhmall.vo.User;
 
 import org.springframework.stereotype.Service;
 
-@Service("adminUserInfoService")
+@Service("adminInfoService")
 public class AdminInfoServiceImpl implements UserInfoService {
 	
 	@Resource(name = "userDAO")

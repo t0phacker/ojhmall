@@ -12,83 +12,83 @@ import org.springframework.stereotype.Repository;
 public class UserDAO extends AbstractDAO {
 
 	// 유저 기본정보 삽입
-	public void insertUser(User user) {
-		insert("signUp.insertUser", user);
+	public void insertUserInfo(User user) {
+		insert("signUp.insertUserInfo", user);
 	}
 
 	// 회원번호 추출
-	public int selectUserNum(User user) {
-		return (Integer) selectOne("signUp.selectUserNum", user);
+	public int getUserNum(User user) {
+		return (Integer) selectOne("signUp.getUserNum", user);
 	}
 
 	// 구매자 회원가입
-	public void setCustomer(Customer customer) throws Exception {
-		update("signUp.updateUser", (User) customer);
-		insert("signUp.insertCustomer", customer);
+	public void insertCustomerInfo(Customer customer) {
+		update("signUp.updateUserInfo", (User) customer);
+		insert("signUp.insertCustomerInfo", customer);
 	}
 
 	// 판매자 회원가입
-	public void setSeller(Seller seller) throws Exception {
-		update("signUp.updateUser2", seller);
-		insert("signUp.insertSeller", seller);
+	public void insertSellerInfo(Seller seller) {
+		update("signUp.updateUser", seller);
+		insert("signUp.insertSellerInfo", seller);
 	}
 
 	// 로그인
 	public User getUserBaseInfo(User user)  {
-		return (User) selectOne("logIn.findByIdAndPw", user);
+		return (User) selectOne("logIn.getUserBaseInfo", user);
 	}
 
-	public Admin getAdminInfo(User user) throws Exception {
+	public Admin getAdminInfo(User user) {
 		Admin adminInfo = (Admin) selectOne("logIn.getAdminInfo", user);
 		return adminInfo;
 	}
 
-	public Customer getCustomerInfo(User user) throws Exception {
+	public Customer getCustomerInfo(User user) {
 		Customer customerInfo = (Customer) selectOne("logIn.getCustomerInfo",
 				user);
 		return customerInfo;
 	}
 
-	public Seller getSellerInfo(User user) throws Exception {
+	public Seller getSellerInfo(User user) {
 		Seller sellerInfo = (Seller) selectOne("logIn.getSellerInfo", user);
 		return sellerInfo;
 	}
 
 	// 관리자 회원 정보 변경
-	public void updateAdmin(Admin admin) throws Exception {
-		update("signUp.updateAdmin", admin);
+	public void updateAdminInfo(Admin admin) {
+		update("signUp.updateAdminInfo", admin);
 	}
 
 	// 구매자 회원 정보 변경
-	public void updateCustomer(Customer customer) throws Exception {
-		update("signUp.updateCustomer", customer);
-		update("signUp.updateCustomerMoreInfo", customer);
+	public void updateCustomerInfo(Customer customer) {
+		update("signUp.updateCustomerInfo", customer);
+		update("signUp.updateCustomerExtraInfo", customer);
 	}
 
 	// 판매자 회원 정보 변경
-	public void updateSeller(Seller seller) throws Exception {
-		update("signUp.updateSeller", seller);
-		update("signUp.updateSellerMoreInfo", seller);
+	public void updateSellerInfo(Seller seller) {
+		update("signUp.updateSellerInfo", seller);
+		update("signUp.updateSellerExtraInfo", seller);
 	}
 
-	public void removeUser(User user) {
-		update("signUp.removeUser", user);
+	public void deleteUserInfo(User user) {
+		update("signUp.deleteUserInfo", user);
 	}
 
-	public void removeAdmin(User user) {
-		update("signUp.removeAdmin", user);
+	public void deleteAdminInfo(User user) {
+		update("signUp.deleteAdminInfo", user);
 	}
 
-	public void removeCustomer(User user) {
-		update("signUp.removeCustomer", user);
+	public void deleteCustomerInfo(User user) {
+		update("signUp.deleteCustomerInfo", user);
 	}
 
-	public void removeSeller(User user) {
-		update("signUp.removeSeller", user);
+	public void deleteSellerInfo(User user) {
+		update("signUp.deleteSellerInfo", user);
 	}
 
-	public Admin getAdminAcc(User admin) {
-		return (Admin) selectOne("logIn.getAdminAcc", admin);
+	public Admin getAdminAccNum(User admin) {
+		return (Admin) selectOne("logIn.getAdminAccNum", admin);
 	}
 
 	public String checkId(String id) {

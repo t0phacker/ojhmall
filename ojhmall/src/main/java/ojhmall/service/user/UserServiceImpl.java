@@ -25,77 +25,78 @@ public class UserServiceImpl implements UserService {
 	
 	// 구매자 회원가입
 	@Override
-	public void setCustomer(Customer customer) throws Exception {
-		userDAO.insertUser(customer); // user 테이블에 회원 기본정보 삽입 
-		customer.setUserNumber(userDAO.selectUserNum(customer)); // user 테이블에서 회원번호 추출
-		userDAO.setCustomer(customer); // user 테이블에 회원번호로 생성자, 수정자 정보 입력
+	public void insertCustomerInfo(Customer customer) {
+		userDAO.insertUserInfo(customer); // user 테이블에 회원 기본정보 삽입 
+		customer.setUserNumber(userDAO.getUserNum(customer)); // user 테이블에서 회원번호 추출
+		userDAO.insertCustomerInfo(customer); // user 테이블에 회원번호로 생성자, 수정자 정보 입력
 	}
 
 	// 판매자 회원가입
 	@Override
-	public void setSeller(Seller seller) throws Exception {
-		userDAO.insertUser(seller); // user 테이블에 회원 기본정보 삽입
-		seller.setUserNumber(userDAO.selectUserNum(seller)); // user 테이블에서 회원번호 추출
-		userDAO.setSeller(seller);
+	public void insertSellerInfo(Seller seller) {
+		userDAO.insertUserInfo(seller); // user 테이블에 회원 기본정보 삽입
+		seller.setUserNumber(userDAO.getUserNum(seller)); // user 테이블에서 회원번호 추출
+		userDAO.insertSellerInfo(seller);
 	}
 	// 로그인
 	// 의미없는 Exception을 던지고 있음
 	// enum 초기화 ADMIN(1)
 	@Override
-	public User findByIdAndPw(User user) throws Exception {
+	public User checkIdAndPw(User user) throws Exception {
 		//ID와 Password로 유저 기본 정보 조회, userType 변수 추출
 		User userBaseInfo = userDAO.getUserBaseInfo(user);
-		userBaseInfo.setUserType();
 		
-		UserInfoService userInfoService = UserInfoServiceFactory.getUserInfoService(userBaseInfo);
+		UserInfoServiceFactory factory = new UserInfoServiceFactory();
+		UserInfoService userInfoService = factory.getUserInfoService(userBaseInfo);
+		
 		return userInfoService.getUserAllInfo(userBaseInfo);
 	}
 	//관리자 회원정보 변경
 	@Override
-	public Admin updateAdmin(Admin admin) throws Exception {
-		userDAO.updateAdmin(admin);
+	public Admin updateAdminInfo(Admin admin) {
+		userDAO.updateAdminInfo(admin);
 		adminOn = userDAO.getAdminInfo(admin);
 		return adminOn;
 	}
 	// 구매자 회원정보 변경
 	@Override
-	public Customer updateCustomer(Customer customer) throws Exception {
-		userDAO.updateCustomer(customer);
+	public Customer updateCustomerInfo(Customer customer) {
+		userDAO.updateCustomerInfo(customer);
 		customerOn = userDAO.getCustomerInfo(customer);
-		return customer;
+		return customerOn;
 	}
 	// 판매자 회원정보 변경
 	@Override
-	public Seller updatedSeller(Seller seller) throws Exception {
-		userDAO.updateSeller(seller);
+	public Seller updatedSellerInfo(Seller seller) {
+		userDAO.updateSellerInfo(seller);
 		sellerOn = userDAO.getSellerInfo(seller);
 		return sellerOn;
 	}
 	// 회원정보 삭제
 	@Override
-	public void removeUser(User user) throws Exception {
+	public void deleteUserInfo(User user) {
 		//회원 id에서 @ 제거 후 저장
 		String[] tempId = user.getId().split("@");
 		String discardedId = tempId[0] + tempId[1];
 		user.setId(discardedId);
-		userDAO.removeUser(user);
+		userDAO.deleteUserInfo(user);
 		switch (user.getUserType()) {
 		case ADMIN:
-			userDAO.removeAdmin(user);
+			userDAO.deleteAdminInfo(user);
 			break;
 		case CUSTOMER:
-			userDAO.removeCustomer(user);
+			userDAO.deleteCustomerInfo(user);
 			break;
 		case SELLER:
-			userDAO.removeSeller(user);
+			userDAO.deleteSellerInfo(user);
 			break;
 			default:
 				System.out.println("no matching data");
 		}
 	}
-
+	// 관리자 계좌번호 추출
 	@Override
-	public User getAdminAcc(User admin) throws Exception {
-		return userDAO.getAdminAcc(admin);
+	public User getAdminAccNum(User admin) {
+		return userDAO.getAdminAccNum(admin);
 	}
 }
