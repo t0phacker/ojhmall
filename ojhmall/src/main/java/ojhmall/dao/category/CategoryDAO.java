@@ -26,9 +26,10 @@ public class CategoryDAO extends AbstractDAO {
 
 	@SuppressWarnings("unchecked")
 	public List<Product> dpPrd(Product prd) throws Exception {
-		return (List<Product>) selectList("Category.dpPrd", prd);
+		return (List<Product>) selectList("Category.dpPrdByHitCnt", prd);
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<Product> dpPrdByPrice(Product prd) {
 		return (List<Product>) selectList("Category.dpPrdByPrice", prd);
 	}

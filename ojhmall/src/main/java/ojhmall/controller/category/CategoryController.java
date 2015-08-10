@@ -1,12 +1,13 @@
 package ojhmall.controller.category;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 
 import ojhmall.service.category.CategoryService;
 import ojhmall.vo.Product;
+import ojhmall.vo.ProductFactory;
+import ojhmall.vo.ProductStatus;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -22,24 +23,16 @@ public class CategoryController {
 	@Resource(name = "categoryService")
 	private CategoryService categoryService;
 	
-	// 카테고리 리스트 출력
-	/*@RequestMapping(value="index.do")
-    public ModelAndView openCtgr(Map<String, Object> commandMap) throws Exception{
-        ModelAndView mv = new ModelAndView("../../index");
-        
-        mv.addObject("upperCategoryList", categoryService.selectUpperCtgrList());
-		mv.addObject("lowerCategoryList", categoryService.selectLowerCtgrList());
-        return mv;
-    }*/
 	// 카테고리 페이지로 이동
 	@RequestMapping(value="/category/ctgrView.do", method = RequestMethod.GET)
 	public ModelAndView ctgrView(@RequestParam(value="ctgrVal") int ctgrVal) throws Exception {
 		ModelAndView mv = new ModelAndView("/category/ctgrView");
-		mv.addObject("upperCategoryList", categoryService.selectUpperCtgrList());
+        int prdStatForDP = 2;
+        ProductStatus sellingNow = ProductStatus.SELLING_NOW;
+        Product prdByCtgrNum = ProductFactory.createPrdForCtgr(ctgrVal, sellingNow); // 카테고리 번호와 일치하는 상품 조회
+        List<Product> prdList = categoryService.dpPrd(prdByCtgrNum); // 상품리스트에 상품 추가
+        mv.addObject("upperCategoryList", categoryService.selectUpperCtgrList());
 		mv.addObject("lowerCategoryList", categoryService.selectLowerCtgrList());
-        Product prd = new Product();
-        prd.setCtgrNumber(ctgrVal); // 카테고리 번호와 일치하는 상품 조회
-        List<Product> prdList = categoryService.dpPrd(prd); // 상품리스트에 상품 추가
         mv.addObject("prdList", prdList);
         mv.addObject("ctgrNumber", ctgrVal);
 		return mv;

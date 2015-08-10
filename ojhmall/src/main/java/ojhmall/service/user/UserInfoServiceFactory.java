@@ -13,7 +13,7 @@ public class UserInfoServiceFactory {
 	Logger log = Logger.getLogger(this.getClass());
 
 	@Autowired
-	@Qualifier("customerInfoService")
+	@Qualifier("adminInfoService")
 	private UserInfoService adminInfoService;
 
 	@Autowired
@@ -29,6 +29,7 @@ public class UserInfoServiceFactory {
 		UserType userType = user.getUserType();
 		if (UserType.ADMIN == userType) {
 			log.debug("admin enter");
+			System.out.println(adminInfoService);
 			return adminInfoService;
 		}
 

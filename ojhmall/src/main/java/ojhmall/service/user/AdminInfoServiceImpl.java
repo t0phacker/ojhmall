@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 public class AdminInfoServiceImpl implements UserInfoService {
 	
 	@Resource(name = "userDAO")
-	UserDAO userDAO;
+	private UserDAO userDAO;
 
 	@Override
 	public User getUserAllInfo(User user) throws Exception {

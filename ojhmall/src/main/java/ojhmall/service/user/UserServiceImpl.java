@@ -40,7 +40,6 @@ public class UserServiceImpl implements UserService {
 	}
 	// 로그인
 	// 의미없는 Exception을 던지고 있음
-	// enum 초기화 ADMIN(1)
 	@Override
 	public User checkIdAndPw(User user) throws Exception {
 		//ID와 Password로 유저 기본 정보 조회, userType 변수 추출

@@ -25,14 +25,14 @@
 		]]>
 	</select>
 	<!-- 카테고리에 상품 전시 -->
-	<select id="dpPrd" parameterType="ojhmall.vo.Product" resultType="ojhmall.vo.Product">
+	<select id="dpPrdByHitCnt" parameterType="ojhmall.vo.Product" resultType="ojhmall.vo.Product">
 		<![CDATA[
 			SELECT
 				prdNumber, prdName, price, image, text, ctgrNumber, hitCount
 			FROM
 			    product
 			WHERE
-				ctgrNumber = #{ctgrNumber} and prdStatus = 2
+				ctgrNumber = #{ctgrNumber} and prdStatus = #{prdStatusNum}
 			ORDER BY hitCount DESC
 		]]>
 	</select>

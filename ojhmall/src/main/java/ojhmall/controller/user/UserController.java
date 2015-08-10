@@ -15,8 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-@Controller
-// ("/user")
+@Controller("/user")
 public class UserController {
 	Logger log = Logger.getLogger(this.getClass());
 
@@ -96,7 +95,6 @@ public class UserController {
 
 	// 로그아웃
 	@RequestMapping(value = "logOut.do", method = RequestMethod.GET)
-	// {RequestMethod.GET, RequestMethod.POST})
 	public ModelAndView logOut(HttpSession session) {
 		session.setAttribute("userLogInInfo", null);
 		ModelAndView mv = new ModelAndView(
@@ -106,24 +104,21 @@ public class UserController {
 	}
 
 	// 관리자 회원정보 화면 출력
-	@RequestMapping(value = "/user/AdminInfoForm.do", method = {
-			RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping(value = "/user/AdminInfoForm.do", method = RequestMethod.POST)
 	public ModelAndView showAdminInfoForm() {
 		ModelAndView mv = new ModelAndView("/user/AdminInfoForm");
 		return mv;
 	}
 
 	// 구매자 회원정보 화면 출력
-	@RequestMapping(value = "/user/CustomerInfoForm.do", method = {
-			RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping(value = "/user/CustomerInfoForm.do", method = RequestMethod.POST)
 	public ModelAndView showCustomerInfoForm() {
 		ModelAndView mv = new ModelAndView("/user/CustomerInfoForm");
 		return mv;
 	}
 
 	// 판매자 회원정보 화면 출력
-	@RequestMapping(value = "/user/SellerInfoForm.do", method = {
-			RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping(value = "/user/SellerInfoForm.do", method = RequestMethod.POST)
 	public ModelAndView showSellerInfoForm() {
 		ModelAndView mv = new ModelAndView("/user/SellerInfoForm");
 		return mv;
