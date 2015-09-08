@@ -31,82 +31,12 @@
 <body>
 
 	<div class="container">
-		<div class="masthead">
-			<a href="http://localhost:8080/ojhmall"><img
-				src="../image/11st.png"></a>
-
-			<ul class="nav navbar-nav navbar-right">
-				<c:choose>
-					<c:when test="${empty sessionScope.userLogInInfo.userName}">
-						<li><a href="../user/LogInForm.do">로그인</a></li>
-					</c:when>
-					<c:otherwise>
-						<li><a href="../logOut.do">${sessionScope.userLogInInfo.userName}님</a></li>
-					</c:otherwise>
-				</c:choose>
-				<c:choose>
-					<c:when test="${empty sessionScope.userLogInInfo.userName}">
-						<li><a href="../user/SiginUpForm.do">회원가입</a></li>
-						<li><a href="../cart/cartView.do">장바구니</a></li>
-						<li><a href="mypageForCustomer.do">마이페이지</a></li>
-					</c:when>
-
-					<c:when test="${sessionScope.userLogInInfo.userType == 'ADMIN'}">
-						<li><a href="../user/AdminInfoForm.do">회원정보</a></li>
-						<li><a href="../cart/cartView.do">장바구니</a></li>
-						<li><a href="mypageForAdmin.do">마이페이지</a></li>
-					</c:when>
-					<c:when test="${sessionScope.userLogInInfo.userType == 'CUSTOMER'}">
-						<li><a href="../user/CustomerInfoForm.do">회원정보</a></li>
-						<li><a href="../cart/cartView.do">장바구니</a></li>
-						<li><a href="mypageForCustomer.do">마이페이지</a></li>
-					</c:when>
-					<c:when test="${sessionScope.userLogInInfo.userType == 'SELLER'}">
-						<li><a href="../user/SellerInfoForm.do">회원정보</a></li>
-						<li><a href="../cart/cartView.do">장바구니</a></li>
-						<li><a href="mypageForSeller.do">마이페이지</a></li>
-					</c:when>
-
-				</c:choose>
-			</ul>
-		</div>
-		<div class="masthead">
-
-			<nav class="navbar navbar-default">
-				<ul class="nav nav-justified">
-					<c:choose>
-						<c:when test="${fn:length(upperCategoryList) > 0 }">
-							<c:forEach items="${upperCategoryList}" var="row">
-								<li class="dropdown-toggle"><a href="#"
-									class="dropdown-toggle" data-toggle="dropdown" role="button"
-									aria-expanded="false"> ${row.ctgrName } <span class="caret"></span>
-								</a>
-									<ul class="dropdown-menu" role="menu">
-										<c:forEach items="${lowerCategoryList}" var="col">
-											<c:if
-												test="${col.ctgrNumber > row.ctgrNumber && col.ctgrNumber < (row.ctgrNumber + 100)}">
-												<li><a
-													href="../category/ctgrView.do?ctgrVal=${col.ctgrNumber }">${col.ctgrName }</a></li>
-											</c:if>
-										</c:forEach>
-									</ul></li>
-							</c:forEach>
-						</c:when>
-					</c:choose>
-				</ul>
-			</nav>
-		</div>
+		<!-- 로고 & 회원메뉴 -->
+		<jsp:include page="/WEB-INF/jsp/layout/userBar.jsp" />
+		<!-- 카테고리 바 -->
+		<jsp:include page="/WEB-INF/jsp/layout/ctgrBar.jsp" />
 		<!-- 상품 검색 -->
-		<div class="container">
-			<form class="navbar-form navbar-left" id="form_search" role="search"
-				action="../product/prdSearch.do" method="POST">
-				<div class="form-group">
-					<input type="text" class="form-control" id="prdName" name="prdName"
-						placeholder="검색어를 입력하세요" value="${prdName}" />
-				</div>
-				<button type="submit" class="btn btn-default" onclick="search();">검색</button>
-			</form>
-		</div>
+		<jsp:include page="/WEB-INF/jsp/layout/srchBar.jsp" />
 		<!-- 주문 정보 확인 -->
 		<div class="container">
 			<ul class="nav navbar-nav navbar-right">
