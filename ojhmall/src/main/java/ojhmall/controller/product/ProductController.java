@@ -26,7 +26,7 @@ public class ProductController {
         ModelAndView mv = new ModelAndView("/product/prdView");
         Product prd = new Product();
         prd.setPrdNumber(prdNum);
-        prd = productService.showPrd(prd);
+        prd = productService.showPrdInfo(prd);
         mv.addObject("prdInfo", prd);
         mv.addObject("upperCategoryList", categoryService.selectUpperCtgrList());
 		mv.addObject("lowerCategoryList", categoryService.selectLowerCtgrList());
@@ -36,7 +36,7 @@ public class ProductController {
 	@RequestMapping(value="/product/prdSearch.do")
     public ModelAndView searchPrd(HttpServletRequest request, Product prd) throws Exception{
         ModelAndView mv = new ModelAndView("/product/prdSearch");
-        List<Product> prdSchList = productService.schPrd(prd);
+        List<Product> prdSchList = productService.showPrdSchRes(prd);
         mv.addObject("prdSchList", prdSchList);
         mv.addObject("prd", prd); // 검색어 결과 페이지에 출력
         mv.addObject("upperCategoryList", categoryService.selectUpperCtgrList());
@@ -48,7 +48,7 @@ public class ProductController {
 	public ModelAndView initIndex() throws Exception {
 		ModelAndView mv = new ModelAndView("../../index");
 		int initPrdCount = 6;
-		List<Product> prdList = productService.initPrd(initPrdCount);
+		List<Product> prdList = productService.initPrdList(initPrdCount);
 		mv.addObject("prdList", prdList);
 		mv.addObject("upperCategoryList", categoryService.selectUpperCtgrList());
 		mv.addObject("lowerCategoryList", categoryService.selectLowerCtgrList());

@@ -22,44 +22,75 @@ public class CartServiceImpl implements CartService {
 	public void addCart(Cart cart) throws Exception {
 		cartDAO.addCart(cart);
 	}
-	// 장바구니 불러오기
-	@Override
-	public List<Cart> loadCartList(Cart cart) throws Exception {
-		List<Cart> cartList = cartDAO.loadCartList(cart);
-		int cartCount = 1;
-		for (int i = 0; i < cartList.size(); i++) {
-        	if (cartList.get(i).getCartPrice() < 30000) {
-        		cartList.get(i).setDeliveryFee(3000);
+	public List<Cart> initCartDlvrFee(List<Cart> cartList) {
+		List<Cart> cartDlvrFeeList = cartList;
+		for (int i = 0; i < cartDlvrFeeList.size(); i++) {
+			boolean isFreeDlvr = cartDlvrFeeList.get(i).getCartPrice() < cartDlvrFeeList.get(i).getFreeDlvrPrc();
+        	if (isFreeDlvr) {
+        		cartList.get(i).setDeliveryFee(cartDlvrFeeList.get(i).getBaseDlvrFee());
+        	}
+        	else {
+        		cartList.get(i).setDeliveryFee(0);
         	}
         }
-		for (int a = 0; a < cartList.size()-1; a++) {
-			if (cartList.get(a).getUser_userNumber() == cartList.get(a+1).getUser_userNumber())
+		return cartDlvrFeeList;
+	}
+	public int countSameSeller(List<Cart> cartList) {
+		int cartCount = 1;
+		for (int i = 0; i < cartList.size()-1; i++) {
+			boolean isSameSeller = cartList.get(i).getUser_userNumber() == cartList.get(i+1).getUser_userNumber();
+			if (isSameSeller) {
 				cartCount++;
-		}
-		int[] deliveryBill = new int[cartCount];
-		deliveryBill[0] = 0;
-		int positionCheck = 0;
-		for (int b = 0; b < cartCount; b++) {
-			deliveryBill[b] = cartList.get(positionCheck).getCartPrice();
-			for (int c = positionCheck; c < cartList.size()-1; c++) {
-				if (cartList.get(c).getUser_userNumber() == cartList.get(c+1).getUser_userNumber())
-					{
-					deliveryBill[b] += cartList.get(c+1).getCartPrice();
-					}
-				else
-					positionCheck = c+1;
 			}
 		}
-		for (int d = 0; d < cartCount; d++) {
-			if (deliveryBill[d] >= 30000) {
-				for (int e = d; e < cartList.size()-1; e++){
-					if (cartList.get(e).getUser_userNumber() == cartList.get(e+1).getUser_userNumber()) {
-						cartList.get(e).setDeliveryFee(0);
-						cartList.get(e+1).setDeliveryFee(0);
+		return cartCount;
+	}
+	
+	public int[] sumSameSellerDlvrFee(List<Cart> cartList) {
+		int cartCount = cartList.size();
+		int[] dlvrBill = new int[cartCount];
+		dlvrBill[0] = 0;
+		int positionCheck = 0;
+		for (int seller = 0; seller < cartCount; seller++) {
+			dlvrBill[seller] = cartList.get(positionCheck).getCartPrice();
+			for (int sameSeller = positionCheck; sameSeller < cartList.size()-1; sameSeller++) {
+				boolean isSameSeller = cartList.get(sameSeller).getUser_userNumber() == cartList.get(sameSeller+1).getUser_userNumber();
+				if (isSameSeller) {
+					dlvrBill[seller] += cartList.get(sameSeller+1).getCartPrice();
+				}
+				else {
+					positionCheck = sameSeller+1;
+				}					
+			}
+		}
+		return dlvrBill;
+	}
+	
+	public List<Cart> calDlvrFeeBySameSeller(int[] dlvrBiil, List<Cart> cartList) {
+		int cartCount = cartList.size();
+		List<Cart> cartListOrderedByDlvrFee = cartList;
+		for (int sameSeller = 0; sameSeller < cartCount; sameSeller++) {
+			boolean isFreeDlvr = (dlvrBiil[sameSeller] >= cartList.get(sameSeller).getFreeDlvrPrc());
+			if (isFreeDlvr) {
+				for (int freeDlvrSeller = sameSeller; freeDlvrSeller < cartList.size()-1; freeDlvrSeller++){
+					if (cartList.get(freeDlvrSeller).getUser_userNumber() == cartList.get(freeDlvrSeller+1).getUser_userNumber()) {
+						cartList.get(freeDlvrSeller).setDeliveryFee(0);
+						cartList.get(freeDlvrSeller+1).setDeliveryFee(0);
 					}
 				}
 			}
 		}
+		return cartListOrderedByDlvrFee;
+	}
+	// 장바구니 불러오기 
+	@Override
+	public List<Cart> loadCartList(Cart cart) throws Exception {
+		List<Cart> cartList = cartDAO.loadCartList(cart);
+		
+		cartList = initCartDlvrFee(cartList);
+		int cartCount = countSameSeller(cartList);		
+		int[] dlvrBill = sumSameSellerDlvrFee(cartList);
+		cartList = calDlvrFeeBySameSeller(dlvrBill, cartList);
 		return cartList;
 	}
 	// 장바구니 총 가격

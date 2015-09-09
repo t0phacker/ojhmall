@@ -176,7 +176,7 @@ public class MypageController {
 	public ModelAndView SellerCheckPrd(HttpSession session) throws Exception {
 		ModelAndView mv = new ModelAndView("/mypage/mypageSellerCheckPrd");
 		User user = (User) session.getAttribute("userLogInInfo");
-		List<Product> prdList = productService.loadSellerPrd(user); // 판매자 회원번호로 상품 조회하여 리스트 작성
+		List<Product> prdList = productService.showSellerPrdList(user); // 판매자 회원번호로 상품 조회하여 리스트 작성
 		mv.addObject("userInfo", user);
 		mv.addObject("prdList", prdList);
 		mv.addObject("upperCategoryList", categoryService.selectUpperCtgrList());
@@ -201,7 +201,7 @@ public class MypageController {
 		User user = (User) session.getAttribute("userLogInInfo");
 		prd.setUserNumber(user.getUserNumber());
 		productService.addPrd(prd);
-		List<Product> prdList = productService.loadSellerPrd(user); // 판매자 회원번호로 상품 조회하여  리스트 작성
+		List<Product> prdList = productService.showSellerPrdList(user); // 판매자 회원번호로 상품 조회하여  리스트 작성
 
 		mv.addObject("prdList", prdList);
 		mv.addObject("userInfo", user);
@@ -216,7 +216,7 @@ public class MypageController {
 			throws Exception {
 		ModelAndView mv = new ModelAndView("/mypage/mypageSellerChangePrd");
 		User user = (User) session.getAttribute("userLogInInfo");
-		prd = productService.getPrdInfo(prd);
+		prd = productService.showPrdInfoForUpdate(prd);
 		mv.addObject("prdInfo", prd);
 		mv.addObject("userInfo", user);
 		mv.addObject("upperCategoryList", categoryService.selectUpperCtgrList());
@@ -231,7 +231,7 @@ public class MypageController {
 		ModelAndView mv = new ModelAndView("/mypage/mypageSellerCheckPrd");
 		User user = (User) session.getAttribute("userLogInInfo");
 		productService.updatePrdInfo(prd);
-		List<Product> prdList = productService.loadSellerPrd(user); 
+		List<Product> prdList = productService.showSellerPrdList(user); 
 
 		mv.addObject("prdList", prdList);
 		mv.addObject("userInfo", user);
@@ -246,7 +246,7 @@ public class MypageController {
 		ModelAndView mv = new ModelAndView("/mypage/mypageAdminCheckPrd");
 		User user = (User) session.getAttribute("userLogInInfo");
 		int prdStatus = 1;
-		List<Product> prdList = productService.getPrdList(prdStatus);
+		List<Product> prdList = productService.getPrdListToAdmin(prdStatus);
 		mv.addObject("prdList", prdList);
 		mv.addObject("userInfo", user);
 		mv.addObject("upperCategoryList", categoryService.selectUpperCtgrList());
@@ -264,7 +264,7 @@ public class MypageController {
 		productService.updatePrdStatus(prd);
 		
 		int prdStatus = 1; // 상품 상태가 1(등록 대기)인 상품 불러오기
-		List<Product> prdList = productService.getPrdList(prdStatus);
+		List<Product> prdList = productService.getPrdListToAdmin(prdStatus);
 		mv.addObject("prdList", prdList);
 		mv.addObject("userInfo", user);
 		mv.addObject("upperCategoryList", categoryService.selectUpperCtgrList());

@@ -16,7 +16,7 @@ public class ProductDAO extends AbstractDAO {
 	}
 	// 상품 검색
 	@SuppressWarnings("unchecked")
-	public List<Product> schPrd(Product prd) {
+	public List<Product> showPrdSchRes(Product prd) {
 		return (List<Product>) selectList("Product.schPrd", prd);
 	}
 	// 상품 조회수 증가

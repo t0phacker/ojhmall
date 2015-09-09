@@ -17,7 +17,15 @@ public class Cart {
 	private String id; // 판매자 아이디
 	private int price; //상품 가격
 	private int stock; // 상품 재고
+	private final int freeDlvrPrc = 30000;
+	private final int baseDlvrFee = 3000;
 	
+	public int getBaseDlvrFee() {
+		return baseDlvrFee;
+	}
+	public int getFreeDlvrPrc() {
+		return freeDlvrPrc;
+	}
 	public int getStock() {
 		return stock;
 	}
