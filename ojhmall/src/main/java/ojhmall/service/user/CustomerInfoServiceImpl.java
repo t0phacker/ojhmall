@@ -17,4 +17,9 @@ public class CustomerInfoServiceImpl implements UserInfoService {
 		return userDAO.getCustomerInfo(user);
 	}
 
+	@Override
+	public void deleteUserInfo(User user) throws Exception {
+		userDAO.deleteCustomerInfo(user);;
+	}
+
 }

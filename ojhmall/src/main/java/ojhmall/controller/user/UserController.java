@@ -170,7 +170,10 @@ public class UserController {
 	public ModelAndView deleteUserInfo(User user, HttpSession session) {
 		ModelAndView mv = new ModelAndView(
 				"redirect:http://localhost:8080/ojhmall/");
-		userService.deleteUserInfo(user);
+		try {
+			userService.deleteUserInfo(user);
+		} catch (Exception e) {}
+		
 		session.setAttribute("userLogInInfo", null);
 		return mv;
 	}

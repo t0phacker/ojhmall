@@ -66,17 +66,15 @@ public class OrderServiceImpl implements OrderService {
 	public void setItemsIntoOrder(Order order, List<Cart> cartList)
 			throws Exception {
 		// 장바구니에서 중복 아이템 병합
-		for (int j = 0; j < cartList.size() - 1; j++) {
-			for (int k = j+1; k < cartList.size(); k++) {
-				if (cartList.get(j).getPrdNumber() == cartList.get(k)
-						.getPrdNumber()) {
-					cartList.get(j).setPrdAmount(
-							cartList.get(j).getPrdAmount()
-									+ cartList.get(k).getPrdAmount());
-					cartList.get(j).setCartPrice(
-							cartList.get(j).getCartPrice()
-									+ cartList.get(k).getCartPrice());
-					cartList.remove(k);
+		for (int item = 0; item < cartList.size() - 1; item++) {
+			for (int compared = item+1; compared < cartList.size(); compared++) {
+				boolean isSameItem = (cartList.get(item).getPrdNumber() == cartList.get(compared).getPrdNumber());
+				if (isSameItem) {
+					cartList.get(item).setPrdAmount(cartList.get(item).getPrdAmount()
+									+ cartList.get(compared).getPrdAmount());
+					cartList.get(item).setCartPrice(cartList.get(item).getCartPrice()
+									+ cartList.get(compared).getCartPrice());
+					cartList.remove(compared);
 				}
 			}
 		}
@@ -108,26 +106,26 @@ public class OrderServiceImpl implements OrderService {
 	// 판매자별 주문금액 합산 후 배송비 계산
 	@Override
 	public List<Order> calTotalDel(List<Order> orderList) throws Exception {
-		for (int k = 0; k < orderList.size(); k++) {
-			int tempPrice = orderList.get(k).getPrice();
-			int tempSeller = orderList.get(k).getUser_userNumber();
-			for (int l = 0; l < orderList.size(); l++) {
-				if (tempSeller == orderList.get(l).getUser_userNumber()
-						&& k != l) {
-					tempPrice += orderList.get(l).getPrice();
+		for (int item = 0; item < orderList.size(); item++) {
+			int tempPrice = orderList.get(item).getPrice();
+			int tempSeller = orderList.get(item).getUser_userNumber();
+			for (int seller = 0; seller < orderList.size(); seller++) {
+				if (tempSeller == orderList.get(seller).getUser_userNumber()
+						&& item != seller) {
+					tempPrice += orderList.get(seller).getPrice();
 				}
 			}
 			if (tempPrice >= 30000) {
-				for (int m = 0; m < orderList.size(); m++) {
-					if (orderList.get(m).getUser_userNumber() == tempSeller) {
-						orderList.get(m).setDeliveryFee(0);
+				for (int seller = 0; seller < orderList.size(); seller++) {
+					if (orderList.get(seller).getUser_userNumber() == tempSeller) {
+						orderList.get(seller).setDeliveryFee(0);
 					}
 				}
 			}
 			else {
-				for (int n = 0; n < orderList.size(); n++) {
-					if (orderList.get(n).getUser_userNumber() == tempSeller) {
-						orderList.get(n).setDeliveryFee(3000);
+				for (int seller = 0; seller < orderList.size(); seller++) {
+					if (orderList.get(seller).getUser_userNumber() == tempSeller) {
+						orderList.get(seller).setDeliveryFee(3000);
 					}
 				}
 			}
@@ -144,20 +142,20 @@ public class OrderServiceImpl implements OrderService {
 		String[] trimmedCartPrice = cartPrice.split("@");
 		
 		List<Order> orderList = new ArrayList<Order>();
-		for (int c = 0; c < trimmedPrdNumber.length; c++) {
+		for (int cart = 0; cart < trimmedPrdNumber.length; cart++) {
 			Order tempOrder = new Order();
-			tempOrder.setPrdNumber(Integer.parseInt(trimmedPrdNumber[c]));
-			tempOrder.setCount(Integer.parseInt(trimmedPrdAmount[c]));
-			tempOrder.setPrice(Integer.parseInt(trimmedCartPrice[c]));
+			tempOrder.setPrdNumber(Integer.parseInt(trimmedPrdNumber[cart]));
+			tempOrder.setCount(Integer.parseInt(trimmedPrdAmount[cart]));
+			tempOrder.setPrice(Integer.parseInt(trimmedCartPrice[cart]));
 			orderList.add(tempOrder);
 		}
 		// 중복 상품 병합
-		for (int j = 0; j < orderList.size() - 1; j++) {
-			for (int k = j+1; k < orderList.size(); k++) {
-				if (orderList.get(j).getPrdNumber() == orderList.get(k).getPrdNumber()) {
-					orderList.get(j).setCount(orderList.get(j).getCount() + orderList.get(k).getCount());
-					orderList.get(j).setPrice(orderList.get(j).getPrice() + orderList.get(k).getPrice());
-					orderList.remove(k);
+		for (int item = 0; item < orderList.size() - 1; item++) {
+			for (int compared = item+1; compared < orderList.size(); compared++) {
+				if (orderList.get(item).getPrdNumber() == orderList.get(compared).getPrdNumber()) {
+					orderList.get(item).setCount(orderList.get(item).getCount() + orderList.get(compared).getCount());
+					orderList.get(item).setPrice(orderList.get(item).getPrice() + orderList.get(compared).getPrice());
+					orderList.remove(compared);
 				}
 			}
 		}

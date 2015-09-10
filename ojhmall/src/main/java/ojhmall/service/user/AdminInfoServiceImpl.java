@@ -17,4 +17,9 @@ public class AdminInfoServiceImpl implements UserInfoService {
 	public User getUserAllInfo(User user) throws Exception {
 		return userDAO.getAdminInfo(user);
 	}
+
+	@Override
+	public void deleteUserInfo(User user) throws Exception {
+		userDAO.deleteAdminInfo(user);
+	}
 }

@@ -19,7 +19,7 @@ public interface UserService {
 
 	public Seller updatedSellerInfo(Seller seller);
 
-	void deleteUserInfo(User user);
+	void deleteUserInfo(User user) throws Exception;
 
 	User getAdminAccNum(User admin) throws Exception;
 

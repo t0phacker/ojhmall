@@ -46,12 +46,11 @@ public class CartServiceImpl implements CartService {
 		return cartCount;
 	}
 	
-	public int[] sumSameSellerDlvrFee(List<Cart> cartList) {
-		int cartCount = cartList.size();
-		int[] dlvrBill = new int[cartCount];
+	public int[] sumSameSellerDlvrFee(List<Cart> cartList, int sellerNums) {
+		int[] dlvrBill = new int[sellerNums];
 		dlvrBill[0] = 0;
 		int positionCheck = 0;
-		for (int seller = 0; seller < cartCount; seller++) {
+		for (int seller = 0; seller < sellerNums; seller++) {
 			dlvrBill[seller] = cartList.get(positionCheck).getCartPrice();
 			for (int sameSeller = positionCheck; sameSeller < cartList.size()-1; sameSeller++) {
 				boolean isSameSeller = cartList.get(sameSeller).getUser_userNumber() == cartList.get(sameSeller+1).getUser_userNumber();
@@ -66,14 +65,14 @@ public class CartServiceImpl implements CartService {
 		return dlvrBill;
 	}
 	
-	public List<Cart> calDlvrFeeBySameSeller(int[] dlvrBiil, List<Cart> cartList) {
-		int cartCount = cartList.size();
+	public List<Cart> calDlvrFeeBySameSeller(int[] dlvrBiil, List<Cart> cartList, int sellerNums) {
 		List<Cart> cartListOrderedByDlvrFee = cartList;
-		for (int sameSeller = 0; sameSeller < cartCount; sameSeller++) {
+		for (int sameSeller = 0; sameSeller < sellerNums; sameSeller++) {
 			boolean isFreeDlvr = (dlvrBiil[sameSeller] >= cartList.get(sameSeller).getFreeDlvrPrc());
 			if (isFreeDlvr) {
 				for (int freeDlvrSeller = sameSeller; freeDlvrSeller < cartList.size()-1; freeDlvrSeller++){
-					if (cartList.get(freeDlvrSeller).getUser_userNumber() == cartList.get(freeDlvrSeller+1).getUser_userNumber()) {
+					boolean isSameSeller = cartList.get(freeDlvrSeller).getUser_userNumber() == cartList.get(freeDlvrSeller+1).getUser_userNumber();
+					if (isSameSeller) {
 						cartList.get(freeDlvrSeller).setDeliveryFee(0);
 						cartList.get(freeDlvrSeller+1).setDeliveryFee(0);
 					}
@@ -87,11 +86,11 @@ public class CartServiceImpl implements CartService {
 	public List<Cart> loadCartList(Cart cart) throws Exception {
 		List<Cart> cartList = cartDAO.loadCartList(cart);
 		
-		cartList = initCartDlvrFee(cartList);
-		int cartCount = countSameSeller(cartList);		
-		int[] dlvrBill = sumSameSellerDlvrFee(cartList);
-		cartList = calDlvrFeeBySameSeller(dlvrBill, cartList);
-		return cartList;
+		List<Cart> initedCartList = initCartDlvrFee(cartList);
+		int sellerNums = countSameSeller(initedCartList);		
+		int[] dlvrBill = sumSameSellerDlvrFee(initedCartList, sellerNums);
+		List<Cart> cartListWithDlvrFee = calDlvrFeeBySameSeller(dlvrBill, initedCartList, sellerNums);
+		return cartListWithDlvrFee;
 	}
 	// 장바구니 총 가격
 	public int calTotalCartPrice(List<Cart> cartList) throws Exception {

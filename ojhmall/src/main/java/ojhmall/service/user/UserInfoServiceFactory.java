@@ -24,21 +24,35 @@ public class UserInfoServiceFactory {
 	@Qualifier("sellerInfoService")
 	private UserInfoService sellerInfoService;
 
-	public UserInfoService getUserInfoService(User user) throws Exception {
+	public User getUserInfoService(User user) throws Exception {
 		
 		UserType userType = user.getUserType();
 		if (UserType.ADMIN == userType) {
 			log.debug("admin enter");
-			System.out.println(adminInfoService);
-			return adminInfoService;
+			return adminInfoService.getUserAllInfo(user);
 		}
 
 		if (UserType.SELLER == userType) {
 			log.debug("seller enter");
-			return sellerInfoService;
+			return sellerInfoService.getUserAllInfo(user);
 		}
 
 		log.debug("customer enter");
-		return customerInfoService;
+		return customerInfoService.getUserAllInfo(user);
+	}
+	
+	public void deleteUserInfo(User user) throws Exception {
+		UserType userType = user.getUserType();
+		
+		if (UserType.ADMIN == userType) {
+			adminInfoService.deleteUserInfo(user);
+		}
+
+		if (UserType.SELLER == userType) {
+			sellerInfoService.deleteUserInfo(user);
+		}
+
+		log.debug("customer enter");
+		customerInfoService.deleteUserInfo(user);
 	}
 }
